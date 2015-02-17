@@ -1,0 +1,175 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #143: Logging starts with a StreamHandler way too early", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". This verifies that some imported library or other item has not made a\n. call to logging too soon, which would add a StreamHandler."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 7, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 8
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 11, 
+                        "content": "import logging\nfrom behave import given, when, then, step\n\n@step('I create {count:n} log records')\ndef step_create_log_records(context, count):\n    for i in range(count):\n        logging.debug('Some debug logging')"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/issue0143_example.feature\" with:", 
+                        "clause": "given", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 21, 
+                        "content": "Feature: Logging should not be output unless there is a failure\n\n    Scenario: A passing test\n        Given I create 4 log records"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Ensure that no log-ouput occurs with enabled log-capture", 
+                "index": 28
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "an empty file named \"features/environment.py\"", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --logcapture features/issue0143_example.feature\"", 
+                        "clause": "when", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 31
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 33, 
+                        "content": "DEBUG:root:Some debug logging"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Ensure that log-ouput occurs with disabled log-capture", 
+                "index": 38
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 40, 
+                        "content": "import logging\n\ndef before_all(context):\n    # -- basicConfig() will not set level if setup is already done.\n    logging.basicConfig()\n    logging.getLogger().setLevel(logging.DEBUG)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-logcapture features/issue0143_example.feature\"", 
+                        "clause": "when", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 51, 
+                        "content": "DEBUG:root:Some debug logging"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

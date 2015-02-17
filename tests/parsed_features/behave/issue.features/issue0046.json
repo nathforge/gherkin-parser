@@ -1,0 +1,196 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #46 Behave returns 0 (SUCCESS) even in case of test failures", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As I behave user\nI want to detect test success or test failures\nBy using the process return value, 0 (SUCCESS) and non-zero for failure."
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 7
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 8
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 9
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 10, 
+                    "content": "from behave import given\n\n@given(u'passing')\ndef step(context):\n    pass\n\n@given(u'failing')\ndef step(context):\n    assert False, \"failing\""
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Successful Execution", 
+                "index": 22
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/passing.feature\" with:", 
+                        "clause": "given", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 24, 
+                        "content": "Feature: Passing\n  Scenario: Passing Scenario Example\n    Given passing"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -q features/passing.feature\"", 
+                        "clause": "when", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 31, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Failing Execution", 
+                "index": 37
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/failing.feature\" with:", 
+                        "clause": "given", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 39, 
+                        "content": "Feature: Failing\n  Scenario: Failing Scenario Example\n    Given failing"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -q features/failing.feature\"", 
+                        "clause": "when", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 46, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped\n0 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Passing and Failing Execution", 
+                "index": 52
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/passing_and_failing.feature\" with:", 
+                        "clause": "given", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 54, 
+                        "content": "Feature: Passing and Failing\n  Scenario: Passing Scenario Example\n    Given passing\n  Scenario: Failing Scenario Example\n    Given failing"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -q features/passing_and_failing.feature\"", 
+                        "clause": "when", 
+                        "index": 61
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 62
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 63, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n1 scenario passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 68
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 69, 
+                        "content": "Feature: Passing and Failing\n  Scenario: Passing Scenario Example\n    Given passing\n  Scenario: Failing Scenario Example\n    Given failing\n      Assertion Failed: failing"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

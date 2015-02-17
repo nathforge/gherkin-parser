@@ -1,0 +1,289 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Default paths for features in behave configfile", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a tester\nI want to specify the default paths for features in the configuration file\nThat should be used if none are provided as command-line args\nTo support pre-pared/canned test environments\n(and to support my laziness while using behave in a shell)."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 10, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 11
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 14, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 22, 
+                        "content": "Feature: Alice\n    Scenario: A1\n        Given a step passes\n        When a step passes\n        Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 30, 
+                        "content": "Feature: Bob\n    Scenario: B1\n        When a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"more.features/charly.feature\" with:", 
+                        "clause": "given", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "Feature: Charly\n    Scenario: C1\n        Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "[behave]\nshow_timings = false\npaths = features/bob.feature\n        more.features/charly.feature"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Used default paths from behave configfile", 
+                "index": 49
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain\"", 
+                        "clause": "when", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 51
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 52, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 56
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 57, 
+                        "content": "Feature: Bob\n    Scenario: B1\n        When a step passes ... passed\n\nFeature: Charly\n    Scenario: C1\n        Then a step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 67, 
+                        "content": "Feature: Alice"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Command-line args can override default paths in configfile", 
+                "index": 71
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/alice.feature\"", 
+                        "clause": "when", 
+                        "index": 72
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 73
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 74, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 79
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 80, 
+                        "content": "Feature: Alice\n    Scenario: A1"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 84
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 85, 
+                        "content": "Feature: Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 89, 
+                        "content": "Feature: Charly"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Command-line args are provided (CASE 2)", 
+                "index": 93
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features\"", 
+                        "clause": "when", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 96, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 101, 
+                        "content": "Feature: Alice\n    Scenario: A1\n        Given a step passes ... passed\n        When a step passes ... passed\n        Then a step passes ... passed\n\nFeature: Bob\n    Scenario: B1\n        When a step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 112
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 113, 
+                        "content": "Feature: Charly"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,176 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #84: behave.runner behave does not reliably detected failed test runs", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". Behave does currently not reliably detected failed test runs and\n. therefore returns not sys.exit(1) at end of main().\n.\n. 1. behave.runner:Runner.run_with_paths() returns failed==True\n.    if last feature was successful and test runner does not stop\n.    after first failing feature.\n.\n. 2. Issue"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 12
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/passing.feature\" with:", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 15, 
+                        "content": "Feature: Passing\n  Scenario:\n    Given a step passes\n    When  a step passes\n    Then  a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/failing.feature\" with:", 
+                        "clause": "given", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 23, 
+                        "content": "Feature: Failing\n  Scenario:\n    Given a step fails\n    When  a step fails\n    Then  a step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 31, 
+                        "content": "from behave import step\n\n@step(u'a step passes')\ndef step_passes(context):\n    pass\n\n@step(u'a step fails')\ndef step_fails(context):\n    assert False, \"step: a step fails\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "First feature fails, second feature passes", 
+                "index": 43
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/failing.feature features/passing.feature\"", 
+                        "clause": "when", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 46, 
+                        "content": "1 feature passed, 1 failed, 0 skipped\n1 scenario passed, 1 failed, 0 skipped\n3 steps passed, 1 failed, 2 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "First feature passes, second feature fails", 
+                "index": 52
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/passing.feature features/failing.feature\"", 
+                        "clause": "when", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 54
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 55, 
+                        "content": "1 feature passed, 1 failed, 0 skipped\n1 scenario passed, 1 failed, 0 skipped\n3 steps passed, 1 failed, 2 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "First feature passes, second fails, last passes", 
+                "index": 61
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/passing.feature features/failing.feature features/passing.feature\"", 
+                        "clause": "when", 
+                        "index": 62
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 64, 
+                        "content": "2 features passed, 1 failed, 0 skipped\n2 scenarios passed, 1 failed, 0 skipped\n6 steps passed, 1 failed, 2 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

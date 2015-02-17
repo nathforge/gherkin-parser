@@ -1,0 +1,57 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Comments", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "Comments can be inserted pretty much anywhere within feature files. Those comments start with a hash sign ("
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Comments in a feature file", 
+                "index": 4
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the following feature:", 
+                        "clause": "given", 
+                        "index": 5
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 6, 
+                        "content": "# Hi.\nFeature: some feature\n  Comments can be (almost) everywhere.\n  # And another comment\n\n  Scenario: some scenario\n    # Yet another one.\n    When a step runs\n    Then a step runs\n    # Oh my, comments are everywhere.\n# Thank you for reading."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the feature", 
+                        "clause": "when", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the feature passes", 
+                        "clause": "then", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

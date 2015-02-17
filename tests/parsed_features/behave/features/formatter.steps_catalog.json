@@ -1,0 +1,135 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Steps Catalog Formatter", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a test writer\nI want to get a quick overview how to use a step definition\nBy reading the step definition documentation (doc-stings).\nHowever I am not interested in technical details such as\nsource location and step function names.\nAlso, I would prefer to view the step as they appear in a feature file.\n\n. SOLUTION: Use StepsDocFormatter in dry-run mode, like:\n.\n.       behave --dry-run -f steps.catalog features/"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 15, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 16
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 19, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    '''This step always passes.'''\n    pass\n\n@step('a step fails')\ndef step_fails(context):\n    '''This step is expected to fail.'''\n    assert False, \"XFAIL-STEP\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/alice_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 33, 
+                        "content": "from behave import given, when, then\n\n@given('{person} lives in {city}')\ndef step_given_person_lives_in_city(context, person, city):\n    '''\n    Setup the data where a person lives and store in the database.\n\n    :param person:  Person's name (as string).\n    :param city:    City where the person lives (as string).\n    '''\n    database = getattr(context, \"database\", None)\n    if not database:\n        context.database = {}\n    context.database[person] = { \"city\": city }\n\n@when('I visit {person}')\ndef step_when_visit_person(context, person):\n    # -- NO DOC-STRING.\n    pass\n\n@then('I meet {person} in {city}')\ndef step_then_meet_person_in_city(context, person, city):\n    '''\n    Checks if I can meet the person in the expected city.\n\n    :param person:  Person's name as key (as string).\n    :param city:    Expected city (as string).\n    '''\n    person_data = context.database.get(person, None)\n    assert person_data is not None, \"Person %s not found\" % person\n    assert person_data[\"city\"] == city"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"features/none.feature\"", 
+                        "clause": "given", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 69, 
+                "content": [
+                    "usecase.primary"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Show documentation of available step definitions in dry-run mode", 
+                "index": 70
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --steps-catalog features/\"", 
+                        "clause": "when", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 72
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 73, 
+                        "content": "Given {person} lives in {city}\n    Setup the data where a person lives and store in the database.\n\n    :param person:  Person's name (as string).\n    :param city:    City where the person lives (as string).\n\nWhen I visit {person}\n\nThen I meet {person} in {city}\n    Checks if I can meet the person in the expected city.\n\n    :param person:  Person's name as key (as string).\n    :param city:    Expected city (as string).\n\nGiven a step passes\nWhen a step passes\nThen a step passes\n    This step always passes.\n\nGiven a step fails\nWhen a step fails\nThen a step fails\n    This step is expected to fail."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the step definitions are ordered by step type\"", 
+                        "clause": "then", 
+                        "index": 98
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"'When I visit {person}' has no doc-string\"", 
+                        "clause": "then", 
+                        "index": 99
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

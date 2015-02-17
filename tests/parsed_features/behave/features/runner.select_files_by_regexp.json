@@ -1,0 +1,292 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Select feature files by using regular expressions", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a tester\nI want to include/exclude feature files into/from a test run by using wildcards\nTo be more flexible and avoid to specify all feature files\n\n. SPECIFICATION:\n.  * behave provides --include and --exclude command line options\n.  * --include option selects a subset of all files that should be included\n.  * --exclude option is applied after include option is applied\n.\n. EXAMPLE:\n.     behave --include=\"features/ali.*\\.feature\" ...\n.     behave --exclude=\"features/ali.*\" ..."
+    }, 
+    "background": {
+        "title": {
+            "content": "", 
+            "index": 17
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "behave has the following feature fileset:", 
+                    "clause": "given", 
+                    "index": 18
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 19, 
+                    "content": "features/alice.feature\nfeatures/bob.feature\nfeatures/barbi.feature"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Include only feature files", 
+                "index": 25
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "behave includes feature files with \"features/a.*\"", 
+                        "clause": "when", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "behave excludes no feature files", 
+                        "clause": "when", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following feature files are selected:", 
+                        "clause": "then", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 29, 
+                        "content": "features/alice.feature"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Include more than one feature file", 
+                "index": 33
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "behave includes feature files with \"features/b.*\"", 
+                        "clause": "when", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following feature files are selected:", 
+                        "clause": "then", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "features/bob.feature\nfeatures/barbi.feature"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Exclude only feature files", 
+                "index": 42
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "behave excludes feature files with \"features/a.*\"", 
+                        "clause": "when", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "behave includes all feature files", 
+                        "clause": "when", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following feature files are selected:", 
+                        "clause": "then", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 46, 
+                        "content": "features/bob.feature\nfeatures/barbi.feature"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Exclude more than one feature file", 
+                "index": 51
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "behave excludes feature files with \"features/b.*\"", 
+                        "clause": "when", 
+                        "index": 52
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following feature files are selected:", 
+                        "clause": "then", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 54, 
+                        "content": "features/alice.feature"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Include and exclude feature files", 
+                "index": 58
+            }, 
+            "description": {
+                "index": 60, 
+                "content": "Ensure that exclude file pattern is applied after include file pattern."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "behave includes feature files with \"features/.*a.*\\.feature\"", 
+                        "clause": "when", 
+                        "index": 62
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "behave excludes feature files with \".*/barbi.*\"", 
+                        "clause": "when", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following feature files are selected:", 
+                        "clause": "then", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 65, 
+                        "content": "features/alice.feature"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Include and exclude feature files (in 2 steps)", 
+                "index": 69
+            }, 
+            "description": {
+                "index": 71, 
+                "content": "Show how file inclusion/exclusion works by emulating the two steps."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "behave includes feature files with \"features/.*a.*\\.feature\"", 
+                        "clause": "when", 
+                        "index": 73
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following feature files are selected:", 
+                        "clause": "then", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 75, 
+                        "content": "features/alice.feature\nfeatures/barbi.feature"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "behave excludes feature files with \".*/barbi.*\"", 
+                        "clause": "when", 
+                        "index": 79
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following feature files are selected:", 
+                        "clause": "then", 
+                        "index": 80
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 81, 
+                        "content": "features/alice.feature"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,155 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #85: AssertionError with nested regex and pretty formatter", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "| When --format=pretty is used\n| an AssertationError occurs for missing optional/nested-groups.\n| When --format=plain is used, everything is fine"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 7
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 8
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/regexp_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 10, 
+                        "content": "from __future__ import print_function\nfrom behave import given, when, then, use_step_matcher\n@given(u'a {re_category} regular expression \"{pattern}\"')\ndef impl(context, re_category, pattern):\n    pass\n\n@then(u'the parameter \"{name}\" is \"{expected_value}\"')\ndef impl(context, name, expected_value):\n    actual_value = getattr(context, name, None)\n    if actual_value is None:\n        actual_value = \"\"\n    assert hasattr(context, name)\n    assert actual_value == expected_value, \"MISMATCH: actual({0}) == expected({1})\".format(actual_value, expected_value)\n\n@then(u'the parameter \"{name}\" is none')\ndef impl(context, name):\n    actual_value = getattr(context, name, None)\n    assert hasattr(context, name)\n    assert actual_value is None, \"MISMATCH: actual({0}) == None)\".format(actual_value)\n\ndef store_in_context(context, data):\n    for name, value in data.items():\n        setattr(context, name, value)\n\nuse_step_matcher('re')\n\n@when(u'I try to match \"(?P<foo>foo and more)\"')\ndef impl(context, **kwargs):\n    kwargs[\"regexp_case\"] = \"simple\"\n    print(\"CASE UNNESTED: {0}\".format(kwargs))\n    store_in_context(context, kwargs)\n\n@when(u'I try to match \"(?P<foo>foo(?P<bar>bar)?)\"')\ndef impl(context, **kwargs):\n    kwargs[\"regexp_case\"] = \"nested\"\n    print(\"CASE NESTED: {0}\".format(kwargs))\n    store_in_context(context, kwargs)\n\n@when(u'I try to match \"(?P<foo>foo) (?P<bar>bar)?\"')\ndef impl(context, **kwargs):\n    kwargs[\"regexp_case\"] = \"optional\"\n    print(\"CASE OPTIONAL: {0}\".format(kwargs))\n    store_in_context(context, kwargs)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/matching.feature\" with:", 
+                        "clause": "given", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 56, 
+                        "content": "Feature: Using regexp matcher with nested and optional parameters\n\n    Scenario: regex, no nested groups, matching\n        Given a simple regular expression \"(?P<foo>foo and more)\"\n        When I try to match \"foo and more\"\n        Then the parameter \"regexp_case\" is \"simple\"\n        And  the parameter \"foo\" is \"foo and more\"\n\n    Scenario: Nested groups without nested match\n        Given a nested-group regular expression \"(?P<foo>foo(?P<bar>bar)?)\"\n        When I try to match \"foo\"\n        Then the parameter \"regexp_case\" is \"nested\"\n        And  the parameter \"foo\" is \"foo\"\n        And  the parameter \"bar\" is none\n\n    Scenario: Nested groups with nested match\n        Given a nested-group regular expression \"(?P<foo>foo(?P<bar>bar)?)\"\n        When I try to match \"foobar\"\n        Then the parameter \"regexp_case\" is \"nested\"\n        And  the parameter \"foo\" is \"foobar\"\n        And  the parameter \"bar\" is \"bar\"\n\n    Scenario: Optional group without match\n        Given a optional-group regular expression \"(?P<foo>foo) (?P<bar>bar)?\"\n        When I try to match \"foo \"\n        Then the parameter \"regexp_case\" is \"optional\"\n        And  the parameter \"foo\" is \"foo\"\n        And  the parameter \"bar\" is none\n\n    Scenario: Optional group with match\n        Given a optional-group regular expression \"(?P<foo>foo) (?P<bar>bar)?\"\n        When I try to match \"foo bar\"\n        Then the parameter \"regexp_case\" is \"optional\"\n        And  the parameter \"foo\" is \"foo\"\n        And  the parameter \"bar\" is \"bar\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run regexp steps with --format=plain", 
+                "index": 94
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --format=plain features/matching.feature\"", 
+                        "clause": "when", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 96
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 97, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n5 scenarios passed, 0 failed, 0 skipped\n24 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run regexp steps with --format=pretty", 
+                "index": 103
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -c --format=pretty features/matching.feature\"", 
+                        "clause": "when", 
+                        "index": 104
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 106, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n5 scenarios passed, 0 failed, 0 skipped\n24 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain", 
+                        "clause": "then", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 112, 
+                        "content": "assert isinstance(text, unicode)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain", 
+                        "clause": "then", 
+                        "index": 115
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 116, 
+                        "content": "AssertationError"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

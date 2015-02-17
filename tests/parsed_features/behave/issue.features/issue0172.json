@@ -1,0 +1,214 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #172 Junit report file name populated incorrectly when running against a feature file", 
+        "index": 1
+    }, 
+    "description": null, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 3, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 4
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 5
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 6
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 7, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/feature_in_root_folder.feature\" with:", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 15, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/subfolder/feature_in_subfolder.feature\" with:", 
+                        "clause": "given", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 21, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Running behave for one feature in root folder", 
+                "index": 27
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --junit --junit-directory=test_results features/feature_in_root_folder.feature\"", 
+                        "clause": "when", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 30, 
+                        "content": "1 feature passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"test_results/TESTS-feature_in_root_folder.xml\" exists", 
+                        "clause": "then", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Running behave for one feature in a subfolder", 
+                "index": 35
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --junit --junit-directory=test_results features/subfolder/feature_in_subfolder.feature\"", 
+                        "clause": "when", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 38, 
+                        "content": "1 feature passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"test_results/TESTS-subfolder.feature_in_subfolder.xml\" exists", 
+                        "clause": "then", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Running behave for all features", 
+                "index": 43
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --junit --junit-directory=test_results\"", 
+                        "clause": "when", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 46, 
+                        "content": "2 features passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"test_results/TESTS-feature_in_root_folder.xml\" exists", 
+                        "clause": "then", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"test_results/TESTS-subfolder.feature_in_subfolder.xml\" exists", 
+                        "clause": "then", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,135 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #177: Cannot setup logging_format", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". DESCPRIPTION:\n.   When the logging_format is set in the behave configuration file\n.   or on command-line, an exception is thrown, because\n.   the ConfigParser tries to replace the placeholders in the format string\n.   with option values in the configuration file (which do not exist).\n.\n. SOLUTION:\n.   The format string must be processed as raw value (by the ConfigParser).\n.\n. RELATED:\n.   * features/logging.setup_format.feature\n.   * features/logging.setup_level.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 17, 
+                "content": [
+                    "reuse.colocated_test"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Setup logging_format", 
+                "index": 18
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I use the current directory as working directory", 
+                        "clause": "given", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/logging.setup_format.feature\"", 
+                        "clause": "when", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 23, 
+                        "content": "Traceback (most recent call last):"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 27, 
+                        "content": "ConfigParser.InterpolationMissingOptionError: Bad value"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 31, 
+                "content": [
+                    "reuse.colocated_test"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Setup logging_level", 
+                "index": 32
+            }, 
+            "description": {
+                "index": 34, 
+                "content": "Ensure that the problem that was also mentioned, works as expected.\nNote that this \"problem\" never existed (hint: missing user knowledge)."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I use the current directory as working directory", 
+                        "clause": "given", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/logging.setup_level.feature\"", 
+                        "clause": "when", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

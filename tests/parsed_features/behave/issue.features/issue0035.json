@@ -1,0 +1,148 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #35 Plain Formatter shows wrong steps when tag-selection is used", 
+        "index": 1
+    }, 
+    "description": null, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 3
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 4
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 5
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 6, 
+                    "content": "from behave import given, when, then\n\n@given(u'the ninja has a third level black-belt')\ndef step(context):\n    pass\n\n@when(u'attacked by {opponent}')\ndef step(context, opponent):\n    pass\n\n@then(u'the ninja should {reaction}')\ndef step(context, reaction):\n    pass"
+                }
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/issue35_1.feature\" with:", 
+                    "clause": "given", 
+                    "index": 21
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 22, 
+                    "content": "Feature: Using Tags with Features and Scenarios\n\n  @one\n  Scenario: Weaker opponent\n      Given the ninja has a third level black-belt\n      When attacked by a samurai\n      Then the ninja should engage the opponent\n\n  @two\n  Scenario: Stronger opponent\n      Given the ninja has a third level black-belt\n      When attacked by Chuck Norris\n      Then the ninja should run for his life"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select First Scenario with Tag", 
+                "index": 38
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --no-timings -f plain --tags=@one features/issue35_1.feature\"", 
+                        "clause": "when", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 40
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 41, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 1 skipped\n3 steps passed, 0 failed, 3 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 46
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 47, 
+                        "content": "Feature: Using Tags with Features and Scenarios\n   Scenario: Weaker opponent\n       Given the ninja has a third level black-belt ... passed\n        When attacked by a samurai ... passed\n        Then the ninja should engage the opponent ... passed\n   Scenario: Stronger opponent"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select Second Scenario with Tag", 
+                "index": 56
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --no-timings -f plain --tags=@two features/issue35_1.feature\"", 
+                        "clause": "when", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 1 skipped\n3 steps passed, 0 failed, 3 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 65, 
+                        "content": "Feature: Using Tags with Features and Scenarios\n   Scenario: Weaker opponent\n   Scenario: Stronger opponent\n       Given the ninja has a third level black-belt ... passed\n        When attacked by Chuck Norris ... passed\n        Then the ninja should run for his life ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

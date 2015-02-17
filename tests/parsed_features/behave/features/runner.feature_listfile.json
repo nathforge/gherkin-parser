@@ -1,0 +1,637 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Feature Listfile (List of feature filenames/directories)", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a tester\nI want to run a list of features together\nAnd I do not want to provide the list each time\nBut provide a text file that contains the list of features.\n\n. SPECIFICATION: behave file args\n.  * Prepend an '@' char (AT) to the feature configfile name to classify it.\n.\n. SPECIFICATION: Feature listfile (text file)\n.  * Each line contains a feature filename or directory with features\n.  * Feature filenames/dirnames are relative to the feature configfile\n.  * Empty lines are removed while reading\n.  * Comment lines are removed while reading (start with '\n.  * Wildcards are expanded to select 0..N files or directories.\n.  * Wildcards for file locations are not supported (only filenames or dirs).\n.\n. SPECIFICATION: Runner\n.  * Feature configfile with unknown/not found feature files\n.    cause runner to fail.\n.\n. NOTE: Also supported by Cucumber.\n. RELATED: issue"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 27, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 28
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 31, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 39, 
+                        "content": "Feature: Alice\n  Scenario:\n    Given a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 45, 
+                        "content": "Feature: Bob\n  Scenario:\n    Given a step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use @feature_listfile in WORKDIR directory (above features/)", 
+                "index": 52
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"alice_and_bob2.txt\" with:", 
+                        "clause": "given", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 54, 
+                        "content": "features/alice.feature\nfeatures/bob.feature"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave @alice_and_bob2.txt\"", 
+                        "clause": "when", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 60, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped\n2 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use @feature_listfile in features/ subdirectory (Case 2)", 
+                "index": 67
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/alice_and_bob.txt\" with:", 
+                        "clause": "given", 
+                        "index": 68
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 69, 
+                        "content": "alice.feature\nbob.feature"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave @features/alice_and_bob.txt\"", 
+                        "clause": "when", 
+                        "index": 73
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 75, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped\n2 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use @feature_listfile with some empty lines", 
+                "index": 81
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/alice_and_bob_with_empty_lines.txt\" with:", 
+                        "clause": "given", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 83, 
+                        "content": "alice.feature\n\nbob.feature"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave @features/alice_and_bob_with_empty_lines.txt\"", 
+                        "clause": "when", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 90, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped\n2 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use @feature_listfile with some comment lines", 
+                "index": 96
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/alice_and_bob_with_comment_lines.txt\" with:", 
+                        "clause": "given", 
+                        "index": 97
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 98, 
+                        "content": "alice.feature\n# -- USE: bob (comment line)\nbob.feature"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave @features/alice_and_bob_with_comment_lines.txt\"", 
+                        "clause": "when", 
+                        "index": 103
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 104
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 105, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped\n2 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use @feature_listfile with wildcards (Case 1)", 
+                "index": 111
+            }, 
+            "description": {
+                "index": 113, 
+                "content": "Use feature list-file with wildcard pattern to select features."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"with_wildcard_feature.txt\" with:", 
+                        "clause": "given", 
+                        "index": 115
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 116, 
+                        "content": "features/a*.feature"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings @with_wildcard_feature.txt\"", 
+                        "clause": "when", 
+                        "index": 119
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 120
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 121, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 125
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 126, 
+                        "content": "Feature: Alice\n\n  Scenario:\n    Given a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use @feature_listfile with wildcards (Case 2)", 
+                "index": 133
+            }, 
+            "description": {
+                "index": 135, 
+                "content": "Use feature list-file with:\n  - normal filename\n  - wildcard pattern to select features"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"with_wildcard_feature2.txt\" with:", 
+                        "clause": "given", 
+                        "index": 139
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 140, 
+                        "content": "features/alice.feature\nfeatures/b*.feature"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings @with_wildcard_feature2.txt\"", 
+                        "clause": "when", 
+                        "index": 144
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 145
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 146, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 150
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 151, 
+                        "content": "Feature: Alice\n\n  Scenario:\n    Given a step passes ... passed\n\nFeature: Bob\n\n  Scenario:\n    Given a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use @feature_listfile with wildcards for file location (not supported)", 
+                "index": 163
+            }, 
+            "description": {
+                "index": 165, 
+                "content": "Note that wildcards are not supported when file locations are used."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"with_wildcard_location.txt\" with:", 
+                        "clause": "given", 
+                        "index": 167
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 168, 
+                        "content": "features/a*.feature:3"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings @with_wildcard_location.txt\"", 
+                        "clause": "when", 
+                        "index": 171
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 172
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 173, 
+                        "content": "ConfigError: No steps directory in \"{__WORKDIR__}\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use empty @feature_listfile (Case 1)", 
+                "index": 178
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "an empty file named \"empty.txt\"", 
+                        "clause": "given", 
+                        "index": 179
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave @empty.txt\"", 
+                        "clause": "when", 
+                        "index": 180
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 181
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 182, 
+                        "content": "No steps directory in \"{__WORKDIR__}\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use empty @feature_listfile in features subdirectory (Case 2)", 
+                "index": 186
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "an empty file named \"features/empty.txt\"", 
+                        "clause": "given", 
+                        "index": 187
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave @features/empty.txt\"", 
+                        "clause": "when", 
+                        "index": 188
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 189
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 190, 
+                        "content": "0 features passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use @feature_listfile with unknown feature file (Case 1)", 
+                "index": 194
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"with_unknown_feature.txt\" with:", 
+                        "clause": "given", 
+                        "index": 195
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 196, 
+                        "content": "features/alice.feature\nfeatures/UNKNOWN.feature"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave @with_unknown_feature.txt\"", 
+                        "clause": "when", 
+                        "index": 200
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 201
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 202, 
+                        "content": "Error: [Errno 2] No such file or directory: '{__WORKDIR__}/features/UNKNOWN.feature'"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use @feature_listfile with unknown feature file (Case 2)", 
+                "index": 206
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/with_unknown_feature2.txt\" with:", 
+                        "clause": "given", 
+                        "index": 207
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 208, 
+                        "content": "UNKNOWN.feature"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave @features/with_unknown_feature2.txt\"", 
+                        "clause": "when", 
+                        "index": 211
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 212
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 213, 
+                        "content": "Error: [Errno 2] No such file or directory: '{__WORKDIR__}/features/UNKNOWN.feature'"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use unknown @feature_listfile", 
+                "index": 217
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave @unknown_feature_configfile.txt\"", 
+                        "clause": "when", 
+                        "index": 218
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 219
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 220, 
+                        "content": "FileNotFoundError: unknown_feature_configfile.txt"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

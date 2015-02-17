@@ -1,0 +1,65 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue", 
+            "unicode"
+        ]
+    }, 
+    "title": {
+        "content": "UnicodeDecodeError in model.Step (when step fails)", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": ". Output of failing step contains non-ASCII characters.\n.\n. RELATED:\n.   * features/i18n.unicode_problems.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 10, 
+                "content": [
+                    "reuse.colocated_test"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 11
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I use the current directory as working directory", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --tags=@setup,@problematic.output features/i18n.unicode_problems.feature\"", 
+                        "clause": "when", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,98 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #109: Insists that implemented tests are not implemented", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". STATUS: Resolved, not a behave problem.\n.\n. Following feature file marks implemented step \"when I submit the following data\"\n. as not implemented."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 9
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/syndrome109.feature\" with:", 
+                        "clause": "given", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 12, 
+                        "content": "@wip\nFeature: Manage accounts from the admin interface\n\n    Scenario: Login successfully via login form\n        Given I navigate to \"/admin/\"\n        when I submit the following data\n            | name          | value         |\n            | username      | admin@foo.bar |\n            | password      | pass          |\n        then I see the word \"Welcome\"\n\n    Scenario: Create user via admin user creation form\n        Given I navigate to \"/admin/users/user/add/\"\n        when I submit the following data\n            | name           | value                           |\n            | email          | spaaaaaaaaaaaaaaaaaaam@ham.eggs |\n            | password1      | pass                            |\n            | password2      | pass                            |\n        then I see the word \"successfully\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 34, 
+                        "content": "from behave import given, when, then\n\n@given(u'I navigate to \"{url}\"')\ndef step_navigate_to_url(context, url):\n    pass\n\n@when(u'I submit the following data')\ndef step_submit_data(context):\n    pass\n\n@then(u'I see the word \"{word}\"')\ndef step_see_word(context, word):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -w features/syndrome109.feature\"", 
+                        "clause": "when", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 51, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped\n6 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 56
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 57, 
+                        "content": "You can implement step definitions for undefined steps with these snippets:"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

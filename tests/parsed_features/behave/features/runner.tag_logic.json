@@ -1,0 +1,463 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Runner Tag logic", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a tester\nI want to select scenarios using logical AND/OR of tags\nIn order to conveniently run subsets of these scenarios\n\n. SPECIFICATION: Tag logic\n.   See \"tag_expression.feature\" description.\n.\n. RELATED:\n.  * tag_expression.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios with 1 tag (@foo)", 
+                "index": 12
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a behave model with:", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": [
+                        {
+                            "index": 14, 
+                            "columns": [
+                                "statement", 
+                                "name", 
+                                "tags", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 15, 
+                            "columns": [
+                                "Scenario", 
+                                "S0", 
+                                "", 
+                                "Untagged"
+                            ]
+                        }, 
+                        {
+                            "index": 16, 
+                            "columns": [
+                                "Scenario", 
+                                "S1", 
+                                "@foo", 
+                                "With 1 tag"
+                            ]
+                        }, 
+                        {
+                            "index": 17, 
+                            "columns": [
+                                "Scenario", 
+                                "S2", 
+                                "@other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 18, 
+                            "columns": [
+                                "Scenario", 
+                                "S3", 
+                                "@foo @other", 
+                                "With 2 tags"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"are all combinations of 0..2 tags\"", 
+                        "clause": "given", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run the behave model with \"tags\"", 
+                        "clause": "when", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following scenarios are selected with cmdline:", 
+                        "clause": "then", 
+                        "index": 21
+                    }, 
+                    "table": [
+                        {
+                            "index": 22, 
+                            "columns": [
+                                "cmdline", 
+                                "selected?", 
+                                "Logic comment"
+                            ]
+                        }, 
+                        {
+                            "index": 23, 
+                            "columns": [
+                                "", 
+                                "S0, S1, S2, S3", 
+                                "ALL, no selector"
+                            ]
+                        }, 
+                        {
+                            "index": 24, 
+                            "columns": [
+                                "--tags=@foo", 
+                                "S1, S3", 
+                                "@foo"
+                            ]
+                        }, 
+                        {
+                            "index": 25, 
+                            "columns": [
+                                "--tags=-@foo", 
+                                "S0, S2", 
+                                "not @foo"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use other tag expression variants", 
+                "index": 28
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a behave model with:", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": [
+                        {
+                            "index": 30, 
+                            "columns": [
+                                "statement", 
+                                "name", 
+                                "tags", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 31, 
+                            "columns": [
+                                "Scenario", 
+                                "S0", 
+                                "", 
+                                "Untagged"
+                            ]
+                        }, 
+                        {
+                            "index": 32, 
+                            "columns": [
+                                "Scenario", 
+                                "S1", 
+                                "@foo", 
+                                "With 1 tag"
+                            ]
+                        }, 
+                        {
+                            "index": 33, 
+                            "columns": [
+                                "Scenario", 
+                                "S2", 
+                                "@other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 34, 
+                            "columns": [
+                                "Scenario", 
+                                "S3", 
+                                "@foo @other", 
+                                "With 2 tags"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following scenarios are selected with cmdline:", 
+                        "clause": "then", 
+                        "index": 35
+                    }, 
+                    "table": [
+                        {
+                            "index": 36, 
+                            "columns": [
+                                "cmdline", 
+                                "selected?", 
+                                "Logic comment"
+                            ]
+                        }, 
+                        {
+                            "index": 37, 
+                            "columns": [
+                                "--tags=foo", 
+                                "S1, S3", 
+                                "@foo,     without optional @"
+                            ]
+                        }, 
+                        {
+                            "index": 38, 
+                            "columns": [
+                                "--tags=-foo", 
+                                "S0, S2", 
+                                "not @foo, without optional @"
+                            ]
+                        }, 
+                        {
+                            "index": 39, 
+                            "columns": [
+                                "--tags=~foo", 
+                                "S0, S2", 
+                                "not @foo, with tilde as minus"
+                            ]
+                        }, 
+                        {
+                            "index": 40, 
+                            "columns": [
+                                "--tags=~@foo", 
+                                "S0, S2", 
+                                "not @foo, with tilde and @"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"these tag expression variants can also be used\"", 
+                        "clause": "then", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios with 2 tags (@foo, @bar)", 
+                "index": 44
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a behave model with:", 
+                        "clause": "given", 
+                        "index": 45
+                    }, 
+                    "table": [
+                        {
+                            "index": 46, 
+                            "columns": [
+                                "statement", 
+                                "name", 
+                                "tags", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 47, 
+                            "columns": [
+                                "Scenario", 
+                                "S0", 
+                                "", 
+                                "Untagged"
+                            ]
+                        }, 
+                        {
+                            "index": 48, 
+                            "columns": [
+                                "Scenario", 
+                                "S1", 
+                                "@foo", 
+                                "With a tag"
+                            ]
+                        }, 
+                        {
+                            "index": 49, 
+                            "columns": [
+                                "Scenario", 
+                                "S2", 
+                                "@bar", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 50, 
+                            "columns": [
+                                "Scenario", 
+                                "S3", 
+                                "@other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 51, 
+                            "columns": [
+                                "Scenario", 
+                                "S4", 
+                                "@foo @bar", 
+                                "With 2 tags"
+                            ]
+                        }, 
+                        {
+                            "index": 52, 
+                            "columns": [
+                                "Scenario", 
+                                "S5", 
+                                "@foo @other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 53, 
+                            "columns": [
+                                "Scenario", 
+                                "S6", 
+                                "@bar @other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 54, 
+                            "columns": [
+                                "Scenario", 
+                                "S7", 
+                                "@foo @bar @other", 
+                                "With 3 tags"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"are all combinations of 0..3 tags\"", 
+                        "clause": "given", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run the behave model with \"tags\"", 
+                        "clause": "when", 
+                        "index": 56
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following scenarios are selected with cmdline:", 
+                        "clause": "then", 
+                        "index": 57
+                    }, 
+                    "table": [
+                        {
+                            "index": 58, 
+                            "columns": [
+                                "cmdline", 
+                                "selected?", 
+                                "Logic comment"
+                            ]
+                        }, 
+                        {
+                            "index": 59, 
+                            "columns": [
+                                "", 
+                                "S0, S1, S2, S3, S4, S5, S6, S7", 
+                                "ALL, no selector"
+                            ]
+                        }, 
+                        {
+                            "index": 60, 
+                            "columns": [
+                                "--tags=@foo,@bar", 
+                                "S1, S2, S4, S5, S6, S7", 
+                                "@foo or @bar"
+                            ]
+                        }, 
+                        {
+                            "index": 61, 
+                            "columns": [
+                                "--tags=@foo,-@bar", 
+                                "S0, S1, S3, S4, S5, S7", 
+                                "@foo or not @bar"
+                            ]
+                        }, 
+                        {
+                            "index": 62, 
+                            "columns": [
+                                "--tags=-@foo,-@bar", 
+                                "S0, S1, S2, S3, S5, S6", 
+                                "not @foo or not @bar"
+                            ]
+                        }, 
+                        {
+                            "index": 63, 
+                            "columns": [
+                                "--tags=@foo  --tags=@bar", 
+                                "S4, S7", 
+                                "@foo and @bar"
+                            ]
+                        }, 
+                        {
+                            "index": 64, 
+                            "columns": [
+                                "--tags=@foo  --tags=-@bar", 
+                                "S1, S5", 
+                                "@foo and not @bar"
+                            ]
+                        }, 
+                        {
+                            "index": 65, 
+                            "columns": [
+                                "--tags=-@foo --tags=-@bar", 
+                                "S0, S3", 
+                                "not @foo and not @bar"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

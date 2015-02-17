@@ -1,0 +1,102 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Internationalization (I18n)", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "Cucumber supports feature files written in many different languages.\nA feature written in another than the default language (English)\nmust start with a comment line in the following form\n\"\nwhere <code> refers to a two-letter (ISO 639-1) language code."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "A non-english Feature", 
+                "index": 8
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the following feature:", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 10, 
+                        "content": "# language: de\n\nFunktionalit\u00e4t: Ein Feature\n\n  Szenario: Ein Szenario\n    Wenn ich \"A\" sage\n    Dann muss ich auch \"B\" sagen"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the feature", 
+                        "clause": "when", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the feature passes", 
+                        "clause": "then", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Only One Language per File", 
+                "index": 22
+            }, 
+            "description": {
+                "index": 23, 
+                "content": "The \"\nvery first non-empty line in the file."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the following feature:", 
+                        "clause": "given", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 27, 
+                        "content": "\nFeature: some feature\n\n# language: de\n  Scenario: some scenario\n    When I say \"A\"\n    Then I must say \"B\" as well"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the feature", 
+                        "clause": "when", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the feature passes", 
+                        "clause": "then", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

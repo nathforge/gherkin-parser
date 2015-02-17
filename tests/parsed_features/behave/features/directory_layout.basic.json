@@ -1,0 +1,176 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Basic directory layout (Variant 1)", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a story/test writer\nI want a simple, non-deep directory structure\nSo that I can easily get an overview which stories/tests exist\n\n. BASIC DIRECTORY LAYOUT STRUCTURE:\n.     features/\n.       +-- steps/*.py\n.       +-- *.feature\n.       +-- environment.py\n.\n. SEE ALSO:\n.   * http://pythonhosted.org/behave/gherkin.html"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 16, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Setup directory structure", 
+                "index": 17
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 20, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass\n\n@step('{word:w} step fails')\ndef step_fails(context, word):\n    assert False, \"XFAIL-STEP\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 31
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 32, 
+                        "content": "Feature: Alice\n    Scenario: A1\n      Given a step passes\n      When another step passes\n      Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 40, 
+                        "content": "Feature: Bob\n    Scenario: B1\n      When a step passes\n      Then another step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run behave with feature directory", 
+                "index": 48
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress features/\"", 
+                        "clause": "when", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 51, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped\n5 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run behave with one feature file", 
+                "index": 57
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress features/alice.feature\"", 
+                        "clause": "when", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 60, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run behave with two feature files", 
+                "index": 67
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress features/alice.feature features/bob.feature\"", 
+                        "clause": "when", 
+                        "index": 68
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 69
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 70, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped\n5 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

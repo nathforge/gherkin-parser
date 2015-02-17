@@ -1,0 +1,247 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "TagsLocation Formatter", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a tester\nI want to know where and in which context tags are used\nSo that I better understand how to use tags in feature files and on command-line\n\nNOTE: Primarily intended for dry-run mode."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 10, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 11
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 14, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 22, 
+                        "content": "@one\nFeature: Alice\n\n  @setup\n  Scenario: Setup Feature\n    Given a step passes\n\n  @wip\n  Scenario: A1 with tags: @wip (inherited: @one)\n    Given a step passes\n\n  @foo\n  @wip\n  Scenario: A2 with tags: @foo, @wip (inherited: @one)\n    When a step passes\n\n  @foo @bar\n  Scenario: A3 with tags: @foo, @bar (inherited: @one)\n    Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 44, 
+                        "content": "@two\nFeature: Bob\n\n  Scenario: B1 without tags (inherited: @two)\n    Given a step passes\n\n  @foo @one\n  Scenario: B2 with tags: @foo, @one (inherited: @two)\n    When a step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use TagsLocation formatter to get an overview where tags are used", 
+                "index": 57
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f tags.location --dry-run features/\"", 
+                        "clause": "when", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 60, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 0 skipped, 6 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 65, 
+                        "content": "TAG LOCATIONS (alphabetically ordered):\n  @bar:\n    features/alice.feature:18   Scenario: A3 with tags: @foo, @bar (inherited: @one)\n\n  @foo:\n    features/alice.feature:14   Scenario: A2 with tags: @foo, @wip (inherited: @one)\n    features/alice.feature:18   Scenario: A3 with tags: @foo, @bar (inherited: @one)\n    features/bob.feature:8      Scenario: B2 with tags: @foo, @one (inherited: @two)\n\n  @one:\n    features/alice.feature:2    Feature: Alice\n    features/bob.feature:8      Scenario: B2 with tags: @foo, @one (inherited: @two)\n\n  @setup:\n    features/alice.feature:5    Scenario: Setup Feature\n\n  @two:\n    features/bob.feature:2      Feature: Bob\n\n  @wip:\n    features/alice.feature:9    Scenario: A1 with tags: @wip (inherited: @one)\n    features/alice.feature:14   Scenario: A2 with tags: @foo, @wip (inherited: @one)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"tags inherited from its feature are (normally) not counted.\"", 
+                        "clause": "then", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use TagsLocation formatter together with another formatter", 
+                "index": 92
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f tags.location -f plain -T features/\"", 
+                        "clause": "when", 
+                        "index": 93
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 95, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n6 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 99
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 100, 
+                        "content": "Feature: Alice\n\n  Scenario: Setup Feature\n    Given a step passes ... passed\n\n  Scenario: A1 with tags: @wip (inherited: @one)\n    Given a step passes ... passed\n\n  Scenario: A2 with tags: @foo, @wip (inherited: @one)\n    When a step passes ... passed\n\n  Scenario: A3 with tags: @foo, @bar (inherited: @one)\n    Then a step passes ... passed\n\nFeature: Bob\n\n  Scenario: B1 without tags (inherited: @two)\n    Given a step passes ... passed\n\n  Scenario: B2 with tags: @foo, @one (inherited: @two)\n    When a step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 123
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 124, 
+                        "content": "TAG LOCATIONS (alphabetically ordered):\n  @bar:\n    features/alice.feature:18   Scenario: A3 with tags: @foo, @bar (inherited: @one)\n\n  @foo:\n    features/alice.feature:14   Scenario: A2 with tags: @foo, @wip (inherited: @one)\n    features/alice.feature:18   Scenario: A3 with tags: @foo, @bar (inherited: @one)\n    features/bob.feature:8      Scenario: B2 with tags: @foo, @one (inherited: @two)\n\n  @one:\n    features/alice.feature:2    Feature: Alice\n    features/bob.feature:8      Scenario: B2 with tags: @foo, @one (inherited: @two)\n\n  @setup:\n    features/alice.feature:5    Scenario: Setup Feature\n\n  @two:\n    features/bob.feature:2      Feature: Bob\n\n  @wip:\n    features/alice.feature:9    Scenario: A1 with tags: @wip (inherited: @one)\n    features/alice.feature:14   Scenario: A2 with tags: @foo, @wip (inherited: @one)"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use TagsLocation formatter when tags are selected", 
+                "index": 150
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f tags.location --tags=@setup,@wip features/\"", 
+                        "clause": "when", 
+                        "index": 151
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 152
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 153, 
+                        "content": "1 feature passed, 0 failed, 1 skipped\n3 scenarios passed, 0 failed, 3 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 157
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 158, 
+                        "content": "TAG LOCATIONS (alphabetically ordered):\n  @bar:\n    features/alice.feature:18   Scenario: A3 with tags: @foo, @bar (inherited: @one)\n\n  @foo:\n    features/alice.feature:14   Scenario: A2 with tags: @foo, @wip (inherited: @one)\n    features/alice.feature:18   Scenario: A3 with tags: @foo, @bar (inherited: @one)\n    features/bob.feature:8      Scenario: B2 with tags: @foo, @one (inherited: @two)\n\n  @one:\n    features/alice.feature:2    Feature: Alice\n    features/bob.feature:8      Scenario: B2 with tags: @foo, @one (inherited: @two)\n\n  @setup:\n    features/alice.feature:5    Scenario: Setup Feature\n\n  @two:\n    features/bob.feature:2      Feature: Bob\n\n  @wip:\n    features/alice.feature:9    Scenario: A1 with tags: @wip (inherited: @one)\n    features/alice.feature:14   Scenario: A2 with tags: @foo, @wip (inherited: @one)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"all tags are detected even from skipped features and scenarios\"", 
+                        "clause": "then", 
+                        "index": 182
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

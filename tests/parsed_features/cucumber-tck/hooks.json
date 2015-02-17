@@ -1,0 +1,324 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Environment Hooks", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "Cucumber provides a number of hooks which allow you to\nconfigure the environment for your application. By\ndefault hooks are run for each scenario, but you can use\ntagged hooks if you want more fine grained control."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Before and After", 
+                "index": 7
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a passing before hook", 
+                        "clause": "given", 
+                        "index": 8
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a passing after hook", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes a scenario", 
+                        "clause": "when", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the before hook is fired before the scenario", 
+                        "clause": "then", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the after hook is fired after the scenario", 
+                        "clause": "then", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Around", 
+                "index": 14
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a passing around hook", 
+                        "clause": "given", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes a scenario", 
+                        "clause": "when", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the around hook fires around the scenario", 
+                        "clause": "then", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Around fires around other hooks", 
+                "index": 19
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a passing around hook", 
+                        "clause": "given", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a passing before hook", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a passing after hook", 
+                        "clause": "given", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes a scenario", 
+                        "clause": "when", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the around hook is fired around the other hooks", 
+                        "clause": "then", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Tagged hook with matching scenario tag", 
+                "index": 26
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a hook tagged with \"@foo\"", 
+                        "clause": "given", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes a scenario tagged with \"@foo\"", 
+                        "clause": "when", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the hook is fired", 
+                        "clause": "then", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Tagged hook without matching scenario tag", 
+                "index": 31
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a hook tagged with \"@foo\"", 
+                        "clause": "given", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes a scenario tagged with \"@bar\"", 
+                        "clause": "when", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the hook is not fired", 
+                        "clause": "then", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Tagged hook with untagged scenario", 
+                "index": 36
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a hook tagged with \"@foo\"", 
+                        "clause": "given", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes a scenario with no tags", 
+                        "clause": "when", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the hook is not fired", 
+                        "clause": "then", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Untagged hook with tagged scenario", 
+                "index": 41
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "an untagged hook", 
+                        "clause": "given", 
+                        "index": 42
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes a scenario tagged with \"@bar\"", 
+                        "clause": "when", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the hook is fired", 
+                        "clause": "then", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,466 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Select scenarios by using tags", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a tester\nI want to select a subset of all scenarios by using tags\n(for selecting/including them or excluding them)\nSo that I run only a subset of scenarios.\n\n. RELATED:\n.   * runner.tag_logic.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 12, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 13
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 16, 
+                        "content": "[behave]\ndefault_format = plain\nshow_skipped = false\nshow_timings = false"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 23, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 31, 
+                        "content": "Feature: Alice\n  @foo\n  Scenario: Alice in Wonderland\n    Given a step passes\n\n  @foo @bar\n  Scenario: Alice in Florida\n    When hotter step passes\n\n  @bar\n  Scenario: Alice in Antarctica\n    Then colder step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 46, 
+                        "content": "Feature: Bob\n  @bar\n  Scenario: Bob in Berlin\n    Given beautiful step passes\n\n  @foo\n  Scenario: Bob in Florida\n    When freaky step passes\n\n  Scenario: Alice and Bob\n    Then another step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios with tag=@foo (inclusive)", 
+                "index": 61
+            }, 
+            "description": {
+                "index": 63, 
+                "content": "TAG-LOGIC: @foo"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --tags=foo --no-skipped --no-timings features/\"", 
+                        "clause": "when", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 67, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n3 scenarios passed, 0 failed, 3 skipped\n3 steps passed, 0 failed, 3 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 72
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 73, 
+                        "content": "Feature: Alice\n  Scenario: Alice in Wonderland\n    Given a step passes ... passed\n\n  Scenario: Alice in Florida\n    When hotter step passes ... passed\n\nFeature: Bob\n  Scenario: Bob in Florida\n    When freaky step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios without tag=@foo (exclusive)", 
+                "index": 86
+            }, 
+            "description": {
+                "index": 88, 
+                "content": "TAG-LOGIC: not @foo\n\nUse  '-' (minus-sign) or '~' (tilde) in front of the tag-name\nto negate the tag-selection (excluding tags mode)."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --tags=~@foo features/\"", 
+                        "clause": "when", 
+                        "index": 93
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 95, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n3 scenarios passed, 0 failed, 3 skipped\n3 steps passed, 0 failed, 3 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 101, 
+                        "content": "Feature: Alice\n  Scenario: Alice in Antarctica\n    Then colder step passes ... passed\n\nFeature: Bob\n  Scenario: Bob in Berlin\n    Given beautiful step passes ... passed\n\n  Scenario: Alice and Bob\n    Then another step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios with @foo and @bar tags (both)", 
+                "index": 114
+            }, 
+            "description": {
+                "index": 116, 
+                "content": "TAG-LOGIC: @foo and @bar"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --tags=@foo --tags=@bar features/\"", 
+                        "clause": "when", 
+                        "index": 118
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 119
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 120, 
+                        "content": "1 feature passed, 0 failed, 1 skipped\n1 scenario passed, 0 failed, 5 skipped\n1 step passed, 0 failed, 5 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 125
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 126, 
+                        "content": "Feature: Alice\n  Scenario: Alice in Florida\n    When hotter step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"only scenario 'Alice in Florida' has both tags\"", 
+                        "clause": "then", 
+                        "index": 131
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios without @foo tag and without @bar tag", 
+                "index": 134
+            }, 
+            "description": {
+                "index": 136, 
+                "content": "TAG-LOGIC: not @foo and not @bar"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --tags=-@foo --tags=-@bar features/\"", 
+                        "clause": "when", 
+                        "index": 138
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 139
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 140, 
+                        "content": "1 feature passed, 0 failed, 1 skipped\n1 scenario passed, 0 failed, 5 skipped\n1 step passed, 0 failed, 5 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 145
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 146, 
+                        "content": "Feature: Bob\n  Scenario: Alice and Bob\n    Then another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"only scenario 'Alice and Bob' has neither tag\"", 
+                        "clause": "then", 
+                        "index": 151
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios with @foo tag, but exclude with @bar tag", 
+                "index": 154
+            }, 
+            "description": {
+                "index": 156, 
+                "content": "TAG-LOGIC: @foo and not @bar"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --tags=@foo --tags=-@bar features/\"", 
+                        "clause": "when", 
+                        "index": 158
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 159
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 160, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 4 skipped\n2 steps passed, 0 failed, 4 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 165
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 166, 
+                        "content": "Feature: Alice\n  Scenario: Alice in Wonderland\n    Given a step passes ... passed\n\nFeature: Bob\n  Scenario: Bob in Florida\n    When freaky step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"'Alice in Florida' is excluded because it has also @bar\"", 
+                        "clause": "then", 
+                        "index": 175
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios with @bar tag, but exclude with @foo tag", 
+                "index": 178
+            }, 
+            "description": {
+                "index": 180, 
+                "content": "TAG-LOGIC: not @foo and @bar"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --tags=-@foo --tags=@bar features/\"", 
+                        "clause": "when", 
+                        "index": 182
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 183
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 184, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 4 skipped\n2 steps passed, 0 failed, 4 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 189
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 190, 
+                        "content": "Feature: Alice\n  Scenario: Alice in Antarctica\n    Then colder step passes ... passed\n\nFeature: Bob\n  Scenario: Bob in Berlin\n    Given beautiful step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"'Alice in Florida' is excluded because it has also @bar\"", 
+                        "clause": "then", 
+                        "index": 199
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios with tag=@foo in dry-run mode (inclusive)", 
+                "index": 202
+            }, 
+            "description": {
+                "index": 204, 
+                "content": "Ensure that tag-selection works also in dry-run mode."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --tags=@foo --dry-run features/\"", 
+                        "clause": "when", 
+                        "index": 206
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 207
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 208, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 3 skipped, 3 untested\n0 steps passed, 0 failed, 3 skipped, 0 undefined, 3 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 213
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 214, 
+                        "content": "Feature: Alice\n  Scenario: Alice in Wonderland\n  Scenario: Alice in Florida\n\nFeature: Bob\n  Scenario: Bob in Florida"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

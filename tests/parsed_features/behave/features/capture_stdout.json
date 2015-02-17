@@ -1,0 +1,312 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Capture stdout output and show it in case of failures/errors", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a tester\nTo simplify failure diagnostics\nI want that:\n  - captured output is displayed only when failures/errors occur\n  - all output is displayed when capture is disabled\n    (but may clutter up formatter output)"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 11, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 12
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/stdout_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 15, 
+                        "content": "from behave import step\nimport sys\n\n@step('a step writes \"{text}\" to stdout and passes')\ndef step_writes_to_stdout_and_passes(context, text):\n    sys.stdout.write(\"stdout:%s;\\n\" % text)\n\n@step('a step writes \"{text}\" to stdout and fails')\ndef step_writes_to_stdout_and_fails(context, text):\n    sys.stdout.write(\"stdout:%s;\\n\" % text)\n    assert False, \"XFAIL, step with: %s;\" % text"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/capture_stdout.example1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 29, 
+                        "content": "Feature:\n    Scenario:\n        Given a step writes \"Alice\" to stdout and passes\n        When a step writes \"Bob\" to stdout and passes\n        Then a step writes \"Charly\" to stdout and passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/capture_stdout.example2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 37, 
+                        "content": "Feature:\n    Scenario:\n        Given a step writes \"Alice\" to stdout and passes\n        When a step writes \"Bob\" to stdout and fails\n        Then a step writes \"Charly\" to stdout and fails"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 46, 
+                "content": [
+                    "capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Captured output is suppressed if scenario passes", 
+                "index": 47
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --capture features/capture_stdout.example1.feature\"", 
+                        "clause": "when", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 51, 
+                        "content": "Feature:\n    Scenario:\n        Given a step writes \"Alice\" to stdout and passes ... passed\n        When a step writes \"Bob\" to stdout and passes ... passed\n        Then a step writes \"Charly\" to stdout and passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "stdout:Alice;"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 63, 
+                "content": [
+                    "capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Captured output is shown up to first failure if scenario fails", 
+                "index": 64
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --capture features/capture_stdout.example2.feature\"", 
+                        "clause": "when", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 67, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 72, 
+                        "content": "Feature:\n    Scenario:\n        Given a step writes \"Alice\" to stdout and passes ... passed\n        When a step writes \"Bob\" to stdout and fails ... failed\nAssertion Failed: XFAIL, step with: Bob;\nCaptured stdout:\nstdout:Alice;\nstdout:Bob;"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 83, 
+                        "content": "stdout:Charly;"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 87, 
+                "content": [
+                    "no_capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "All output is shown when --no-capture is used and all steps pass (CASE 1)", 
+                "index": 88
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --no-capture features/capture_stdout.example1.feature\"", 
+                        "clause": "when", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 90
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 91
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 92, 
+                        "content": "Feature:\n    Scenario:\n        stdout:Alice;\n        Given a step writes \"Alice\" to stdout and passes ... passed\n        stdout:Bob;\n        When a step writes \"Bob\" to stdout and passes ... passed\n        stdout:Charly;\n        Then a step writes \"Charly\" to stdout and passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 104, 
+                "content": [
+                    "no_capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "All output is shown up to first failing step when --no-capture is used (CASE 2)", 
+                "index": 105
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --no-capture features/capture_stdout.example2.feature\"", 
+                        "clause": "when", 
+                        "index": 106
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 107
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 108, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 112
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 113, 
+                        "content": "Feature:\n    Scenario:\n        stdout:Alice;\n        Given a step writes \"Alice\" to stdout and passes ... passed\n        stdout:Bob;\n        When a step writes \"Bob\" to stdout and fails ... failed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 121
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 122, 
+                        "content": "stdout:Charly;"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,175 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #77: Does not capture stdout from sub-processes", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". My step functions are using wrapper objects to interact with SUT.\n. Those wrappers use this kind of thing to invoke executables:\n.\n.   subprocess.check_call('myprog', ..., stderr=subprocess.STDOUT)\n.\n. However, the output from those calls does not appear in the stdout\n. captured by behave when a step fails."
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 12
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 13
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"hello.py\" with:", 
+                    "clause": "given", 
+                    "index": 14
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 15, 
+                    "content": "import sys\n\ndef hello():\n    result = 0\n    args = sys.argv[1:]\n    if args and args[0].startswith(\"--fail\"):\n        result = 1\n        args   = args[1:]\n    message = \" \".join(args)\n    sys.stdout.write(\"Hello {0}\\n\".format(message))\n    sys.exit(result)\n\nif __name__ == \"__main__\":\n    hello()"
+                }
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/subprocess_call_steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 31
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 32, 
+                    "content": "from behave import given, when, then\nimport subprocess\nimport os.path\nimport sys\n\nPYTHON = sys.executable\nHERE = os.path.dirname(__file__)\n\n@when(u'I make a subprocess call \"hello {commandline}\"')\ndef step(context, commandline):\n    result = subprocess_call_hello(commandline.split())\n    assert result == 0\n\ndef subprocess_call_hello(args):\n    command_args = [ PYTHON, \"hello.py\" ] + args\n    result = subprocess.check_call(command_args, stderr=subprocess.STDOUT)\n    return result\n    # result = subprocess.check_output(command_args, stderr=subprocess.STDOUT)\n    # return result"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Subprocess call shows generated output", 
+                "index": 54
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue77_hello_OK.feature\" with:", 
+                        "clause": "given", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 56, 
+                        "content": "Feature:\n  Scenario:\n    When I make a subprocess call \"hello world.\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/issue77_hello_OK.feature\"", 
+                        "clause": "when", 
+                        "index": 61
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 62
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 63, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 67
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 68, 
+                        "content": "Hello world."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Subprocess call fails with captured output", 
+                "index": 72
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue77_hello_FAIL.feature\" with:", 
+                        "clause": "given", 
+                        "index": 73
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 74, 
+                        "content": "Feature:\n  Scenario:\n    When I make a subprocess call \"hello --fail FAIL.\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/issue77_hello_FAIL.feature\"", 
+                        "clause": "when", 
+                        "index": 79
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 80
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 81, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n0 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 85
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 86, 
+                        "content": "Hello FAIL."
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

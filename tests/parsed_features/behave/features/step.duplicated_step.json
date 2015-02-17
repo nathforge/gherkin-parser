@@ -1,0 +1,293 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Duplicated Step Definitions", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As I tester and test writer\nI want to know when step definitions are duplicated\nSo that I can fix these problems."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Duplicated Step in same File", 
+                "index": 7
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 8
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/alice_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 10, 
+                        "content": "from behave import given, when, then\n\n@given(u'I call Alice')\ndef step(context):\n    pass\n\n@given(u'I call Alice')\ndef step(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/duplicated_step_alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 22, 
+                        "content": "Feature:\n  Scenario: Duplicated Step\n    Given I call Alice"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/duplicated_step_alice.feature\"", 
+                        "clause": "when", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 30, 
+                        "content": "AmbiguousStep: @given('I call Alice') has already been defined in\nexisting step @given('I call Alice') at features/steps/alice_steps.py:3"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 35, 
+                        "content": "File \"features/steps/alice_steps.py\", line 7, in <module>\n@given(u'I call Alice')"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Duplicated Step Definition in another File", 
+                "index": 41
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 42
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/bob1_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 44, 
+                        "content": "from behave import given\n\n@given('I call Bob')\ndef step_call_bob1(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/bob2_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 51
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 52, 
+                        "content": "from behave import given\n\n@given('I call Bob')\ndef step_call_bob2(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/duplicated_step_bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 60, 
+                        "content": "Feature:\n  Scenario: Duplicated Step\n    Given I call Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/duplicated_step_bob.feature\"", 
+                        "clause": "when", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 67
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 68, 
+                        "content": "AmbiguousStep: @given('I call Bob') has already been defined in\nexisting step @given('I call Bob') at features/steps/bob1_steps.py:3"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 72
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 73, 
+                        "content": "File \"features/steps/bob2_steps.py\", line 3, in <module>\n@given('I call Bob')"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 78, 
+                "content": [
+                    "xfail"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Duplicated Same Step Definition via import from another File", 
+                "index": 79
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 80
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/charly1_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 82, 
+                        "content": "from behave import given\n\n@given('I call Charly')\ndef step_call_charly1(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/charly2_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 90, 
+                        "content": "import charly1_steps"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/duplicated_step_via_import.feature\" with:", 
+                        "clause": "given", 
+                        "index": 93
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 94, 
+                        "content": "Feature:\n  Scenario: Duplicated same step via import\n    Given I call Charly"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/duplicated_step_via_import.feature\"", 
+                        "clause": "when", 
+                        "index": 99
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 101
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 102, 
+                        "content": "AmbiguousStep: @given('I call Charly') has already been defined in\nexisting step @given('I call Charly') at features/steps/charly1_steps.py:3"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

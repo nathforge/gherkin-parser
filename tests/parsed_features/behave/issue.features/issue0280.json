@@ -1,0 +1,202 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #280: AmbiguousStep error with similar step definitions and use_step_matcher(\"re\")", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". While using the RegexMatcher with steps that have the same step prefix\n. an AmbiguousStep exception occurs if the shorter step is registered first.\n.\n. EXAMPLE:\n. Two steps with definitions that have the same step prefix:\n.\n.   * I do something\n.   * I do something more\n.\n. cause an AmbiguousStep error to be thrown:\n.\n.   behave.step_registry.AmbiguousStep: @when('I do something more') has already\n.   been defined in existing step @when('I do something') at ...\n.\n. SOLUTION: Add regex begin-/end-markers around the step text( '^'+ step + '$')\n. NOTE: Only RegexMatcher is affected."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 20, 
+                "content": [
+                    "setuo"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 21
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/calculator_steps1.py\" with:", 
+                        "clause": "given", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 24, 
+                        "content": "from behave import given, then\nfrom hamcrest import assert_that, equal_to\n\nclass SimpleCalculator(object):\n    def __init__(self):\n        self.result = 0\n\n    def add(self, value):\n        self.result += value\n\n@given(u'a calculator')\ndef step_impl(context):\n    context.calculator = SimpleCalculator()\n\n@then(u'the calculator result is \"{expected_result:d}\"')\ndef step_impl(context, expected_result):\n    assert_that(context.calculator.result, equal_to(expected_result))"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Ensure RegexMatcher is not ordering sensitive", 
+                "index": 44
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/syndrome_280_1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 46, 
+                        "content": "Feature:\n  Scenario: Use both steps\n    Given I do something\n    When  I do something more"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/simple_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 52
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 53, 
+                        "content": "from behave import step, use_step_matcher\nuse_step_matcher(\"re\")\n\n# -- ORDERING SENSITIVE PART:\n@step(u'I do something')\ndef step_impl(context):\n    pass\n\n@step(u'I do something more')\ndef step_impl(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/syndrome_280_1.feature\"", 
+                        "clause": "when", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 67
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 68, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain \"AmbiguousStep:\"", 
+                        "clause": "then", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 72
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 73, 
+                        "content": "AmbiguousStep: @step('I do something more') has already been defined in\nexisting step @step('I do something') at features/steps/simple_steps.py:5'"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Ensure correct step implementation is selected", 
+                "index": 78
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/syndrome_280_2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 79
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 80, 
+                        "content": "Feature: Steps with same step prefix -- Use correct step implementation\n  Scenario: Use shorter step\n    Given a calculator\n    When I add \"2\" to it\n    And  I add \"3\" to it\n    Then the calculator result is \"5\"\n\n  Scenario: Use longer step\n    Given a calculator\n    When I add \"2\" to it twice\n    And  I add \"3\" to it\n    Then the calculator result is \"7\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/calculator_steps2.py\" with:", 
+                        "clause": "given", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 95, 
+                        "content": "from behave import when, use_step_matcher\nuse_step_matcher(\"re\")\n\n# -- ORDERING SENSITIVE PART:\n@when(u'I add \"(?P<value>\\d+)\" to it')\ndef step_impl(context, value):\n    number_value = int(value)\n    context.calculator.add(number_value)\n\n@when(u'I add \"(?P<value>\\d+)\" to it twice')\ndef step_impl(context, value):\n    number_value = int(value)\n    context.calculator.add(number_value)\n    context.calculator.add(number_value)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f pretty --no-color features/syndrome_280_2.feature\"", 
+                        "clause": "when", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 112
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 113, 
+                        "content": "When I add \"2\" to it twice        # features/steps/calculator_steps2.py:10\nAnd I add \"3\" to it               # features/steps/calculator_steps2.py:5"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain \"AmbiguousStep\"", 
+                        "clause": "then", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

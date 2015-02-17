@@ -1,0 +1,66 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Help Formatter", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a tester\nI want to know which formatter are supported\nTo be able to select one."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 6
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 7
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --format=help\"", 
+                        "clause": "when", 
+                        "index": 8
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 11, 
+                        "content": "Available formatters:\n  json           JSON dump of test run\n  json.pretty    JSON dump of test run (human readable)\n  null           Provides formatter that does not output anything.\n  plain          Very basic formatter with maximum compatibility\n  pretty         Standard colourised pretty formatter\n  progress       Shows dotted progress for each executed scenario.\n  progress2      Shows dotted progress for each executed step.\n  progress3      Shows detailed progress for each step of a scenario.\n  rerun          Emits scenario file locations of failing scenarios\n  sphinx.steps   Generate sphinx-based documentation for step definitions.\n  steps          Shows step definitions (step implementations).\n  steps.catalog  Shows non-technical documentation for step definitions.\n  steps.doc      Shows documentation for step definitions.\n  steps.usage    Shows how step definitions are used by steps.\n  tags           Shows tags (and how often they are used).\n  tags.location  Shows tags and the location where they are used."
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

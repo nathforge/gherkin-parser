@@ -1,0 +1,714 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Multiple Formatter with different outputs", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": ". SPECIFICATION: Command-line option --format\n.  * Each --format option specifies one formatter to use.\n.\n. SPECIFICATION: Command-line option --outfile\n.  * Multiple --outfile options can be provided\n.  * The nth --outfile option is used for the nth formatter\n.  * If less --outfile options are provided than formatter,\n.    the remaining formatter use stdout as output stream.\n.    Therefore, the last formatter should in general use stdout.\n.\n. SPECIFICATION: Configuration file\n.  * Option format with one or more formatters can be used (optional).\n.  * Formatters specified in the configuration file are always executed.\n.  * If not enough outfiles are specified, the outfiles list is extended\n.    by using an outfile \"${format}.output\" for each missing outfile.\n.\n. RELATED TO:\n.  * issue"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 22, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 23
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 25
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 26, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 34, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes\n    When a step passes\n    Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "Feature: Bob\n  Scenario: B1\n    When a step passes\n    Then a step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 49, 
+                "content": [
+                    "no_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "One formatter, no outfile (use stdout instead)", 
+                "index": 50
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" does not exist", 
+                        "clause": "given", 
+                        "index": 51
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/\"", 
+                        "clause": "when", 
+                        "index": 52
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 54, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step passes ... passed\n\nFeature: Bob\n  Scenario: B1\n    When a step passes ... passed\n    Then a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 72, 
+                "content": [
+                    "no_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "One formatter, one outfile", 
+                "index": 73
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" does not exist", 
+                        "clause": "given", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --outfile=output/plain.out -T features/\"", 
+                        "clause": "when", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 77, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 82, 
+                        "content": "Feature: Alice\n  Scenario: A1"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"output/plain.out\" should exist", 
+                        "clause": "then", 
+                        "index": 86
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"output/plain.out\" should contain:", 
+                        "clause": "then", 
+                        "index": 87
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 88, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step passes ... passed\n\nFeature: Bob\n  Scenario: B1\n    When a step passes ... passed\n    Then a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 101, 
+                "content": [
+                    "no_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Two formatter, one outfile", 
+                "index": 102
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" does not exist", 
+                        "clause": "given", 
+                        "index": 103
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -o output/plain.out -f progress -T features/\"", 
+                        "clause": "when", 
+                        "index": 104
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 106, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 110
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 111, 
+                        "content": "features/alice.feature  .\nfeatures/bob.feature  ."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"output/plain.out\" should exist", 
+                        "clause": "then", 
+                        "index": 115
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"output/plain.out\" should contain:", 
+                        "clause": "then", 
+                        "index": 116
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 117, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step passes ... passed\n\nFeature: Bob\n  Scenario: B1\n    When a step passes ... passed\n    Then a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 131, 
+                "content": [
+                    "no_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "More outfiles than formatter should fail with CONFIG-ERROR", 
+                "index": 132
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" does not exist", 
+                        "clause": "given", 
+                        "index": 133
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -o plain.output -o xxx.output features/\"", 
+                        "clause": "when", 
+                        "index": 134
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 135
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 136, 
+                        "content": "CONFIG-ERROR: More outfiles (2) than formatters (1)."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 140, 
+                "content": [
+                    "with_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use default formatter and outfile from behave configuration file", 
+                "index": 141
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 142
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 143, 
+                        "content": "[behave]\nformat   = plain\noutfiles = output/plain.out\nshow_timings = false"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I remove the directory \"output\"", 
+                        "clause": "given", 
+                        "index": 149
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave features/\"", 
+                        "clause": "when", 
+                        "index": 150
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 151
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 152
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 153, 
+                        "content": "Feature: Alice\n  Scenario: A1"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"output/plain.out\" should exist", 
+                        "clause": "then", 
+                        "index": 157
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"output/plain.out\" should contain:", 
+                        "clause": "then", 
+                        "index": 158
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 159, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step passes ... passed\n\nFeature: Bob\n  Scenario: B1\n    When a step passes ... passed\n    Then a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 172, 
+                "content": [
+                    "with_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use default formatter and another without outfile from behave configuration file", 
+                "index": 173
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 174
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 175, 
+                        "content": "[behave]\ndefault_format = plain\nformat = progress\n# -- OOPS: No outfile specified => Use \"${format}.output\" as outfile\nshow_timings = false"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I remove the directory \"output\"", 
+                        "clause": "given", 
+                        "index": 182
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave features/\"", 
+                        "clause": "when", 
+                        "index": 183
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 184
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 185
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 186, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step passes ... passed\n\nFeature: Bob\n  Scenario: B1\n    When a step passes ... passed\n    Then a step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"progress.output\" should exist", 
+                        "clause": "then", 
+                        "index": 198
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"progress.output\" should contain:", 
+                        "clause": "then", 
+                        "index": 199
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 200, 
+                        "content": "features/alice.feature  .\nfeatures/bob.feature  ."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 206, 
+                "content": [
+                    "with_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Command-line formatter/outfile extend behave configuration file args", 
+                "index": 207
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 208
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 209, 
+                        "content": "[behave]\nshow_timings = false\nformat   = plain\noutfiles = output/plain.out"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I remove the directory \"output\"", 
+                        "clause": "given", 
+                        "index": 215
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f pretty -o output/pretty.out -f progress -o output/progress.out features/\"", 
+                        "clause": "when", 
+                        "index": 216
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 217
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"output/progress.out\" should contain:", 
+                        "clause": "then", 
+                        "index": 218
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 219, 
+                        "content": "features/alice.feature  .\nfeatures/bob.feature  ."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"output/pretty.out\" should contain:", 
+                        "clause": "then", 
+                        "index": 223
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 224, 
+                        "content": "Feature: Alice # features/alice.feature:1\n  Scenario: A1          # features/alice.feature:2\n    Given a step passes # features/steps/passing_steps.py:3\n    When a step passes  # features/steps/passing_steps.py:3\n    Then a step passes  # features/steps/passing_steps.py:3\n\nFeature: Bob # features/bob.feature:1\n  Scenario: B1         # features/bob.feature:2\n    When a step passes # features/steps/passing_steps.py:3\n    Then a step passes # features/steps/passing_steps.py:3"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"output/plain.out\" should exist", 
+                        "clause": "then", 
+                        "index": 236
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"output/plain.out\" should contain:", 
+                        "clause": "then", 
+                        "index": 237
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 238, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step passes ... passed\n\nFeature: Bob\n  Scenario: B1\n    When a step passes ... passed\n    Then a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 252, 
+                "content": [
+                    "with_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Combination of formatter from configfile and command-line cannot cause outfile offsets", 
+                "index": 253
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 254
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 255, 
+                        "content": "[behave]\nshow_timings = false\nformat = plain\n# -- OOPS: No outfiles defined => Use \"${format}.output\" as outfile."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I remove the directory \"output\"", 
+                        "clause": "given", 
+                        "index": 261
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress -o output/progress.out features/\"", 
+                        "clause": "when", 
+                        "index": 262
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 263
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 264
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 265, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"plain.output\" should contain:", 
+                        "clause": "then", 
+                        "index": 272
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 273, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"output/progress.out\" should contain:", 
+                        "clause": "then", 
+                        "index": 280
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 281, 
+                        "content": "features/alice.feature  .\nfeatures/bob.feature  ."
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

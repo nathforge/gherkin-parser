@@ -1,0 +1,299 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue", 
+            "change_request"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #114: Avoid unnecessary blank lines w/ --no-skipped option", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": ". Unnessary blank lines appear when you use (for each skipped feature):\n.\n.    behave -f progress --tags=@one --no-skipped ..."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 8, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 9
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 12, 
+                        "content": "from behave import step\n\n@step(u'a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/e1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 20, 
+                        "content": "@example\nFeature: E1\n  Scenario: S1.1\n    Given a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/e2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 27, 
+                        "content": "@exclude\nFeature: E2\n  Scenario: S2.1\n    Given a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/e3.feature\" with:", 
+                        "clause": "given", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 34, 
+                        "content": "@example\nFeature: E3\n  Scenario: S3.1\n    Given a step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run Features with tags and --show-skipped option", 
+                "index": 41
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress --tags=@example\"", 
+                        "clause": "when", 
+                        "index": 42
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 44, 
+                        "content": "2 features passed, 0 failed, 1 skipped\n2 scenarios passed, 0 failed, 1 skipped\n2 steps passed, 0 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 50, 
+                        "content": "features/e1.feature  .\nfeatures/e2.feature  S\nfeatures/e3.feature  ."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run Features with tag and --no-skipped option (CASE 1)", 
+                "index": 56
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress --tags=@example --no-skipped\"", 
+                        "clause": "when", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "2 features passed, 0 failed, 1 skipped\n2 scenarios passed, 0 failed, 1 skipped\n2 steps passed, 0 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain exactly:", 
+                        "clause": "then", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 65, 
+                        "content": "features/e1.feature  .\nfeatures/e3.feature  ."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain exactly:", 
+                        "clause": "then", 
+                        "index": 69
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 70, 
+                        "content": "features/e1.feature  .\n\nfeatures/e3.feature  ."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run Features with other tag and --no-skipped option (CASE 2)", 
+                "index": 76
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress --tags=@exclude --no-skipped\"", 
+                        "clause": "when", 
+                        "index": 77
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 78
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 79, 
+                        "content": "1 feature passed, 0 failed, 2 skipped\n1 scenario passed, 0 failed, 2 skipped\n1 step passed, 0 failed, 2 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain exactly:", 
+                        "clause": "then", 
+                        "index": 84
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 85, 
+                        "content": "features/e2.feature  ."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run Features with tag, --no-skipped and plain formatter (CASE 3)", 
+                "index": 89
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --tags=@example --no-skipped -T\"", 
+                        "clause": "when", 
+                        "index": 90
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 91
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 92, 
+                        "content": "2 features passed, 0 failed, 1 skipped\n2 scenarios passed, 0 failed, 1 skipped\n2 steps passed, 0 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain exactly:", 
+                        "clause": "then", 
+                        "index": 97
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 98, 
+                        "content": "Feature: E1\n\n  Scenario: S1.1\n    Given a step passes ... passed\n\nFeature: E3\n"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain exactly:", 
+                        "clause": "then", 
+                        "index": 107
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 108, 
+                        "content": "Feature: E1\n\n  Scenario: S1.1\n    Given a step passes ... passed\n\n\nFeature: E3\n"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

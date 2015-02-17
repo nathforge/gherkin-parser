@@ -1,0 +1,148 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #52 Summary counts are wrong with option --tags", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "Wrong summary counts are shown for skipped and failed scenarios\nwhen option --tags=done is used (and some scenarios are skipped)."
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 7
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 8
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 9
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 10, 
+                    "content": "from behave import given\n\n@given(u'passing')\ndef step(context):\n    pass\n\n@given(u'failing')\ndef step(context):\n    assert False, \"failing\""
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Successful Execution of Tagged Scenario", 
+                "index": 22
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/tagged_scenario1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 24, 
+                        "content": "Feature: Passing tagged Scenario\n  @done\n  Scenario: P1\n    Given passing\n\n  @unimplemented\n  Scenario: N1\n    Given passing\n  @unimplemented\n  Scenario: N2\n    Given passing"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --junit -c --tags @done features/tagged_scenario1.feature\"", 
+                        "clause": "when", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 39, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 2 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Failing Execution of Tagged Scenario", 
+                "index": 44
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/tagged_scenario2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 46, 
+                        "content": "Feature: Failing tagged Scenario\n  @done\n  Scenario: F1\n    Given failing\n\n  @unimplemented\n  Scenario: N1\n    Given passing\n  @unimplemented\n  Scenario: N2\n    Given passing"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --junit -c --tags @done features/tagged_scenario2.feature\"", 
+                        "clause": "when", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 60
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 61
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 62, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 2 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

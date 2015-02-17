@@ -1,0 +1,592 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Use a user-defined Formatter", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a behave user\nI want to be able to provide own, user-defined formatters\nSo that I am able to add a new, user-defined formatters\nwhen I need other output formats (or override existing ones).\n\n. SPECIFICATION:\n.   * A user-defined formatter must inherit from the \"Formatter\" class.\n.   * A user-defined formatter can be specified on command-line\n.     by using a scoped class name as value for the '--format' option.\n.   * A user-defined formatter can be registered by name\n.     by using the \"behave.formatters\" section in the behave config file.\n.\n. SCOPED CLASS NAME (for formatter.class):\n.   * my.module_name:ClassName   (preferred:   single colon separator)\n.   * my.module_name::ClassName  (alternative: double colon separator)"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 19, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 20
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 23, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass\n\n@step('{word:w} step fails')\ndef step_fails(context, word):\n    assert False, \"XFAIL-STEP\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/passing.feature\" with:", 
+                        "clause": "given", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 35, 
+                        "content": "Feature:\n  Scenario: Alice\n    Given a step passes\n    When another step passes\n\n  Scenario: Bob\n    Then some step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"behave_ext/__init__.py\"", 
+                        "clause": "given", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave_ext/formatter_one.py\" with:", 
+                        "clause": "given", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 46, 
+                        "content": "from behave.formatter.base import Formatter\n\nclass NotAFormatter(object): pass\nclass SuperFormatter(Formatter):\n    name = \"super\"\n    description = \"Super-duper formatter.\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave_ext/formatter_foo.py\" with:", 
+                        "clause": "given", 
+                        "index": 54
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 55, 
+                        "content": "from behave.formatter.base import Formatter\n\nclass FooFormatter(Formatter):\n    name = \"foo\"\n    description = \"User-specific FOO formatter.\"\n\nclass FooFormatter2(Formatter):\n    description = \"User-specific FOO2 formatter.\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave_ext/formatter_bar.py\" with:", 
+                        "clause": "given", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 66, 
+                        "content": "from behave.formatter.base import Formatter\n\nclass BarFormatter(Formatter):\n    description = \"User-specific BAR formatter.\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 73, 
+                "content": [
+                    "use_formatter.class"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use a known, valid user-defined formatter with scoped class name", 
+                "index": 74
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f behave_ext.formatter_one:SuperFormatter features/passing.feature\"", 
+                        "clause": "when", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 77, 
+                        "content": "2 scenarios passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 82, 
+                "content": [
+                    "use_formatter.class"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use a known, valid user-defined formatter (with double colon)", 
+                "index": 83
+            }, 
+            "description": {
+                "index": 85, 
+                "content": "ALTERNATIVE: Can currently use a double colon as separator, too."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f behave_ext.formatter_one::SuperFormatter features/passing.feature\"", 
+                        "clause": "when", 
+                        "index": 87
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 89, 
+                        "content": "2 scenarios passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 95, 
+                "content": [
+                    "use_formatter.class"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Use built-in formatter \"<formatter.name>\" like a user-defined formatter", 
+                "index": 96
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f <formatter.class> features/passing.feature\"", 
+                        "clause": "when", 
+                        "index": 97
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 98
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 99, 
+                        "content": "2 scenarios passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 104
+                }, 
+                "table": [
+                    {
+                        "index": 105, 
+                        "columns": [
+                            "formatter.name", 
+                            "formatter.class"
+                        ]
+                    }, 
+                    {
+                        "index": 106, 
+                        "columns": [
+                            "plain", 
+                            "behave.formatter.plain:PlainFormatter"
+                        ]
+                    }, 
+                    {
+                        "index": 107, 
+                        "columns": [
+                            "pretty", 
+                            "behave.formatter.pretty:PrettyFormatter"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 110, 
+                "content": [
+                    "problematic", 
+                    "use_formatter.class"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Use a problematic user-defined formatter (<case>)", 
+                "index": 112
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f <formatter.class> features/passing.feature\"", 
+                        "clause": "when", 
+                        "index": 113
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 114
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 115, 
+                        "content": "error: format=<formatter.class> is unknown"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 119
+                }, 
+                "table": [
+                    {
+                        "index": 120, 
+                        "columns": [
+                            "formatter.class", 
+                            "case"
+                        ]
+                    }, 
+                    {
+                        "index": 121, 
+                        "columns": [
+                            "my.unknown_module:SomeFormatter", 
+                            "Unknown module"
+                        ]
+                    }, 
+                    {
+                        "index": 122, 
+                        "columns": [
+                            "behave_ext.formatter_one:UnknownClass", 
+                            "Unknown class"
+                        ]
+                    }, 
+                    {
+                        "index": 123, 
+                        "columns": [
+                            "behave_ext.formatter_one:NotAFormatter", 
+                            "Invalid Formatter class"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 126, 
+                "content": [
+                    "formatter.registered_by_name"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Register user-defined formatter by name: <formatter.name>", 
+                "index": 127
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 128
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 129, 
+                        "content": "[behave.formatters]\nfoo  = behave_ext.formatter_foo:FooFormatter\nfoo2 = behave_ext.formatter_foo:FooFormatter2\nbar  = behave_ext.formatter_bar:BarFormatter"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the schema: 'formatter.name = formatter.class' is used\"", 
+                        "clause": "given", 
+                        "index": 135
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <formatter.name> features/passing.feature\"", 
+                        "clause": "when", 
+                        "index": 136
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 137
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 138, 
+                        "content": "2 scenarios passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 142
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 143, 
+                        "content": "error: format=<formatter.name> is unknown"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 147
+                }, 
+                "table": [
+                    {
+                        "index": 148, 
+                        "columns": [
+                            "formatter.name", 
+                            "Comment"
+                        ]
+                    }, 
+                    {
+                        "index": 149, 
+                        "columns": [
+                            "foo", 
+                            "First user-defined, registered formatter."
+                        ]
+                    }, 
+                    {
+                        "index": 150, 
+                        "columns": [
+                            "bar", 
+                            "Last  user-defined, registered formatter."
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 153, 
+                "content": [
+                    "formatter.registered_by_name"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Help-Format shows description of registered-by-name formatters", 
+                "index": 154
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 155
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 156, 
+                        "content": "[behave.formatters]\nfoo = behave_ext.formatter_foo:FooFormatter\nbar = behave_ext.formatter_bar:BarFormatter"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f help\"", 
+                        "clause": "when", 
+                        "index": 161
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 162
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 163, 
+                        "content": "Available formatters:"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 166
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 167, 
+                        "content": "bar            User-specific BAR formatter."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 170
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 171, 
+                        "content": "foo            User-specific FOO formatter."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 176, 
+                "content": [
+                    "problematic", 
+                    "formatter.registered_by_name"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Use problematic, registered-by-name formatter: <case>", 
+                "index": 178
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 179
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 180, 
+                        "content": "[behave.formatters]\n<formatter.name> = <formatter.class>"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <formatter.name> features/passing.feature\"", 
+                        "clause": "when", 
+                        "index": 184
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 185
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 186, 
+                        "content": "error: format=<formatter.name> is unknown"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 190
+                }, 
+                "table": [
+                    {
+                        "index": 191, 
+                        "columns": [
+                            "formatter.name", 
+                            "formatter.class", 
+                            "case"
+                        ]
+                    }, 
+                    {
+                        "index": 192, 
+                        "columns": [
+                            "unknown1", 
+                            "my.unknown_module:SomeFormatter", 
+                            "Unknown module"
+                        ]
+                    }, 
+                    {
+                        "index": 193, 
+                        "columns": [
+                            "unknown2", 
+                            "behave_ext.formatter_one:UnknownClass", 
+                            "Unknown class"
+                        ]
+                    }, 
+                    {
+                        "index": 194, 
+                        "columns": [
+                            "invalid1", 
+                            "behave_ext.formatter_one:NotAFormatter", 
+                            "Invalid Formatter class"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

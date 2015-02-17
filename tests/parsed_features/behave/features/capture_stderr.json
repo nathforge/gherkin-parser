@@ -1,0 +1,457 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Capture stderr output and show it in case of failures/errors", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a tester\nTo simplify failure diagnostics\nI want that:\n  - captured output is displayed only when failures/errors occur\n  - all output is displayed when capture is disabled\n    (but may clutter up formatter output)"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 10, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 11
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/stderr_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 14, 
+                        "content": "from behave import step\nimport sys\n\n@step('a step writes \"{text}\" to stderr and passes')\ndef step_writes_to_stderr_and_passes(context, text):\n    sys.stderr.write(\"stderr:%s;\\n\" % text)\n\n@step('a step writes \"{text}\" to stderr and fails')\ndef step_writes_to_stderr_and_fails(context, text):\n    sys.stderr.write(\"stderr:%s;\\n\" % text)\n    assert False, \"XFAIL, step with: %s;\" % text"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/capture_stderr.example1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 28, 
+                        "content": "Feature:\n    Scenario:\n        Given a step writes \"Alice\" to stderr and passes\n        When a step writes \"Bob\" to stderr and passes\n        Then a step writes \"Charly\" to stderr and passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/capture_stderr.example2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "Feature:\n    Scenario:\n        Given a step writes \"Alice\" to stderr and passes\n        When a step writes \"Bob\" to stderr and fails\n        Then a step writes \"Charly\" to stderr and fails"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 45, 
+                "content": [
+                    "capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Captured output is suppressed if scenario passes (CASE 1: --capture)", 
+                "index": 46
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --capture features/capture_stderr.example1.feature\"", 
+                        "clause": "when", 
+                        "index": 47
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 50, 
+                        "content": "Feature:\n    Scenario:\n        Given a step writes \"Alice\" to stderr and passes ... passed\n        When a step writes \"Bob\" to stderr and passes ... passed\n        Then a step writes \"Charly\" to stderr and passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 58, 
+                        "content": "stderr:Alice;"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 62, 
+                "content": [
+                    "capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Captured output is suppressed if scenario passes (CASE 2: --capture-stderr)", 
+                "index": 63
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --capture-stderr features/capture_stderr.example1.feature\"", 
+                        "clause": "when", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 67, 
+                        "content": "Feature:\n    Scenario:\n        Given a step writes \"Alice\" to stderr and passes ... passed\n        When a step writes \"Bob\" to stderr and passes ... passed\n        Then a step writes \"Charly\" to stderr and passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 75, 
+                        "content": "stderr:Alice;"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 79, 
+                "content": [
+                    "capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Captured output is shown up to first failure if scenario fails (CASE 1: --capture)", 
+                "index": 80
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --capture features/capture_stderr.example2.feature\"", 
+                        "clause": "when", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 83, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 87
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 88, 
+                        "content": "Feature:\n    Scenario:\n        Given a step writes \"Alice\" to stderr and passes ... passed\n        When a step writes \"Bob\" to stderr and fails ... failed\nAssertion Failed: XFAIL, step with: Bob;\nCaptured stderr:\nstderr:Alice;\nstderr:Bob;"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 98
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 99, 
+                        "content": "stderr:Charly;"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 103, 
+                "content": [
+                    "capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Captured output is shown if scenario fails up to first failure (CASE 2: --capture-stderr)", 
+                "index": 104
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --capture-stderr features/capture_stderr.example2.feature\"", 
+                        "clause": "when", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 106
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 107, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 112, 
+                        "content": "Feature:\n    Scenario:\n        Given a step writes \"Alice\" to stderr and passes ... passed\n        When a step writes \"Bob\" to stderr and fails ... failed\nAssertion Failed: XFAIL, step with: Bob;\nCaptured stderr:\nstderr:Alice;\nstderr:Bob;"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 122
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 123, 
+                        "content": "stderr:Charly;"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 127, 
+                "content": [
+                    "no_capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "All output is shown when --no-capture-stderr is used and all steps pass (CASE 1)", 
+                "index": 128
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --no-capture-stderr features/capture_stderr.example1.feature\"", 
+                        "clause": "when", 
+                        "index": 129
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 130
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 131
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 132, 
+                        "content": "stderr:Alice;\nstderr:Bob;\nstderr:Charly;"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 137
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 138, 
+                        "content": "Feature:\n    Scenario:\n        Given a step writes \"Alice\" to stderr and passes ... passed\n        When a step writes \"Bob\" to stderr and passes ... passed\n        Then a step writes \"Charly\" to stderr and passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 147, 
+                "content": [
+                    "no_capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "All output is shown up to first failing step when --no-capture-stderr is used (CASE 2)", 
+                "index": 148
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --no-capture-stderr features/capture_stderr.example2.feature\"", 
+                        "clause": "when", 
+                        "index": 149
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 150
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 151, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 155
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 156, 
+                        "content": "Feature:\n    Scenario:\n        Given a step writes \"Alice\" to stderr and passes ... passed\n        When a step writes \"Bob\" to stderr and fails ... failed\nAssertion Failed: XFAIL, step with: Bob;"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 163
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 164, 
+                        "content": "stderr:Alice;\nstderr:Bob;"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 168
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 169, 
+                        "content": "stderr:Charly;"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

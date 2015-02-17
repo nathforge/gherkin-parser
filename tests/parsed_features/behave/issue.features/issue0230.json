@@ -1,0 +1,153 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue", 
+            "unicode"
+        ]
+    }, 
+    "title": {
+        "content": "Assert with non-ASCII char causes UnicodeDecodeError", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": ". Failing assert with non-ASCII character in its message\n. causes UnicodeDecodeError and silent exit in Python2.\n.\n. RELATED:\n.   * features/i18n.unicode_problems.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 10, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 11
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 14, 
+                        "content": "from behave import step\n\n@step(u'a step fails with non-ASCII character \"{char_code:d}\"')\ndef step_fails_with_non_ascii_text(context, char_code):\n    assert 0 <= char_code <= 255, \"RANGE-ERROR: char_code=%s\" % char_code\n    assert False, \"FAIL:\"+ chr(char_code) +\";\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": true, 
+                "content": "Syndrome with non-ASCII char <char_code> (format=<format>)", 
+                "index": 23
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/syndrome_0230_<char_code>.feature\" with:", 
+                        "clause": "given", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 25, 
+                        "content": "Feature:\n  Scenario:\n    Given a step fails with non-ASCII character \"<char_code>\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/syndrome_0230_<char_code>.feature\"", 
+                        "clause": "when", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 31
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 32, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n0 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain \"UnicodeDecodeError\"", 
+                        "clause": "then", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 38, 
+                        "content": "Assertion Failed: FAIL:"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 42
+                }, 
+                "table": [
+                    {
+                        "index": 43, 
+                        "columns": [
+                            "format", 
+                            "char_code"
+                        ]
+                    }, 
+                    {
+                        "index": 44, 
+                        "columns": [
+                            "plain", 
+                            "130"
+                        ]
+                    }, 
+                    {
+                        "index": 45, 
+                        "columns": [
+                            "pretty", 
+                            "190"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

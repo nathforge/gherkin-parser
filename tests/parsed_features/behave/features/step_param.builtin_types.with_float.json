@@ -1,0 +1,238 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Parse data types in step parameters (type transformation)", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a test writer\nI want write steps with parameter that should have floating-point data types\nSo that I can just use the step parameter with the correct type\n\nbehave uses the parse module (inverse of Python string.format).\nTherefore, the following ``parse types`` for floats are already supported:\n\n  ===== =========================================== ============= ================================\n  Type  Characters Matched (regex class)            Output Type   Example(s)\n  ===== =========================================== ============= ================================\n   %     Percentage (converted to value/100.0)       float         51.2%\n   f     Fixed-point numbers                         float         1.23  -1.45\n   e     Floating-point numbers with exponent        float         1.1e-10  -12.3E+5\n   g     General number format (either d, f or e)    float         123  1.23  -1.45E+12\n  ===== =========================================== ============= ================================\n\n\n  SEE ALSO:\n    * http://pypi.python.org/pypi/parse\n    * string.format: http://docs.python.org/library/string.html"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 25, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 26
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/float_param_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 29, 
+                        "content": "from behave import then, step\nclass NotMatched(object): pass\n\n@step('a float param with \"{value:g}\"')\ndef step_float_param_with(context, value):\n    assert type(value) is float\n    context.value = value\n\n@step('a float param with \"{value}\"')\ndef step_float_param_otherwise(context, value):\n    context.value = NotMatched\n\n@step('a generic float param with \"{value:g}\"')\ndef step_generic_float_param_with(context, value):\n    step_float_param_with(context, value)\n\n@step('a generic float param with \"{value}\"')\ndef step_generic_float_param_otherwise(context, value):\n    step_float_param_otherwise(context, value)\n\n@step('a float with exponent param with \"{value:e}\"')\ndef step_float_with_exponent_param_with(context, value):\n    step_float_param_with(context, value)\n\n@step('a float with exponent param with \"{value}\"')\ndef step_float_with_exponent_param_otherwise(context, value):\n    step_float_param_otherwise(context, value)\n\n@step('a percentage param with \"{value:%}\"')\ndef step_percentage_param_with(context, value):\n    step_float_param_with(context, value)\n\n@step('a percentage param with \"{value}\"')\ndef step_percentage_param_otherwise(context, value):\n    step_float_param_otherwise(context, value)\n\n@step('a fixed-point number param with \"{value:f}\"')\ndef step_fixed_point_number_param_with(context, value):\n    step_float_param_with(context, value)\n\n@step('a fixed-point number param with \"{value}\"')\ndef step_fixed_point_number_param_otherwise(context, value):\n    step_float_param_otherwise(context, value)\n\n@then('the value should be {outcome} as float number')\ndef step_value_should_be_matched_as_float_number(context, outcome):\n    expected_type = float\n    if outcome == \"matched\":\n        assert type(context.value) is expected_type, \\\n                \"Unexpected type: %s\" % type(context.value)\n    else:\n        assert context.value is NotMatched\n\n@then('the value should be {outcome} as float number with \"{expected:g}\"')\ndef step_value_should_be_matched_as_float_number_with_expected(context, outcome, expected):\n    step_value_should_be_matched_as_float_number(context, outcome)\n    assert context.value == expected, \\\n        \"FAILED: value(%s) == expected(%s)\" % (context.value, expected)"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Float parameter values with type \"%\" (percentage)", 
+                "index": 91
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.float_param.with_percent.feature\" with:", 
+                        "clause": "given", 
+                        "index": 92
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 93, 
+                        "content": "Feature: Float parameter values with type \"%\" (percentage)\n\n  Scenario Outline: Good cases\n    Given a percentage param with \"<Value>\"\n    Then the value should be matched as float number with \"<Expected Value>\"\n\n  Examples:\n    | Value  | Expected Value | Case |\n    |    0%  |    0     | Zero       |\n    |   20%  |    0.2   | Positive number   |\n    |  120%  |    1.2   | Larger than 100%  |\n    | 10.5%  |    0.105 | Float number    |\n    |  -10%  |   -0.1   | Negative number |\n    |  +10%  |    0.1   | With plus sign  |\n\n\n  Scenario Outline: Bad cases (not matched)\n    Given a percentage param with \"<Value>\"\n    Then the value should be <Outcome> as float number\n\n  Examples:\n    | Value  | Outcome     | Reason |\n    |   123  | not-matched | Percentage sign is missing |\n    |  1.23  | not-matched | Float number without percentage sign |\n    |  Alice | not-matched | Not a number |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.float_param.with_percent.feature\"", 
+                        "clause": "when", 
+                        "index": 120
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 121
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 122, 
+                        "content": "9 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Fixed-point parameter values with type \"f\"", 
+                "index": 127
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.float_param.with_type_f.feature\" with:", 
+                        "clause": "given", 
+                        "index": 128
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 129, 
+                        "content": "Feature: Float parameter values with type \"f\" (fixed-point number)\n\n  Scenario Outline: Good cases\n    Given a fixed-point number param with \"<Value>\"\n    Then the value should be matched as float number with \"<Expected Value>\"\n\n  Examples:\n    | Value  | Expected Value | Case     |\n    |   0.23 |    0.23  |                |\n    |   1.23 |    1.23  |                |\n    | 123.45 |  123.45  |                |\n    |  +1.23 |    1.23  | With plus sign |\n    |  -1.23 |   -1.23  | Negative float |\n\n\n  Scenario Outline: Bad cases (not matched)\n    Given a fixed-point number param with \"<Value>\"\n    Then the value should be <Outcome> as float number\n\n  Examples:\n    | Value   | Outcome     | Reason |\n    |   123   | not-matched | Integer number             |\n    | 1.23E-7 | not-matched | Float number with exponent |\n    |  Alice  | not-matched | Not a number               |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.float_param.with_type_f.feature\"", 
+                        "clause": "when", 
+                        "index": 155
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 156
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 157, 
+                        "content": "8 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Float with exponent parameter values with type \"e\"", 
+                "index": 162
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.float_param.with_type_e.feature\" with:", 
+                        "clause": "given", 
+                        "index": 163
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 164, 
+                        "content": "Feature: Float parameter values with type \"e\" (float with exponents)\n\n  Scenario Outline: Good cases\n    Given a float with exponent param with \"<Value>\"\n    Then the value should be matched as float number with \"<Expected Value>\"\n\n  Examples:\n    | Value     | Expected Value | Case                |\n    |  1.0E-10  |   1E-10   | With mantisse, negative exponent |\n    |  1.23E+5  |   123E3   | Exponent with plus sign  |\n    |  123.0E+3 |  1.23E5   | Exponent with plus sign  |\n    | -1.23E5   |  -123E3   | Negative number with mantisse and exponent |\n    |     INF   |    +INF   | Infinity (INF)           |\n    |    +INF   |     INF   |                          |\n    |    -INF   |    -INF   |                          |\n    |    +inf   |     INF   | Lower-case special names |\n\n\n  Scenario Outline: Bad cases (not matched)\n    Given a float with exponent param with \"<Value>\"\n    Then the value should be <Outcome> as float number\n\n  Examples:\n    | Value   | Outcome     | Reason |\n    |   1E10  | not-matched | Without mantissa |\n    |   1.E10 | not-matched | Short mantissa   |\n    |   123   | not-matched | Integer number   |\n    |  Alice  | not-matched | Not a number     |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.float_param.with_type_e.feature\"", 
+                        "clause": "when", 
+                        "index": 194
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 195
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 196, 
+                        "content": "12 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Generic float parameter values with type \"g\"", 
+                "index": 201
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.float_param.with_type_g.feature\" with:", 
+                        "clause": "given", 
+                        "index": 202
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 203, 
+                        "content": "Feature: Float parameter values with type \"g\" (generic float)\n\n  Scenario Outline: Good cases\n    Given a generic float param with \"<Value>\"\n    Then the value should be matched as float number with \"<Expected Value>\"\n\n  Examples:\n    | Value     | Expected Value | Case                |\n    |        1  |   1.0     | Integer number format    |\n    |     1E10  |   1.0E10  | Float with exponent and shortened mantissa |\n    |   1.23E5  |   1.23E5  | Float with exponent and mantissa |\n    |   1.23e5  |   1.23E5  | Float with exponent and mantissa (lower-case) |\n    |  1.0E-10  |   1E-10   | With mantisse, negative exponent |\n    |  1.23E+5  |   123E3   | Exponent with plus sign   |\n    |  123.0E+3 |   1.23E5  | Exponent with plus sign   |\n    | -1.23E5   |  -123E3   | Negative number with mantisse and exponent |\n\n\n  Scenario Outline: Bad cases (not matched)\n    Given a generic float param with \"<Value>\"\n    Then the value should be <Outcome> as float number\n\n  Examples:\n    | Value   | Outcome     | Reason             |\n    | 0b101   | not-matched | Binary number      |\n    | 0o17    | not-matched | Octal number       |\n    | 0x1A    | not-matched | Hexadecimal number |\n    | 1.E10   | not-matched | Short mantissa     |\n    | Alice   | not-matched | Not a number       |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.float_param.with_type_g.feature\"", 
+                        "clause": "when", 
+                        "index": 234
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 235
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 236, 
+                        "content": "13 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

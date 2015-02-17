@@ -1,0 +1,229 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #64 Exit status not set to 1 even there are failures in certain cases", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "The behave exit status not always returns 1 when failure(s) occur.\nThe problem was associated with the Feature.run() logic implementation.\n\nThis problem was first discovered while verifying issue\nSee also similar test when tags select a subset of scenarios.\n\nRELATED ISSUES:\n  * issue"
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 12
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 13
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 14
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 15, 
+                    "content": "from behave import given\n\n@given(u'passing')\ndef step(context):\n    pass\n\n@given(u'failing')\ndef step(context):\n    assert False, \"failing\""
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Failing in First Scenario", 
+                "index": 27
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue64_case1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 29, 
+                        "content": "Feature: Failing in First Scenario\n  Scenario:\n    Given failing\n\n  Scenario:\n    Given passing"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --format=plain features/issue64_case1.feature\"", 
+                        "clause": "when", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 39, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n1 scenario passed, 1 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Failing in Middle Scenario", 
+                "index": 44
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue64_case2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 46, 
+                        "content": "Feature: Failing in Middle Scenario\n  Scenario:\n    Given passing\n  Scenario:\n    Given failing\n  Scenario:\n    Given passing"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --format=plain features/issue64_case2.feature\"", 
+                        "clause": "when", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 56
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 57, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n2 scenarios passed, 1 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Failing in Last Scenario", 
+                "index": 62
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue64_case3.feature\" with:", 
+                        "clause": "given", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 64, 
+                        "content": "Feature: Failing in Last Scenario\n  Scenario:\n    Given passing\n  Scenario:\n    Given passing\n  Scenario:\n    Given failing"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --format=plain features/issue64_case3.feature\"", 
+                        "clause": "when", 
+                        "index": 73
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 75, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n2 scenarios passed, 1 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Failing in First and Last Scenario", 
+                "index": 80
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue64_case4.feature\" with:", 
+                        "clause": "given", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 82, 
+                        "content": "Feature: Failing in First and Last Scenario\n  Scenario:\n    Given failing\n  Scenario:\n    Given passing\n  Scenario:\n    Given failing"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --format=plain features/issue64_case4.feature\"", 
+                        "clause": "when", 
+                        "index": 91
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 92
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 93, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n1 scenario passed, 2 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,278 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Summary with Undefined Steps", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": ". SPECIFICATION:\n.  * An undefined step should be counted as \"undefined\" step.\n.  * An undefined step should cause its scenario to fail.\n.  * If an undefined step is detected the remaining scenario steps are skipped.\n.\n. RELATED TO:\n.  * issue"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 11, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 12
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 15, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Undefined step as first step in a scenario", 
+                "index": 23
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/summary_undefined_first_step.feature\" with:", 
+                        "clause": "given", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 25, 
+                        "content": "Feature:\n  Scenario:\n    Given an undefined step is used\n    When a step passes\n    Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/summary_undefined_first_step.feature\"", 
+                        "clause": "when", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 34, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped\n0 steps passed, 0 failed, 2 skipped, 1 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Undefined step as last step in a scenario", 
+                "index": 40
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/summary_undefined_last_step.feature\" with:", 
+                        "clause": "given", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When an undefined step is used"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/summary_undefined_last_step.feature\"", 
+                        "clause": "when", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 50, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 1 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Undefined step as middle step in a scenario", 
+                "index": 57
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/summary_undefined_middle_step.feature\" with:", 
+                        "clause": "given", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When an undefined step is used\n    Then a step passes\n    And  a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/summary_undefined_middle_step.feature\"", 
+                        "clause": "when", 
+                        "index": 67
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 68
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 69, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 0 failed, 2 skipped, 1 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Two undefined steps in same scenario, all are detected (skipped)", 
+                "index": 75
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/summary_undefined_step2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 77, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When an undefined step is used\n    Then a step passes\n    And  another undefined step is used"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/summary_undefined_step2.feature\"", 
+                        "clause": "when", 
+                        "index": 85
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 86
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 87, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 0 failed, 1 skipped, 2 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Two undefined steps in different scenarios", 
+                "index": 94
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/summary_undefined_step_and_another.feature\" with:", 
+                        "clause": "given", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 96, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When an undefined step is used\n    Then a step passes\n\n  Scenario:\n    Given an undefined step is used\n    When a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/summary_undefined_step_and_another.feature\"", 
+                        "clause": "when", 
+                        "index": 107
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 108
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 109, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 2 failed, 0 skipped\n1 step passed, 0 failed, 2 skipped, 2 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

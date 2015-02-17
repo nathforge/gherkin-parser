@@ -1,0 +1,95 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #181: Escape apostrophes in undefined steps snippets", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". I have noticed that, for the following line in my features file:\n.\n.   Then I'm redirected to http://www.example.com\n.\n. Behave outputs the following:\n.\n.   @then(u'I'm redirected to http://www.example.com')\n.   def step_impl(context):\n.       assert False"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 14
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"features/steps/steps.py\"", 
+                        "clause": "given", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/issue181_example.feature\" with", 
+                        "clause": "given", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 18, 
+                        "content": "Feature:\n  Scenario:\n    Given I'm using an \"undefined step\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/issue181_example.feature\"", 
+                        "clause": "when", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 25, 
+                        "content": "0 steps passed, 0 failed, 0 skipped, 1 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 29, 
+                        "content": "You can implement step definitions for undefined steps with these snippets:\n\n@given(u'I\\'m using an \"undefined step\"')\ndef step_impl(context):\n    raise NotImplementedError(u'STEP: Given I\\'m using an \"undefined step\"')"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,290 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue", 
+            "only.with_python2=true"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #288 -- print() needed in \"environment.py\" file or steps", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": ". QUICKFIX: Apply to your code base\n.   pip install modernize\n.   python-modernize --fix=libmodernize.fixes.fix_print my_directory/\n.   python-modernize --fix=libmodernize.fixes.fix_print --write my_directory/\n.\n. NOTE: Currently, the feature describes the implemented behaviour of behave."
+    }, 
+    "background": {
+        "title": {
+            "content": "Feature Setup", 
+            "index": 11
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 12
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 13
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 14, 
+                    "content": "from __future__ import unicode_literals\nfrom behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass"
+                }
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/e1.feature\" with:", 
+                    "clause": "given", 
+                    "index": 22
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 23, 
+                    "content": "Feature:\n    Scenario: Alice\n        Given a step passes\n        Then another step passes\n\n    Scenario: Bob\n        Given some step passes"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Environment File Example", 
+                "index": 34
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "def before_all(context):\n    print \"HELLO @before_all\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features\"", 
+                        "clause": "when", 
+                        "index": 40
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "File \"features/environment.py\", line 2\n      print \"HELLO @before_all\"\n                              ^\n  SyntaxError: invalid syntax"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Module imported from environment file is unaffected", 
+                "index": 49
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 51, 
+                        "content": "from __future__ import absolute_import, print_function\nfrom foo import hello\n\ndef before_all(context):\n    hello(\"@before_all\")"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"foo.py\" with:", 
+                        "clause": "given", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "def hello(text):\n    print \"HELLO \"+ text"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features\"", 
+                        "clause": "when", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 65, 
+                        "content": "2 scenarios passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Steps Example", 
+                "index": 70
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/print_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 72, 
+                        "content": "from __future__ import unicode_literals\nfrom behave import step\n\n@step('I print \"{text}\"')\ndef step_print(context, text):\n    print \"HELLO STEP \"+ text"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features\"", 
+                        "clause": "when", 
+                        "index": 80
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 82, 
+                        "content": "File \"features/steps/print_steps.py\", line 6\n    print \"HELLO STEP \"+ text\n                      ^\nSyntaxError: invalid syntax"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Step imports other module with print statement", 
+                "index": 89
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/print_steps2.py\" with:", 
+                        "clause": "given", 
+                        "index": 90
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 91, 
+                        "content": "from __future__ import unicode_literals\nfrom behave import step\nfrom bar import hello\n\n@step('I print \"{text}\"')\ndef step_print(context, text):\n    hello(text)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"bar.py\" with:", 
+                        "clause": "given", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 101, 
+                        "content": "def hello(text):\n    print \"HELLO \"+ text"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/e2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 106, 
+                        "content": "Feature:\n    Scenario: Charly\n        Given I print \"Lorem ipsum\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-capture features/e2.feature\"", 
+                        "clause": "when", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 112
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 113, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 118, 
+                        "content": "HELLO Lorem ipsum"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

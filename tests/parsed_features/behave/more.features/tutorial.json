@@ -1,0 +1,51 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "showing off behave", 
+        "index": 0
+    }, 
+    "description": null, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "run a simple test", 
+                "index": 2
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "we have behave installed", 
+                        "clause": "given", 
+                        "index": 3
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "we implement a test", 
+                        "clause": "when", 
+                        "index": 4
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "behave will test it for us!", 
+                        "clause": "then", 
+                        "index": 5
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

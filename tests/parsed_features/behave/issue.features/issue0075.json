@@ -1,0 +1,64 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #75: behave @features_from_text_file does not work", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". Feature of Cucumber. Reading the source code, I see it partly implemented.\n.\n.   $ behave @list_of_features.txt\n.   https://github.com/jeamland/behave/blob/master/behave/runner.py\n.\n. However it fails because:\n.  * it does not remove the @ from the path\n.  * it does not search the steps/ directory in the parents of the feature files themselves"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 13, 
+                "content": [
+                    "reuse.colocated_test"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use feature listfile", 
+                "index": 14
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I use the current directory as working directory", 
+                        "clause": "given", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/runner.feature_listfile.feature\"", 
+                        "clause": "when", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

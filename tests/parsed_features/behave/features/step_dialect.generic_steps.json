@@ -1,0 +1,343 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Step dialect for generic steps", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a test/story writer\nI want to have a possibility to use generic steps\nSo that I can execute a sequence of steps without BDD keywords (Given/When/Then)\n\n. SPECIFICATION: Generic step\n.   * Prefix each step with a '*' (asterisk/star) character to mark it as step\n.   * Provide step-functions/step definition with \"@step\" decorator"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 11, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 12
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 15, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass\n\n@step('{word:w} step passes with \"{param}\"')\ndef step_passes_with_param(context, word, param):\n    pass\n\n@step('a multi-line text step with')\ndef step_with_multiline_text(context):\n    assert context.text is not None, \"REQUIRE: multi-line text\"\n\n@step('a step fails with \"{param}\"')\ndef step_fails_with_param(context, param=None):\n    assert False, \"XFAIL-STEP: %s\" % param\n\n@step('a step fails')\ndef step_fails(context):\n    assert False, \"XFAIL-STEP\"\n\n@step('a table step with')\ndef step_with_table(context):\n    assert context.table, \"REQUIRES: table\"\n    context.table.require_columns([\"name\", \"age\"])"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Simple step-by-step example", 
+                "index": 45
+            }, 
+            "description": {
+                "index": 47, 
+                "content": "* a step passes\n* another step passes"
+            }, 
+            "steps": [], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Simple step-by-step example 2", 
+                "index": 51
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/generic_steps.feature\" with:", 
+                        "clause": "given", 
+                        "index": 52
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 53, 
+                        "content": "Feature:\n  Scenario:\n    * a step passes\n    * another step passes\n    * a step passes with \"Alice\"\n    * another step passes with \"Bob\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/generic_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 61
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 62
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 63, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n4 steps passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 67
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 68, 
+                        "content": "Feature:\n  Scenario:\n    * a step passes ... passed\n    * another step passes ... passed\n    * a step passes with \"Alice\" ... passed\n    * another step passes with \"Bob\" ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Simple step-by-step example with failing steps", 
+                "index": 77
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/generic_steps.failing.feature\" with:", 
+                        "clause": "given", 
+                        "index": 78
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 79, 
+                        "content": "Feature:\n  Scenario:\n    * a step passes\n    * a step fails with \"Alice\"\n    * a step fails with \"Bob\"\n    * another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/generic_steps.failing.feature\"", 
+                        "clause": "when", 
+                        "index": 87
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 89, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 2 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 93
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 94, 
+                        "content": "Feature:\n  Scenario:\n    * a step passes ... passed\n    * a step fails with \"Alice\" ... failed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Simple step-by-step example with scenario description", 
+                "index": 102
+            }, 
+            "description": {
+                "index": 104, 
+                "content": "CASE: Ensure that first step is discovered after last description line."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/generic_steps.with_description.feature\" with:", 
+                        "clause": "given", 
+                        "index": 106
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 107, 
+                        "content": "Feature:\n  Scenario:\n\n    First scenario description line.\n    Second scenario description line.\n\n      * a step passes\n      * another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/generic_steps.with_description.feature\"", 
+                        "clause": "when", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 118
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 119, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n2 steps passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Simple step-by-step example with multi-line text", 
+                "index": 125
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/generic_steps.with_text.feature\" with:", 
+                        "clause": "given", 
+                        "index": 126
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 127, 
+                        "content": "Feature:\n  Scenario:\n    * a step passes\n    * a multi-line text step with:\n        \"\"\"\n        First line of multi-line text.\n        Second-line of multi-line text.\n        \"\"\"\n    * another step passes with \"Charly\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/generic_steps.with_text.feature\"", 
+                        "clause": "when", 
+                        "index": 138
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 139
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 140, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 144
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 145, 
+                        "content": "Feature:\n\n  Scenario:\n    * a step passes ... passed\n    * a multi-line text step with ... passed\n      \"\"\"\n      First line of multi-line text.\n      Second-line of multi-line text.\n      \"\"\"\n    * another step passes with \"Charly\" ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Simple step-by-step example with table", 
+                "index": 158
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/generic_steps.with_table.feature\" with:", 
+                        "clause": "given", 
+                        "index": 159
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 160, 
+                        "content": "Feature:\n  Scenario:\n    * a step passes\n    * a table step with:\n        | name  | age |\n        | Alice | 10  |\n        | Bob   | 12  |\n    * another step passes with \"Dodo\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/generic_steps.with_table.feature\"", 
+                        "clause": "when", 
+                        "index": 170
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 171
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 172, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 176
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 177, 
+                        "content": "Feature:\n  Scenario:\n    * a step passes ... passed\n    * a table step with ... passed\n        | name  | age |\n        | Alice | 10  |\n        | Bob   | 12  |\n    * another step passes with \"Dodo\" ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

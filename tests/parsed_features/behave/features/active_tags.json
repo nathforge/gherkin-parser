@@ -1,0 +1,828 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Active Tags", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a test writer\nI want that some tags are evaluated at runtime\nSo that some features/scenarios automatically excluded from the run-set.\n\n. SPECIFICATION: Active tag\n.   * An active tag is evaluated at runtime.\n.   * An active tag is either enabled or disabled (decided by runtime decision logic).\n.   * A disabled active tag causes that its feature/scenario is excluded from the run-set.\n.   * If several active tags are used for a feature/scenario/scenario outline,\n.     the following tag logic is used:\n.\n.     enabled = enabled1 and enabled2 and ...\n.\n. ACTIVE TAG SCHEMA (dialect1):\n.     @active.with_{category}={value}\n.     @not_active.with_{category}={value}\n.\n. ACTIVE TAG SCHEMA (dialect2):\n.     @use.with_{category}={value}\n.     @not.with_{category}={value}\n.     @only.with_{category}={value}\n.\n. RATIONALE:\n.   Some aspects of the runtime environment are only known\n.   when the tests are running. Therefore, it many cases it is simpler\n.   to use such a mechanism as \"active tags\" instead of moving this decision\n.   to the build-script that runs the tests.\n.\n.   This allows to automatically skip some tests (scenarios, features)\n.   that would otherwise fail anyway.\n.\n. NOTE:\n.   * DRY-RUN MODE: Hooks are not called in dry-run mode."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 37, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 38
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/pass_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 40
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 41, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 49, 
+                        "content": "from behave.tag_matcher import ActiveTagMatcher\nimport sys\n\n# -- ACTIVE TAG SUPPORT: @use.with_{category}={value}, ...\nactive_tag_value_provider = {\n    \"browser\":   \"chrome\",\n    \"webserver\": \"apache\",\n}\nactive_tag_matcher = ActiveTagMatcher(active_tag_value_provider)\n\ndef setup_active_tag_values(userdata):\n    for key in active_tag_value_provider.keys():\n        if key in userdata:\n            active_tag_value_provider[key] = userdata[key]\n\ndef before_all(context):\n    setup_active_tag_values(context.config.userdata)\n\ndef before_scenario(context, scenario):\n    if active_tag_matcher.should_exclude_with(scenario.effective_tags):\n        sys.stdout.write(\"ACTIVE-TAG DISABLED: Scenario %s\\n\" % scenario.name)\n        scenario.skip(active_tag_matcher.exclude_reason)"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use tag schema dialect2 with one category", 
+                "index": 74
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/e1.active_tags.feature\" with:", 
+                        "clause": "given", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 76, 
+                        "content": "Feature:\n\n  @use.with_browser=chrome\n  Scenario: Alice (Run only with Web-Browser Chrome)\n    Given a step passes\n    When another step passes\n\n  @only.with_browser=safari\n  Scenario: Bob (Run only with Web-Browser Safari)\n    Given some step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/e1.active_tags.feature\"", 
+                        "clause": "when", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 90, 
+                        "content": "1 scenario passed, 0 failed, 1 skipped\n2 steps passed, 0 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 95, 
+                        "content": "ACTIVE-TAG DISABLED: Scenario Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 98
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 99, 
+                        "content": "ACTIVE-TAG DISABLED: Scenario Alice"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use tag schema dialect1 with several categories", 
+                "index": 104
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/e2.active_tags.feature\" with:", 
+                        "clause": "given", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 106, 
+                        "content": "Feature:\n\n  @active.with_webserver=apache\n  Scenario: Alice (Run only with Apache Web-Server)\n    Given a step passes\n    When another step passes\n\n  @active.with_browser=safari\n  Scenario: Bob (Run only with Safari Web-Browser)\n    Given another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -D browser=firefox features/e2.active_tags.feature\"", 
+                        "clause": "when", 
+                        "index": 118
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 119
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 120, 
+                        "content": "1 scenario passed, 0 failed, 1 skipped\n2 steps passed, 0 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 124
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 125, 
+                        "content": "ACTIVE-TAG DISABLED: Scenario Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 128
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 129, 
+                        "content": "ACTIVE-TAG DISABLED: Scenario Alice"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": true, 
+                "content": "Use active tags with positive and negative logic: <browser>", 
+                "index": 133
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/e3.active_tags.feature\" with:", 
+                        "clause": "given", 
+                        "index": 134
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 135, 
+                        "content": "Feature:\n\n  @active.with_browser=chrome\n  Scenario: Alice\n    Given a step passes\n    When another step passes\n\n  @not_active.with_browser=opera\n  Scenario: Bob\n    Given another step passes\n\n  @use.with_browser=safari\n  Scenario: Charly\n    Given some step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -D browser=<browser> features/e3.active_tags.feature\"", 
+                        "clause": "when", 
+                        "index": 151
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 152
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 153, 
+                        "content": "ACTIVE-TAG DISABLED: Scenario <disabled scenario>"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 156
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 157, 
+                        "content": "ACTIVE-TAG DISABLED: Scenario <enabled scenario>"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"<comment>\"", 
+                        "clause": "then", 
+                        "index": 160
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 162
+                }, 
+                "table": [
+                    {
+                        "index": 163, 
+                        "columns": [
+                            "browser", 
+                            "enabled scenario", 
+                            "disabled scenario", 
+                            "comment"
+                        ]
+                    }, 
+                    {
+                        "index": 164, 
+                        "columns": [
+                            "chrome", 
+                            "Alice", 
+                            "Charly", 
+                            "Bob is also enabled"
+                        ]
+                    }, 
+                    {
+                        "index": 165, 
+                        "columns": [
+                            "firefox", 
+                            "Bob", 
+                            "Alice", 
+                            "Charly is also disabled"
+                        ]
+                    }, 
+                    {
+                        "index": 166, 
+                        "columns": [
+                            "safari", 
+                            "Charly", 
+                            "Alice", 
+                            "Bob is also enabled"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Tag logic with one active tag", 
+                "index": 169
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I setup the current values for active tags with:", 
+                        "clause": "given", 
+                        "index": 170
+                    }, 
+                    "table": [
+                        {
+                            "index": 171, 
+                            "columns": [
+                                "category", 
+                                "value"
+                            ]
+                        }, 
+                        {
+                            "index": 172, 
+                            "columns": [
+                                "foo", 
+                                "xxx"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following active tag combinations are enabled:", 
+                        "clause": "then", 
+                        "index": 173
+                    }, 
+                    "table": [
+                        {
+                            "index": 174, 
+                            "columns": [
+                                "tags", 
+                                "enabled?"
+                            ]
+                        }, 
+                        {
+                            "index": 175, 
+                            "columns": [
+                                "@active.with_foo=xxx", 
+                                "yes"
+                            ]
+                        }, 
+                        {
+                            "index": 176, 
+                            "columns": [
+                                "@active.with_foo=other", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 177, 
+                            "columns": [
+                                "@not_active.with_foo=xxx", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 178, 
+                            "columns": [
+                                "@not_active.with_foo=other", 
+                                "yes"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following active tag combinations are enabled:", 
+                        "clause": "then", 
+                        "index": 179
+                    }, 
+                    "table": [
+                        {
+                            "index": 180, 
+                            "columns": [
+                                "tags", 
+                                "enabled?"
+                            ]
+                        }, 
+                        {
+                            "index": 181, 
+                            "columns": [
+                                "@use.with_foo=xxx", 
+                                "yes"
+                            ]
+                        }, 
+                        {
+                            "index": 182, 
+                            "columns": [
+                                "@use.with_foo=other", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 183, 
+                            "columns": [
+                                "@only.with_foo=xxx", 
+                                "yes"
+                            ]
+                        }, 
+                        {
+                            "index": 184, 
+                            "columns": [
+                                "@only.with_foo=other", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 185, 
+                            "columns": [
+                                "@not.with_foo=xxx", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 186, 
+                            "columns": [
+                                "@not.with_foo=other", 
+                                "yes"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Tag logic with two active tags", 
+                "index": 189
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I setup the current values for active tags with:", 
+                        "clause": "given", 
+                        "index": 190
+                    }, 
+                    "table": [
+                        {
+                            "index": 191, 
+                            "columns": [
+                                "category", 
+                                "value"
+                            ]
+                        }, 
+                        {
+                            "index": 192, 
+                            "columns": [
+                                "foo", 
+                                "xxx"
+                            ]
+                        }, 
+                        {
+                            "index": 193, 
+                            "columns": [
+                                "bar", 
+                                "zzz"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following active tag combinations are enabled:", 
+                        "clause": "then", 
+                        "index": 194
+                    }, 
+                    "table": [
+                        {
+                            "index": 195, 
+                            "columns": [
+                                "tags", 
+                                "enabled?"
+                            ]
+                        }, 
+                        {
+                            "index": 196, 
+                            "columns": [
+                                "@use.with_foo=xxx   @use.with_bar=zzz", 
+                                "yes"
+                            ]
+                        }, 
+                        {
+                            "index": 197, 
+                            "columns": [
+                                "@use.with_foo=xxx   @use.with_bar=other", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 198, 
+                            "columns": [
+                                "@use.with_foo=other @use.with_bar=zzz", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 199, 
+                            "columns": [
+                                "@use.with_foo=other @use.with_bar=other", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 200, 
+                            "columns": [
+                                "@not.with_foo=xxx   @use.with_bar=zzz", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 201, 
+                            "columns": [
+                                "@not.with_foo=xxx   @use.with_bar=other", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 202, 
+                            "columns": [
+                                "@not.with_foo=other @use.with_bar=zzz", 
+                                "yes"
+                            ]
+                        }, 
+                        {
+                            "index": 203, 
+                            "columns": [
+                                "@not.with_foo=other @use.with_bar=other", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 204, 
+                            "columns": [
+                                "@use.with_foo=xxx   @not.with_bar=zzz", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 205, 
+                            "columns": [
+                                "@use.with_foo=xxx   @not.with_bar=other", 
+                                "yes"
+                            ]
+                        }, 
+                        {
+                            "index": 206, 
+                            "columns": [
+                                "@use.with_foo=other @not.with_bar=zzz", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 207, 
+                            "columns": [
+                                "@use.with_foo=other @not.with_bar=other", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 208, 
+                            "columns": [
+                                "@not.with_foo=xxx   @not.with_bar=zzz", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 209, 
+                            "columns": [
+                                "@not.with_foo=xxx   @not.with_bar=other", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 210, 
+                            "columns": [
+                                "@not.with_foo=other @not.with_bar=zzz", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 211, 
+                            "columns": [
+                                "@not.with_foo=other @not.with_bar=other", 
+                                "yes"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Tag logic with unknown categories (case: ignored)", 
+                "index": 214
+            }, 
+            "description": {
+                "index": 216, 
+                "content": "Unknown categories (where a value is missing) are ignored by default.\nTherefore, the active tag that uses an unknown category acts\nas if it is always enabled (even in the negated case)."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I setup the current values for active tags with:", 
+                        "clause": "given", 
+                        "index": 220
+                    }, 
+                    "table": [
+                        {
+                            "index": 221, 
+                            "columns": [
+                                "category", 
+                                "value"
+                            ]
+                        }, 
+                        {
+                            "index": 222, 
+                            "columns": [
+                                "foo", 
+                                "xxx"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "unknown categories are ignored in active tags", 
+                        "clause": "when", 
+                        "index": 223
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following active tag combinations are enabled:", 
+                        "clause": "then", 
+                        "index": 224
+                    }, 
+                    "table": [
+                        {
+                            "index": 225, 
+                            "columns": [
+                                "tags", 
+                                "enabled?"
+                            ]
+                        }, 
+                        {
+                            "index": 226, 
+                            "columns": [
+                                "@use.with_unknown=xxx", 
+                                "yes"
+                            ]
+                        }, 
+                        {
+                            "index": 227, 
+                            "columns": [
+                                "@use.with_unknown=zzz", 
+                                "yes"
+                            ]
+                        }, 
+                        {
+                            "index": 228, 
+                            "columns": [
+                                "@not.with_unknown=xxx", 
+                                "yes"
+                            ]
+                        }, 
+                        {
+                            "index": 229, 
+                            "columns": [
+                                "@not.with_unknown=zzz", 
+                                "yes"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the active tag with the unknown category acts like a passive tag\"", 
+                        "clause": "then", 
+                        "index": 230
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Tag logic with unknown categories (case: not ignored)", 
+                "index": 233
+            }, 
+            "description": {
+                "index": 235, 
+                "content": "If unknown categories are not ignored, then the active tag is disabled."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I setup the current values for active tags with:", 
+                        "clause": "given", 
+                        "index": 237
+                    }, 
+                    "table": [
+                        {
+                            "index": 238, 
+                            "columns": [
+                                "category", 
+                                "value"
+                            ]
+                        }, 
+                        {
+                            "index": 239, 
+                            "columns": [
+                                "foo", 
+                                "xxx"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "unknown categories are not ignored in active tags", 
+                        "clause": "when", 
+                        "index": 240
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the following active tag combinations are enabled:", 
+                        "clause": "then", 
+                        "index": 241
+                    }, 
+                    "table": [
+                        {
+                            "index": 242, 
+                            "columns": [
+                                "tags", 
+                                "enabled?"
+                            ]
+                        }, 
+                        {
+                            "index": 243, 
+                            "columns": [
+                                "@use.with_unknown=xxx", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 244, 
+                            "columns": [
+                                "@use.with_unknown=zzz", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 245, 
+                            "columns": [
+                                "@not.with_unknown=xxx", 
+                                "yes"
+                            ]
+                        }, 
+                        {
+                            "index": 246, 
+                            "columns": [
+                                "@not.with_unknown=zzz", 
+                                "yes"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the active tag with the unknown category is disabled\"", 
+                        "clause": "then", 
+                        "index": 247
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

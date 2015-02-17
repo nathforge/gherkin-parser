@@ -1,0 +1,174 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Global Context Parameters defined in environment file", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": ". SPECIFICATION:\n.   * When a Context parameter is defined in \"environment.py\",\n.     its value is provided to all scenarios (steps).\n.   * Each scenario has the same global parameters (and values).\n.   * A scenario (step) may modify global parameters (values).\n.   * After a scenario is executed all changes to Context parameters are reverted."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup Description (Example)", 
+                "index": 9
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 11, 
+                        "content": "def before_all(context):\n    context.global_name = \"env:Alice\"\n    context.global_age  = 12"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Modify global Context parameter in Scenario Step", 
+                "index": 17
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the behave context contains:", 
+                        "clause": "given", 
+                        "index": 18
+                    }, 
+                    "table": [
+                        {
+                            "index": 19, 
+                            "columns": [
+                                "Parameter", 
+                                "Value"
+                            ]
+                        }, 
+                        {
+                            "index": 20, 
+                            "columns": [
+                                "global_name", 
+                                "\"env:Alice\""
+                            ]
+                        }, 
+                        {
+                            "index": 21, 
+                            "columns": [
+                                "global_age", 
+                                "12"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I set the context parameter \"global_name\" to \"step:Bob\"", 
+                        "clause": "when", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the behave context should contain:", 
+                        "clause": "then", 
+                        "index": 23
+                    }, 
+                    "table": [
+                        {
+                            "index": 24, 
+                            "columns": [
+                                "Parameter", 
+                                "Value"
+                            ]
+                        }, 
+                        {
+                            "index": 25, 
+                            "columns": [
+                                "global_name", 
+                                "\"step:Bob\""
+                            ]
+                        }, 
+                        {
+                            "index": 26, 
+                            "columns": [
+                                "global_age", 
+                                "12"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Ensure that Global Context parameter is reset for next Scenario", 
+                "index": 28
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the behave context should have a parameter \"global_name\"", 
+                        "clause": "then", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the behave context should contain:", 
+                        "clause": "then", 
+                        "index": 30
+                    }, 
+                    "table": [
+                        {
+                            "index": 31, 
+                            "columns": [
+                                "Parameter", 
+                                "Value"
+                            ]
+                        }, 
+                        {
+                            "index": 32, 
+                            "columns": [
+                                "global_name", 
+                                "\"env:Alice\""
+                            ]
+                        }, 
+                        {
+                            "index": 33, 
+                            "columns": [
+                                "global_age", 
+                                "12"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

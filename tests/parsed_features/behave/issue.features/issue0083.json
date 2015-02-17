@@ -1,0 +1,244 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #83: behave.__main__:main() Various sys.exit issues", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". Currently, the main function has several issues related\n. to sys.exit() returncode usage:\n.\n. 1. sys.exit(\"string\") is invalid, a number must be used:\n.    => Used in exception cases after run (ParseError, ConfigError)\n.\n. 2. On success, the main() function returns implicitly None\n.    instead of using sys.exit(0)\n.    => No statement at end of function after failed case."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 13, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 14
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 17, 
+                        "content": "from behave import step\n\n@step(u'a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Successful test run", 
+                "index": 25
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/passing.feature\" with:", 
+                        "clause": "given", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 27, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When  a step passes\n    Then  a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/passing.feature\"", 
+                        "clause": "when", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command returncode is \"0\"", 
+                        "clause": "then", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "ParseError occurs", 
+                "index": 38
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/invalid_with_ParseError.feature\" with:", 
+                        "clause": "given", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 40, 
+                        "content": "Feature:\n  Scenario: Invalid scenario which raises ParseError\n    Given a step passes\n    When2 a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/invalid_with_ParseError.feature\"", 
+                        "clause": "when", 
+                        "index": 46
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 47
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command returncode is non-zero", 
+                        "clause": "then", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 50, 
+                        "content": "Failed to parse \"{__WORKDIR__}/features/invalid_with_ParseError.feature\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "ConfigError occurs", 
+                "index": 54
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/passing2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 56
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 57, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/passing2.feature\"", 
+                        "clause": "when", 
+                        "index": 62
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command returncode is non-zero", 
+                        "clause": "then", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 66, 
+                        "content": "No steps directory in \"{__WORKDIR__}/features\""
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

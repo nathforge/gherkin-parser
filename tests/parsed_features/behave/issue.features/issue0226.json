@@ -1,0 +1,153 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue", 
+            "unicode"
+        ]
+    }, 
+    "title": {
+        "content": "UnicodeDecodeError in tracebacks (when an exception in a step implementation)", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": ". Exception with non-ASCII character is raised in a step implementation.\n. UnicodeDecodeError occurs with:\n.   'ascii' codec can't decode byte 0x82 in position 11: ordinal not in range(128)\n.\n. RELATED:\n.   * features/i18n.unicode_problems.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 11, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 12
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 15, 
+                        "content": "from behave import step\n\n@step(u'a step raises an exception with non-ASCII character \"{char_code:d}\"')\ndef step_raises_exception_with_non_ascii_text(context, char_code):\n    assert 0 <= char_code <= 255, \"RANGE-ERROR: char_code=%s\" % char_code\n    raise RuntimeError(\"FAIL:\"+ chr(char_code) +\";\")"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": true, 
+                "content": "Syndrome with non-ASCII char <char_code> (format=<format>)", 
+                "index": 24
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/syndrome_0226_<char_code>.feature\" with:", 
+                        "clause": "given", 
+                        "index": 25
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 26, 
+                        "content": "Feature:\n  Scenario:\n    Given a step raises an exception with non-ASCII character \"<char_code>\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/syndrome_0226_<char_code>.feature\"", 
+                        "clause": "when", 
+                        "index": 31
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 33, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n0 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain \"UnicodeDecodeError\"", 
+                        "clause": "then", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 39, 
+                        "content": "RuntimeError: FAIL:"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 43
+                }, 
+                "table": [
+                    {
+                        "index": 44, 
+                        "columns": [
+                            "format", 
+                            "char_code"
+                        ]
+                    }, 
+                    {
+                        "index": 45, 
+                        "columns": [
+                            "plain", 
+                            "130"
+                        ]
+                    }, 
+                    {
+                        "index": 46, 
+                        "columns": [
+                            "pretty", 
+                            "190"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

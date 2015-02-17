@@ -1,0 +1,286 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Parse integer data types in step parameters (type transformation)", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a test writer\nI want write steps with parameter that should have integer data types\nSo that I can just use the step parameter with the correct type\n\n\nBehave uses the parse module (inverse of Python string.format).\nTherefore, the following ``parse types`` for integer numbers are already supported:\n\n  ===== =========================================== ============= ================================\n  Type  Characters Matched (regex class)            Output Type   Example(s)\n  ===== =========================================== ============= ================================\n   d     Digits (effectively integer numbers)        int           12345  0b101  0o761  0x1ABE\n   n     Numbers with thousands separators (, or .)  int           12,345\n   b     Binary numbers                              int           10111  0b1011\n   o     Octal numbers                               int           07654  0o123\n   x     Hexadecimal numbers (lower and upper case)  int           DEADBEAF  0xBEEF\n  ===== =========================================== ============= ================================\n\n  SEE ALSO:\n    * http://pypi.python.org/pypi/parse\n    * string.format: http://docs.python.org/library/string.html"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 26, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 27
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/integer_param_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 30, 
+                        "content": "from behave import then, step\nfrom six import integer_types\n\nclass NotMatched(object): pass\n\n@step('a integer param with \"{value:d}\"')\ndef step_integer_param_with(context, value):\n    assert isinstance(value, integer_types), \"value.type=%s\" % type(value)\n    context.value = value\n\n@step('a integer param with \"{value}\"')\ndef step_integer_param_otherwise(context, value):\n    context.value = NotMatched\n\n@step('a number param with \"{value:n}\"')\ndef step_number_param_with(context, value):\n    step_integer_param_with(context, value)\n\n@step('a number param with \"{value}\"')\ndef step_number_param_otherwise(context, value):\n    step_integer_param_otherwise(context, value)\n\n@step('a binary number param with \"{value:b}\"')\ndef step_binary_param_with(context, value):\n    step_integer_param_with(context, value)\n\n@step('a binary number param with \"{value}\"')\ndef step_binary_param_otherwise(context, value):\n    step_integer_param_otherwise(context, value)\n\n@step('a octal number param with \"{value:o}\"')\ndef step_hexadecimal_param_with(context, value):\n    step_integer_param_with(context, value)\n\n@step('a octal number param with \"{value}\"')\ndef step_hexadecimal_param_otherwise(context, value):\n    step_integer_param_otherwise(context, value)\n\n@step('a hexadecimal number param with \"{value:x}\"')\ndef step_hexadecimal_param_with(context, value):\n    step_integer_param_with(context, value)\n\n@step('a hexadecimal number param with \"{value}\"')\ndef step_hexadecimal_param_otherwise(context, value):\n    step_integer_param_otherwise(context, value)\n\n@then('the value should be {outcome} as integer number')\ndef step_value_should_be_matched_as_number(context, outcome):\n    if outcome == \"matched\":\n        assert isinstance(context.value, integer_types), \\\n                \"Unexpected type: %s\" % type(context.value)\n    else:\n        assert context.value is NotMatched\n\n@then('the value should be {outcome} as integer number with \"{expected:d}\"')\ndef step_value_should_be_matched_as_number_with_expected(context, outcome, expected):\n    step_value_should_be_matched_as_number(context, outcome)\n    assert context.value == expected, \\\n        \"FAILED: value(%s) == expected(%s)\" % (context.value, expected)"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use type \"d\" (Digits) for integer params", 
+                "index": 93
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.int_param.with_type_d.feature\" with:", 
+                        "clause": "given", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 95, 
+                        "content": "Feature: Use type \"d\" (Digits) for integer params\n\n  Scenario Outline: Good cases\n    Given a integer param with \"<Value>\"\n    Then the value should be matched as integer number with \"<Expected Value>\"\n\n  Examples:\n    | Value  | Expected Value | Case |\n    |  -1    |   -1 | Negative number |\n    |  +1    |    1 | With plus sign  |\n    |   0    |    0 |   |\n    |   1    |    1 |   |\n    |  10    |   10 |   |\n    |  42    |   42 |   |\n\n\n  Scenario Outline: Bad cases (not matched)\n    Given a integer param with \"<Value>\"\n    Then the value should be <Outcome> as integer number\n\n  Examples:\n    | Value  | Outcome     | Reason |\n    |  1.23  | not-matched | Float number |\n    |  1E+2  | not-matched | Float number |\n    |  Alice | not-matched | Not a number |\n\n\n  Scenario Outline: Conversion from other number system (base=2, 8, 16)\n    Given a integer param with \"<Value>\"\n    Then the value should be matched as integer number with \"<Expected Value>\"\n\n  Examples:\n    | Value   | Expected Value | Case |\n    |  0b1011 |    11 | Binary number |\n    |  0o123  |    83 | Octal number  |\n    |  0xBEEF | 48879 | Hexadecimal number |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.int_param.with_type_d.feature\"", 
+                        "clause": "when", 
+                        "index": 133
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 134
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 135, 
+                        "content": "12 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use type \"n\" (Number) for integer params", 
+                "index": 139
+            }, 
+            "description": {
+                "index": 141, 
+                "content": "This data type supports numbers with thousands separators (',' or '.')."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.int_param.with_type_n.feature\" with:", 
+                        "clause": "given", 
+                        "index": 143
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 144, 
+                        "content": "Feature: Use type \"n\" (Number) for integer params\n\n  Scenario Outline: Good cases\n    Given a number param with \"<Value>\"\n    Then the value should be matched as integer number with \"<Expected Value>\"\n\n  Examples:\n    | Value       | Expected Value |\n    |          -1 |       -1 |\n    |           0 |        0 |\n    |           1 |        1 |\n    |          10 |       10 |\n    |      12.345 |    12345 |\n    |      12,543 |    12543 |\n    |  12,345.678 | 12345678 |\n    |  12.345,678 | 12345678 |\n\n\n  Scenario Outline: Bad cases (not matched)\n    Given a number param with \"<Value>\"\n    Then the value should be <Outcome> as integer number\n\n  Examples:\n    | Value   | Outcome     | Reason |\n    |  123.34 | not-matched | Separator in wrong position |\n    |  1.23   | not-matched | Float number or separator in wrong position |\n    |  1E+2   | not-matched | Float number |\n    |  Alice  | not-matched | Not a number |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.int_param.with_type_n.feature\"", 
+                        "clause": "when", 
+                        "index": 174
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 175
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 176, 
+                        "content": "12 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use type \"b\" (Binary Number) for integer params", 
+                "index": 180
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.int_param.with_type_b.feature\" with:", 
+                        "clause": "given", 
+                        "index": 181
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 182, 
+                        "content": "Feature: Use type \"b\" (Binary number) for integer params\n\n  Scenario Outline: Good cases\n    Given a binary number param with \"<Value>\"\n    Then the value should be matched as integer number with \"<Expected Value>\"\n\n  Examples:\n    | Value    | Expected Value | Case |\n    |        0 |    0 |                |\n    |        1 |    1 |                |\n    |       10 |    2 |                |\n    |       11 |    3 |                |\n    |      100 |    4 |                |\n    |      101 |    5 |                |\n    |     0111 |    7 | With padded, leading zero      |\n    |   0b1001 |    9 | With binary number prefix \"0b\" |\n    |   0b1011 |   11 | With binary number prefix \"0b\" |\n    | 10000000 |  128 | Larger binary number |\n\n  Scenario Outline: Bad cases (not matched)\n    Given a binary number param with \"<Value>\"\n    Then the value should be <Outcome> as integer number\n\n  Examples:\n    | Value  | Outcome     | Reason |\n    |    21  | not-matched | Invalid binary number |\n    |  0b21  | not-matched | Invalid binary number with binary number prefix |\n    |  1.23  | not-matched | Float number |\n    |  1E+2  | not-matched | Float number |\n    |  Alice | not-matched | Not a number |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.int_param.with_type_b.feature\"", 
+                        "clause": "when", 
+                        "index": 214
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 215
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 216, 
+                        "content": "15 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use type \"o\" (octal number) for integer params", 
+                "index": 220
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.int_param.with_type_o.feature\" with:", 
+                        "clause": "given", 
+                        "index": 221
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 222, 
+                        "content": "Feature: Use type \"o\" (octal number) for integer params\n\n  Scenario Outline: Good cases\n    Given a octal number param with \"<Value>\"\n    Then the value should be matched as integer number with \"<Expected Value>\"\n\n  Examples:\n    | Value    | Expected Value | Case |\n    |        0 |    0 |                |\n    |       12 |   10 |                |\n    |       21 |   17 |                |\n    |       65 |   53 |                |\n    |      123 |   83 |                |\n    |      0o1 |    1 | With leading octal prefix |\n    |     0o12 |   10 |                |\n    |     0o21 |   17 |                |\n\n\n  Scenario Outline: Bad cases (not matched)\n    Given a octal number param with \"<Value>\"\n    Then the value should be <Outcome> as integer number\n\n  Examples:\n    | Value  | Outcome     | Reason |\n    |     8  | not-matched | Invalid octal number |\n    |    81  | not-matched | Invalid octal number |\n    |  0o81  | not-matched | Invalid octal number with octal number prefix |\n    |  1.23  | not-matched | Float number |\n    |  1E+2  | not-matched | Float number |\n    |  Alice | not-matched | Not a number |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.int_param.with_type_o.feature\"", 
+                        "clause": "when", 
+                        "index": 254
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 255
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 256, 
+                        "content": "14 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use type \"x\" (hexadecimal number) for integer params", 
+                "index": 260
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.int_param.with_type_x.feature\" with:", 
+                        "clause": "given", 
+                        "index": 261
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 262, 
+                        "content": "Feature: Use type \"x\" (hexadecimal number) for integer params\n\n  Scenario Outline: Good cases: <Value>\n    Given a hexadecimal number param with \"<Value>\"\n    Then the value should be matched as integer number with \"<Expected Value>\"\n\n  Examples:\n    | Value    | Expected Value | Case       |\n    |        0 |          0 |                |\n    |       12 |         18 |                |\n    |       21 |         33 |                |\n    |       65 |        101 |                |\n    |      123 |        291 |                |\n    |     beef |      48879 | With hexadecimal letters (lowercase)  |\n    |     BEEF |      48879 | With hexadecimal letters (uppercase)  |\n    | deadbeef | 3735928559 | Larger hex number              |\n    | DeadBeef | 3735928559 | Larger hex number (mixed case) |\n    |     0x01 |          1 | With hexadecimal prefix |\n    |     0x12 |         18 |                |\n    |     0x21 |         33 |                |\n    |   0xbeef |      48879 |                |\n    |   0xBeEF |      48879 |                |\n\n\n  Scenario Outline: Bad cases (not matched)\n    Given a hexadecimal number param with \"<Value>\"\n    Then the value should be <Outcome> as integer number\n\n  Examples:\n    | Value  | Outcome     | Reason |\n    |     G  | not-matched | Invalid hex digit |\n    |    G1  | not-matched | Invalid hex number |\n    |  0x1G  | not-matched | Invalid hex number with hex number prefix |\n    |  1.23  | not-matched | Float number |\n    |  1E+2  | not-matched | Float number |\n    |  Alice | not-matched | Not a number |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.int_param.with_type_x.feature\"", 
+                        "clause": "when", 
+                        "index": 300
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 301
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 302, 
+                        "content": "20 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

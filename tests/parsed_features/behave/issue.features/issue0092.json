@@ -1,0 +1,98 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #92: Output from --format=plain shows skipped steps in next scenario", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". DUPLICATED, FIXED-BY: issue\n.\n. Given a feature has more than one scenario\n. When the --format=plain option is used\n.   and a middle step of a scenario fails\n. Then the skipped steps appear under the next scenario"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 11
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/issue92_syndrome.feature\" with:", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 14, 
+                        "content": "Feature: Testing Plain Output\n    Reproduces bug where output from previous scenario appears before current.\n\n    Scenario: First example\n        Given this step works\n        When this step fails\n        Then this step appears in the wrong place\n\n    Scenario: Second example\n        Given this step works\n        When this step fails\n        Then this step appears in the wrong place"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 29, 
+                        "content": "from behave import step\n\n@step(u'this step works')\ndef working(context):\n    pass\n\n\n@step(u'this step fails')\ndef failing(context):\n    assert False, 'step failed'\n\n\n@step(u'this step appears in the wrong place')\ndef missing(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --no-timings --format=plain features/issue92_syndrome.feature\"", 
+                        "clause": "when", 
+                        "index": 46
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 47
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 48, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 2 failed, 0 skipped\n2 steps passed, 2 failed, 2 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 54, 
+                        "content": "Feature: Testing Plain Output\n   Scenario: First example\n       Given this step works ... passed\n        When this step fails ... failed\n   Assertion Failed: step failed\n\n   Scenario: Second example\n       Given this step works ... passed\n        When this step fails ... failed\n   Assertion Failed: step failed"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

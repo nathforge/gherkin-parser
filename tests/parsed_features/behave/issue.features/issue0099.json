@@ -1,0 +1,265 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #99: Layout variation \"a directory containing your feature files\" is broken for running single features", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". When I use a layout as described in the 1.2.2 documentation,\n. I can only specify a whole directory of feature files to run.\n. Specifying a single feature file results in an error from behave:\n.\n.   $ behave -v tests/feature/webui/features/feature_under_test.feature\n.    ...\n.    Supplied path: \"tests/feature/webui/features/feature_under_test.feature\"\n.    Primary path is to a file so using its directory\n.    Trying base directory: .../tests/feature/webui/features\n.    Trying base directory: .../tests/feature/webui\n.    ERROR: Could not find \"steps\" directory in your specified path \".../tests/feature/webui/features\"\n.    No steps directory in \".../tests/feature/webui/features\"\n.\n. My directory layout is as follows:\n.\n.   .../tests/feature/webui/\n.       +-- features/\n.       +-- steps/\n.       +-- environment.py\n.\n. SEE ALSO:\n.   * http://packages.python.org/behave/gherkin.html"
+    }, 
+    "background": {
+        "title": {
+            "content": "", 
+            "index": 27
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 28
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"root/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 29
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 30, 
+                    "content": "from behave import step\n\n@step(u'a step passes')\ndef step_passes(context):\n    pass"
+                }
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"root/features/alice.feature\" with:", 
+                    "clause": "given", 
+                    "index": 37
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 38, 
+                    "content": "Feature: Alice\n  Scenario:\n    Given a step passes"
+                }
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"root/features/bob.feature\" with:", 
+                    "clause": "given", 
+                    "index": 43
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 44, 
+                    "content": "Feature: Bob\n  Scenario:\n    Given a step passes"
+                }
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"root/features2/charly.feature\" with:", 
+                    "clause": "given", 
+                    "index": 49
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 50, 
+                    "content": "Feature: Charly\n  Scenario:\n    When a step passes"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run features with root directory", 
+                "index": 56
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings root\"", 
+                        "clause": "when", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "3 features passed, 0 failed, 0 skipped\n3 scenarios passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 65, 
+                        "content": "Feature: Alice\n  Scenario:\n    Given a step passes ... passed\nFeature: Bob\n  Scenario:\n    Given a step passes ... passed\nFeature: Charly\n  Scenario:\n    When a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run features with root/features directory", 
+                "index": 77
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings root/features\"", 
+                        "clause": "when", 
+                        "index": 78
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 79
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 80, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped\n2 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 85
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 86, 
+                        "content": "Feature: Alice\n  Scenario:\n    Given a step passes ... passed\nFeature: Bob\n  Scenario:\n    Given a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run features with feature files", 
+                "index": 95
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings root/features/alice.feature root/features2/charly.feature\"", 
+                        "clause": "when", 
+                        "index": 96
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 97
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 98, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped\n2 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 103
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 104, 
+                        "content": "Feature: Alice\n  Scenario:\n    Given a step passes ... passed\nFeature: Charly\n  Scenario:\n    When a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Run features with feature dir and feature files (other ordering)", 
+                "index": 113
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings root/features2 root/features/alice.feature\"", 
+                        "clause": "when", 
+                        "index": 114
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 115
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 116, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped\n2 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 121
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 122, 
+                        "content": "Feature: Charly\n  Scenario:\n    When a step passes ... passed\nFeature: Alice\n  Scenario:\n    Given a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

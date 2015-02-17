@@ -1,0 +1,173 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "slow"
+        ]
+    }, 
+    "title": {
+        "content": "Validate JSON Formatter Output", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a tester\nI want that the JSON output is validated against its JSON schema\nSo that the JSON formatter generates valid JSON output.\n\n| NOTES:\n|   Some have the behave testruns may contain failures (@xfail).\n|   This should lead to more realistic JSON output, too."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Validate JSON output from features/ test run", 
+                "index": 11
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I use the current directory as working directory", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json -o testrun1.json features/\"", 
+                        "clause": "when", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"bin/jsonschema_validate.py testrun1.json\"", 
+                        "clause": "when", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 16, 
+                        "content": "validate: testrun1.json ... OK"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Validate JSON output from issue.features/ test run", 
+                "index": 20
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I use the current directory as working directory", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json -o testrun2.json issue.features/\"", 
+                        "clause": "when", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"bin/jsonschema_validate.py testrun2.json\"", 
+                        "clause": "when", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 25, 
+                        "content": "validate: testrun2.json ... OK"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Validate JSON output from tools/test-features/ test run", 
+                "index": 29
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I use the current directory as working directory", 
+                        "clause": "given", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json -o testrun3.json tools/test-features/\"", 
+                        "clause": "when", 
+                        "index": 31
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"bin/jsonschema_validate.py testrun3.json\"", 
+                        "clause": "when", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 34, 
+                        "content": "validate: testrun3.json ... OK"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

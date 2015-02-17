@@ -1,0 +1,230 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Select feature files by using regular expressions (self-test)", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "Use behave self-tests to ensure that --incude/--exclude options work.\nRELATED: runner.select_files_by_regexp.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 5, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 6
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 7
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"features/steps/steps.py\"", 
+                        "clause": "given", 
+                        "index": 8
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 10, 
+                        "content": "Feature: Alice\n  Scenario: A1"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/barbi.feature\" with:", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 15, 
+                        "content": "Feature: Barbi\n  Scenario: B1"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 20, 
+                        "content": "Feature: Bob\n  Scenario: B2"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Include only feature files", 
+                "index": 26
+            }, 
+            "description": {
+                "index": 28, 
+                "content": "Select the following feature files: barbi.feature, bob.feature"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --include='features/b.*' -f plain features/\"", 
+                        "clause": "when", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 31
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 32, 
+                        "content": "2 features passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "Feature: Barbi\n  Scenario: B1\n\nFeature: Bob\n  Scenario: B2"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Exclude only feature files", 
+                "index": 44
+            }, 
+            "description": {
+                "index": 46, 
+                "content": "Select the following feature files: alice.feature"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --exclude='features/b.*' -f plain features/\"", 
+                        "clause": "when", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 50, 
+                        "content": "1 feature passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 54, 
+                        "content": "Feature: Alice"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Include and exclude feature files", 
+                "index": 58
+            }, 
+            "description": {
+                "index": 60, 
+                "content": "Select the following feature files: alice.feature"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --include='features/.*a.*\\.feature' --exclude='.*/barbi.*' -f plain features/\"", 
+                        "clause": "when", 
+                        "index": 62
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 64, 
+                        "content": "1 feature passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 67
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 68, 
+                        "content": "Feature: Alice"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

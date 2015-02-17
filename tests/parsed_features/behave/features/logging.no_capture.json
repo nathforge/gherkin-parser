@@ -1,0 +1,351 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "logging", 
+            "no_capture"
+        ]
+    }, 
+    "title": {
+        "content": "No-logcapture mode (normal mode) shows log-records", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": "As a tester\nI want that sometimes that log output is not captured\nSo that I can see progress even in case of success (or failures)"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 9, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 10
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/use_behave4cmd_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 13, 
+                        "content": "import behave4cmd0.log.steps\nimport behave4cmd0.failing_steps\nimport behave4cmd0.passing_steps"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Log records are shown when scenario passes (CASE 1)", 
+                "index": 20
+            }, 
+            "description": {
+                "index": 22, 
+                "content": "Ensure that log-records are filtered out if log_record.level is too low."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 25, 
+                        "content": "def before_all(context):\n    import logging\n    context.config.setup_logging(logging.WARN)\n    # -- SAME AS:\n    # logging.basicConfig()\n    # logging.getLogger().setLevel(logging.WARN)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/logging.passing_example.feature\" with:", 
+                        "clause": "given", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 34, 
+                        "content": "Feature:\n  Scenario: Passing\n    Given I create log records with:\n        | category | level   | message |\n        | root     |  ERROR  | Hello Alice  |\n        | root     |  WARN   | Hello Bob    |\n        | root     |  INFO   | Hello Charly |\n        | root     |  DEBUG  | Hello Doro   |\n    When another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --no-logcapture features/logging.passing_example.feature\"", 
+                        "clause": "when", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 46
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain the following log records:", 
+                        "clause": "then", 
+                        "index": 47
+                    }, 
+                    "table": [
+                        {
+                            "index": 48, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 49, 
+                            "columns": [
+                                "root", 
+                                "ERROR", 
+                                "Hello Alice"
+                            ]
+                        }, 
+                        {
+                            "index": 50, 
+                            "columns": [
+                                "root", 
+                                "WARN", 
+                                "Hello Bob"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain the following log records:", 
+                        "clause": "then", 
+                        "index": 51
+                    }, 
+                    "table": [
+                        {
+                            "index": 52, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 53, 
+                            "columns": [
+                                "root", 
+                                "INFO", 
+                                "Hello Charly", 
+                                "Filtered-out"
+                            ]
+                        }, 
+                        {
+                            "index": 54, 
+                            "columns": [
+                                "root", 
+                                "DEBUG", 
+                                "Hello Doro", 
+                                "Filtered-out"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"log_records with level below WARN are filtered out\"", 
+                        "clause": "then", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 58, 
+                "content": [
+                    "no_capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Log records are shown up to first failing step (CASE 2)", 
+                "index": 59
+            }, 
+            "description": {
+                "index": 61, 
+                "content": "Ensure that log-records are filtered out if log_record.level is too low."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 64, 
+                        "content": "def before_all(context):\n    context.config.setup_logging()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/logging.failing_example.feature\" with:", 
+                        "clause": "given", 
+                        "index": 68
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 69, 
+                        "content": "Feature:\n  Scenario: Failing\n    Given I create log records with:\n        | category | level   | message |\n        | root     |  ERROR  | Hello Alice  |\n        | root     |  WARN   | Hello Bob    |\n        | root     |  INFO   | Hello Charly |\n        | root     |  DEBUG  | Hello Doro   |\n    When another step fails\n    Then I create log records with:\n        | category | level   | message |\n        | root     |  ERROR  | Hello2 Zerberus |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --no-logcapture --logging-level=ERROR features/logging.failing_example.feature\"", 
+                        "clause": "when", 
+                        "index": 83
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 84
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 85, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain the following log records:", 
+                        "clause": "then", 
+                        "index": 89
+                    }, 
+                    "table": [
+                        {
+                            "index": 90, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 91, 
+                            "columns": [
+                                "root", 
+                                "ERROR", 
+                                "Hello Alice"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain the following log records:", 
+                        "clause": "then", 
+                        "index": 92
+                    }, 
+                    "table": [
+                        {
+                            "index": 93, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 94, 
+                            "columns": [
+                                "root", 
+                                "WARN", 
+                                "Hello Bob", 
+                                "Filtered-out"
+                            ]
+                        }, 
+                        {
+                            "index": 95, 
+                            "columns": [
+                                "root", 
+                                "INFO", 
+                                "Hello Charly", 
+                                "Filtered-out"
+                            ]
+                        }, 
+                        {
+                            "index": 96, 
+                            "columns": [
+                                "root", 
+                                "DEBUG", 
+                                "Hello Doro", 
+                                "Filtered-out"
+                            ]
+                        }, 
+                        {
+                            "index": 97, 
+                            "columns": [
+                                "root", 
+                                "ERROR", 
+                                "Hello2 Zerberus", 
+                                "Skipped"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"log_records with level below ERROR are filtered out\"", 
+                        "clause": "then", 
+                        "index": 98
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,320 @@
+{
+    "language": {
+        "index": 0, 
+        "content": "en"
+    }, 
+    "tags": {
+        "index": 4, 
+        "content": [
+            "ftag1", 
+            "ftag2", 
+            "ftag3", 
+            "ftag4"
+        ]
+    }, 
+    "title": {
+        "content": "ftitle # unparsed comment", 
+        "index": 8
+    }, 
+    "description": {
+        "index": 10, 
+        "content": "fdesc1\n\nfdesc2\n\n    fdesc3\n\n    and\n\n    but"
+    }, 
+    "background": {
+        "title": {
+            "content": "btitle # unparsed comment", 
+            "index": 20
+        }, 
+        "description": {
+            "index": 22, 
+            "content": "bdesc1\n\nbdesc2\n\n    bdesc3\n\n    and\n\n    but"
+        }, 
+        "steps": [
+            {
+                "title": {
+                    "content": "bgiven", 
+                    "clause": "given", 
+                    "index": 32
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "bwhen", 
+                    "clause": "when", 
+                    "index": 34
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "bthen", 
+                    "clause": "then", 
+                    "index": 36
+                }, 
+                "table": null, 
+                "text": null
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 38, 
+                "content": [
+                    "stag1", 
+                    "stag2", 
+                    "stag3", 
+                    "stag4"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "stitle # unparsed comment", 
+                "index": 42
+            }, 
+            "description": {
+                "index": 44, 
+                "content": "sdesc1\n\nsdesc2\n\n    sdesc3\n\n    and\n\n    but"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "sgiven1", 
+                        "clause": "given", 
+                        "index": 54
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "sgiven2", 
+                        "clause": "given", 
+                        "index": 56
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "sgiven3", 
+                        "clause": "given", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "sgiven4", 
+                        "clause": "given", 
+                        "index": 60
+                    }, 
+                    "table": [
+                        {
+                            "index": 70, 
+                            "columns": [
+                                "a", 
+                                "b", 
+                                "c"
+                            ]
+                        }, 
+                        {
+                            "index": 72, 
+                            "columns": [
+                                "1 |", 
+                                "2 |", 
+                                "3 |"
+                            ]
+                        }
+                    ], 
+                    "text": {
+                        "index": 62, 
+                        "content": "sgiven4text1     # unparsed comment\n\nsgiven4text2     # unparsed comment\n\n    sgiven4text3 # unparsed comment"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "swhen1", 
+                        "clause": "when", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "swhen2", 
+                        "clause": "when", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "swhen3", 
+                        "clause": "when", 
+                        "index": 78
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "swhen4", 
+                        "clause": "when", 
+                        "index": 80
+                    }, 
+                    "table": [
+                        {
+                            "index": 90, 
+                            "columns": [
+                                "a", 
+                                "b", 
+                                "c"
+                            ]
+                        }, 
+                        {
+                            "index": 92, 
+                            "columns": [
+                                "1 |", 
+                                "2 |", 
+                                "3 |"
+                            ]
+                        }
+                    ], 
+                    "text": {
+                        "index": 82, 
+                        "content": "swhen4text1     # unparsed comment\n\nswhen4text2     # unparsed comment\n\n    swhen4text3 # unparsed comment"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "sthen1", 
+                        "clause": "then", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "sthen2", 
+                        "clause": "then", 
+                        "index": 96
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "sthen3", 
+                        "clause": "then", 
+                        "index": 98
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "sthen4", 
+                        "clause": "then", 
+                        "index": 100
+                    }, 
+                    "table": [
+                        {
+                            "index": 110, 
+                            "columns": [
+                                "a", 
+                                "b", 
+                                "c"
+                            ]
+                        }, 
+                        {
+                            "index": 112, 
+                            "columns": [
+                                "1 |", 
+                                "2 |", 
+                                "3 |"
+                            ]
+                        }
+                    ], 
+                    "text": {
+                        "index": 102, 
+                        "content": "sthen4text1     # unparsed comment\n\nsthen4text2     # unparsed comment\n\n    sthen4text3 # unparsed comment"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": true, 
+                "content": "sotitle # unparsed comment", 
+                "index": 114
+            }, 
+            "description": {
+                "index": 116, 
+                "content": "sodesc1\n\nsodesc2\n\n    sodesc3\n\n    and\n\n    but"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "sogiven", 
+                        "clause": "given", 
+                        "index": 126
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "sowhen", 
+                        "clause": "when", 
+                        "index": 128
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "sothen", 
+                        "clause": "then", 
+                        "index": 130
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "etitle # unparsed comment", 
+                    "index": 132
+                }, 
+                "table": [
+                    {
+                        "index": 134, 
+                        "columns": [
+                            "a", 
+                            "b", 
+                            "c"
+                        ]
+                    }, 
+                    {
+                        "index": 136, 
+                        "columns": [
+                            "1 |", 
+                            "2 |", 
+                            "3 |"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

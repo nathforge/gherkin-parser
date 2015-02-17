@@ -1,0 +1,149 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue", 
+            "change_request"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #112: Improvement to AmbiguousStep error", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": ". AmbiguousStep could be more useful if it also showed the existing string\n. with which the new one is clashing. This is particularly useful\n. if using step parameters."
+    }, 
+    "background": {
+        "title": {
+            "content": "", 
+            "index": 9
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 10
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/syndrome112.feature\" with:", 
+                    "clause": "given", 
+                    "index": 11
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 12, 
+                    "content": "Feature:\n  Scenario:\n    Given I buy 10 oranges"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Good step ordering -- From specific to generic regular expression", 
+                "index": 18
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/good_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 20, 
+                        "content": "from behave import given, when, then\n\n# -- ORDERING-IMPORTANT: From more specific steps to less specific.\n@given(u'I buy {number:n} {items:w}')\ndef step_given_I_buy2(context, number, items):\n    pass\n\n# -- OTHERWISE: Generic step matches all other patterns.\n@given(u'I buy {amount} {product}')\ndef step_given_I_buy(context, amount, product):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/syndrome112.feature\"", 
+                        "clause": "when", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 35, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Bad step ordering causes AmbiguousStep", 
+                "index": 42
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/bad_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 44, 
+                        "content": "from behave import given, when, then\n\n# -- ORDERING-VIOLATED: Generic step comes first.\n@given(u'I buy {amount} {product}')\ndef step_given_I_buy(context, amount, product):\n    pass\n\n# -- AMBIGUOUS-STEP: Will occur here.\n@given(u'I buy {number:n} {items:w}')\ndef step_given_I_buy2(context, number, items):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/syndrome112.feature\"", 
+                        "clause": "when", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 60, 
+                        "content": "AmbiguousStep: @given('I buy {number:n} {items:w}') has already been defined in\n  existing step @given('I buy {amount} {product}') at features/steps/bad_steps.py:4"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

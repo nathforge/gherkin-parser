@@ -1,0 +1,162 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Failing steps", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 1, 
+        "content": "In order to do Behaviour-Driven Development\nAs a developer\nI want to see the details about failing steps"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "see exception message", 
+                "index": 5
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 6
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 7, 
+                        "content": "When I divide 10 by 0\nThen the result is 9"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"I divide 10 by 0\" has a mapping failing with the message \"Divide by 0, uh?\"", 
+                        "clause": "given", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"the result is 9\" has a passing mapping", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes the scenario", 
+                        "clause": "when", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the failure message \"Divide by 0, uh?\" is output", 
+                        "clause": "then", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "see failing scenarios", 
+                "index": 16
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the following feature:", 
+                        "clause": "given", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 18, 
+                        "content": "Feature: a feature\n  Scenario: a passing scenario\n    When I add 4 and 5\n    Then the result is 9\n\n  Scenario: a failing scenario\n    When I divide 10 by 0\n    Then the result is 9\n\n  Scenario: another failing scenario\n    When I divide 10 by 0\n    Then the result is 9"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"I add 4 and 5\" has a passing mapping", 
+                        "clause": "given", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"I divide 10 by 0\" has a mapping failing with the message \"Divide by 0, uh?\"", 
+                        "clause": "given", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"the result is 9\" has a passing mapping", 
+                        "clause": "given", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the feature", 
+                        "clause": "when", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario called \"a failing scenario\" is reported as failing", 
+                        "clause": "then", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario called \"another failing scenario\" is reported as failing", 
+                        "clause": "then", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario called \"a passing scenario\" is not reported as failing", 
+                        "clause": "then", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

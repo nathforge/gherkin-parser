@@ -1,0 +1,64 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #186: ScenarioOutline uses wrong return value when if fails", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "ScenarioOutline returns encountered a failure only if the last scenario failed.\nFailures in earlier examples return the wrong result.\nEnsure that ScenarioOutline run-logic behaves as expected."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 7, 
+                "content": [
+                    "reuse.colocated_test"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Reuse existing test", 
+                "index": 8
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I use the current directory as working directory", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/scenario_outline.basics.feature\"", 
+                        "clause": "when", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,388 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Scenario Outline -- Improvements", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a behave user / test writer\nI want that Scenario Outline (as paramtrized Scenario) is improved\nSo that I know better which example/row combination is run.\n\n. REQUIREMENTS:\n.   * Generated scenario name should better indicate row/example combination.\n.   * Naming schema for generated scenario names should be configurable.\n.   * File location of generated scenario should represent row/example.\n.   * It should be possible select all scenarios of an examples group.\n.\n. IMPROVEMENTS:\n.   * annotate Scenario Outline name (with row.id, examples.name, ...)\n.   * use placeholders (from row/example) in Scenario Outline tags.\n.   * use placeholders (from row/example) in Scenario Outline name.\n.   * use placeholders (from row/example) in Examples (group) name.\n.   * file location for generated scenario is unique (selectable in rerun)\n.\n. SPECIFICATION: Special placeholders\n.\n.   | Placeholder     | Description |\n.   |  name           |  Name of the Scenario Outline.                 |\n.   |  examples.name  |  Name of the examples group (or empty string). |\n.   |  examples.index |  Index of examples group (range: 1..N).        |\n.   |  row.index      |  Index of row in examples group (range: 1..R). |\n.   |  row.id         |  Same as: \"{example.index}.{row.index}\"        |\n.\n. RELATED:\n.   * scenario_outline.name_annotation.feature\n.   * scenario_outline.parametrized.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 32, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 33
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "[behave]\nscenario_outline_annotation_schema = {name} -- @{row.id} {examples.name}\nshow_timings = false\nshow_skipped = false"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/named_examples.feature\" with:", 
+                        "clause": "given", 
+                        "index": 42
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 43, 
+                        "content": "Feature:\n  Scenario Outline: Named Examples\n    Given a param <param1>\n\n    Examples: Alice\n      | param1 |\n      |   10   |\n      |   42   |\n\n    Examples: Bob\n      | param1 |\n      |   43   |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/unnamed_examples.feature\" with:", 
+                        "clause": "given", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 58, 
+                        "content": "Feature:\n  Scenario Outline: Unnamed Examples\n    Given a param <param1>\n\n    Examples:\n      | param1 |\n      |   100  |\n      |   101  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/param_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 68
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 69, 
+                        "content": "from behave import step\n\n@step('a param {value:w}')\ndef step_impl_with_param(context, value):\n    context.param = value\n\n@step('a param {name}={value}')\ndef step_impl_with_param_value(context, name, value):\n    context.param_name = name\n    context.param_value = value"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Unique File Locations in generated scenarios", 
+                "index": 82
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f pretty -c features/named_examples.feature\"", 
+                        "clause": "when", 
+                        "index": 83
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 84
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 85, 
+                        "content": "Scenario Outline: Named Examples -- @1.1 Alice  # features/named_examples.feature:7\n  Given a param 10                              # features/steps/param_steps.py:3\n\nScenario Outline: Named Examples -- @1.2 Alice  # features/named_examples.feature:8\n  Given a param 42                              # features/steps/param_steps.py:3\n\nScenario Outline: Named Examples -- @2.1 Bob  # features/named_examples.feature:12\n  Given a param 43                            # features/steps/param_steps.py:3"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"each generated scenario has unique file location (related to row.line)\"", 
+                        "clause": "then", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select generated scenario by unique File Location", 
+                "index": 98
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/named_examples.feature:8\"", 
+                        "clause": "when", 
+                        "index": 99
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 101, 
+                        "content": "1 scenario passed, 0 failed, 2 skipped\n1 step passed, 0 failed, 2 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 106, 
+                        "content": "Scenario Outline: Named Examples -- @1.2 Alice\n  Given a param 42 ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 111, 
+                "content": [
+                    "xfail"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select all generated scenarios of a Scenario Outline by File Location", 
+                "index": 112
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 113
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 114, 
+                        "content": "[behave]\nscenario_outline_annotation_schema = {name} -- @{row.id} {examples.name}"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/named_examples.feature:2\"", 
+                        "clause": "when", 
+                        "index": 118
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 119
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 120, 
+                        "content": "3 scenarios passed, 0 failed, 0 skipped\n3 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 124
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 125, 
+                        "content": "Scenario Outline: Named Examples -- @1.2 Alice\n  Given a param 42 ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 130, 
+                "content": [
+                    "select.examples.by_name"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select Examples (Group) by Name (Case: name part)", 
+                "index": 131
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --name=Alice -f plain features/named_examples.feature\"", 
+                        "clause": "when", 
+                        "index": 132
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 133
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 134, 
+                        "content": "2 scenarios passed, 0 failed, 1 skipped\n2 steps passed, 0 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 138
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 139, 
+                        "content": "Scenario Outline: Named Examples -- @1.1 Alice\n  Given a param 10 ... passed\n\nScenario Outline: Named Examples -- @1.2 Alice\n  Given a param 42 ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 147, 
+                "content": [
+                    "select.examples.by_name"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select Examples (Group) by Name (Case: regular expression)", 
+                "index": 148
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --name='-- @.* Alice' -f plain features/named_examples.feature\"", 
+                        "clause": "when", 
+                        "index": 149
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 150
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 151, 
+                        "content": "2 scenarios passed, 0 failed, 1 skipped\n2 steps passed, 0 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 155
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 156, 
+                        "content": "Scenario Outline: Named Examples -- @1.1 Alice\n  Given a param 10 ... passed\n\nScenario Outline: Named Examples -- @1.2 Alice\n  Given a param 42 ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 164, 
+                "content": [
+                    "select.examples.by_name"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select one Example by Name", 
+                "index": 165
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --name='-- @1.2 Alice' -f plain features/named_examples.feature\"", 
+                        "clause": "when", 
+                        "index": 166
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 167
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 168, 
+                        "content": "1 scenario passed, 0 failed, 2 skipped\n1 step passed, 0 failed, 2 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 172
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 173, 
+                        "content": "Scenario Outline: Named Examples -- @1.2 Alice\n  Given a param 42 ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

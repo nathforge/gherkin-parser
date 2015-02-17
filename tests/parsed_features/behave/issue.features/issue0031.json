@@ -1,0 +1,68 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #31 \"behave --format help\" raises an error", 
+        "index": 1
+    }, 
+    "description": null, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 3
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 4
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --format=help\"", 
+                        "clause": "when", 
+                        "index": 5
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 6
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 7
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 8, 
+                        "content": "Available formatters:\n  json           JSON dump of test run\n  json.pretty    JSON dump of test run (human readable)\n  null           Provides formatter that does not output anything.\n  plain          Very basic formatter with maximum compatibility\n  pretty         Standard colourised pretty formatter"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,238 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Runner should stop after first failure if --stop option is used", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a tester\nTo abort testing early (sometimes)\nWhen the first failure occurs."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 8, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 9
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 12, 
+                        "content": "from behave import step\nimport sys\n\n@step('a step passes')\ndef step_passes(context):\n    pass\n\n@step('a step fails')\ndef step_fails(context):\n    assert False, \"XFAIL\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice_fails.feature\" with:", 
+                        "clause": "given", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 25, 
+                        "content": "Feature: Alice\n    Scenario: A1\n        Given a step passes\n        When a step passes\n        Then a step passes\n\n    Scenario: A2 fails\n        Given a step passes\n        When a step fails\n        Then a step passes\n\n    Scenario: A3\n        Given a step passes\n\n    Scenario: A4 fails\n        Given a step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob_passes.feature\" with:", 
+                        "clause": "given", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 44, 
+                        "content": "Feature: Bob\n    Scenario: B1\n        Given a step passes\n        When a step passes\n        Then a step passes\n\n    Scenario: B2 fails\n        Given a step passes\n        When a step passes\n        Then a step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Stop running after first failure with one feature", 
+                "index": 58
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --stop features/alice_fails.feature\"", 
+                        "clause": "when", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 60
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 61, 
+                        "content": "Failing scenarios:\n  features/alice_fails.feature:7  A2 fails\n\n0 features passed, 1 failed, 0 skipped\n1 scenario passed, 1 failed, 0 skipped, 2 untested\n4 steps passed, 1 failed, 1 skipped, 0 undefined, 2 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 69
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 70, 
+                        "content": "Feature: Alice\n    Scenario: A1\n        Given a step passes ... passed\n        When a step passes ... passed\n        Then a step passes ... passed\n\n    Scenario: A2 fails\n        Given a step passes ... passed\n        When a step fails ... failed\n        Assertion Failed: XFAIL"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 83, 
+                        "content": "Scenario: A3"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Stop running after first failure with several features (CASE 1)", 
+                "index": 87
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --stop features/alice_fails.feature features/bob_passes.feature \"", 
+                        "clause": "when", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 90, 
+                        "content": "Failing scenarios:\n  features/alice_fails.feature:7  A2 fails\n\n0 features passed, 1 failed, 0 skipped, 1 untested\n1 scenario passed, 1 failed, 0 skipped, 4 untested\n4 steps passed, 1 failed, 1 skipped, 0 undefined, 8 untested"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Stop running after first failure with several features (CASE 2: Different order)", 
+                "index": 99
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --stop features/bob_passes.feature features/alice_fails.feature\"", 
+                        "clause": "when", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 101
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 102, 
+                        "content": "Failing scenarios:\n  features/alice_fails.feature:7  A2 fails\n\n1 feature passed, 1 failed, 0 skipped\n3 scenarios passed, 1 failed, 0 skipped, 2 untested\n10 steps passed, 1 failed, 1 skipped, 0 undefined, 2 untested"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Stop running after first failure with several features (CASE 3: Use directory)", 
+                "index": 111
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --stop features/\"", 
+                        "clause": "when", 
+                        "index": 112
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 113
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 114, 
+                        "content": "Failing scenarios:\n  features/alice_fails.feature:7  A2 fails\n\n0 features passed, 1 failed, 0 skipped, 1 untested\n1 scenario passed, 1 failed, 0 skipped, 4 untested\n4 steps passed, 1 failed, 1 skipped, 0 undefined, 8 untested"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

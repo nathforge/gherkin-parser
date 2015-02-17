@@ -1,0 +1,172 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #162 Unnecessary ContextMaskWarnings when assert fails or exception is raised", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". Behave shows unnecessary ContextMaskWarnings related to:\n.\n.   * tags\n.   * capture_stdout\n.   * capture_stderr\n.   * log_capture\n.\n. if:\n.\n.   * an assertion fails in a step-definition/step-function\n.   * an exception is raised by a step-definition/step-function\n.\n. and an additional scenario follows.\n. REASON: Context \"behave\" mode is not restored when an exception is raised."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 19, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 20
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 23, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass\n\n@step('a step assert fails')\ndef step_assert_fails(context):\n    assert False, \"XFAIL-STEP\"\n\n@step('an exception is raised')\ndef step_raises_exception(context):\n    raise RuntimeError(\"XFAIL-STEP\")"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Assertion fails in a step", 
+                "index": 40
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example0162_assert_fails.feature\" with:", 
+                        "clause": "given", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When a step assert fails\n    Then a step passes\n\n  Scenario:\n    Given a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example0162_assert_fails.feature\"", 
+                        "clause": "when", 
+                        "index": 52
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 54, 
+                        "content": "1 scenario passed, 1 failed, 0 skipped\n2 steps passed, 1 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "ContextMaskWarning: user code is masking context attribute"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Exception is raised in a step", 
+                "index": 64
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example0162_exception_raised.feature\" with:", 
+                        "clause": "given", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 66, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When an exception is raised\n    Then a step passes\n\n  Scenario:\n    Given a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example0162_exception_raised.feature\"", 
+                        "clause": "when", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 77
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 78, 
+                        "content": "1 scenario passed, 1 failed, 0 skipped\n2 steps passed, 1 failed, 1 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 83, 
+                        "content": "ContextMaskWarning: user code is masking context attribute"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

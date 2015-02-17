@@ -1,0 +1,424 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Parsing a Feature File without a Feature or with several Features", 
+        "index": 0
+    }, 
+    "description": null, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 3, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 4
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 5
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"features/steps/empty_steps.py\"", 
+                        "clause": "given", 
+                        "index": 6
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 7
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 8, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 16, 
+                "content": [
+                    "no_feature"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Empty Feature File", 
+                "index": 17
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "an empty file named \"features/empty.feature\"", 
+                        "clause": "given", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/empty.feature\"", 
+                        "clause": "when", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 21, 
+                        "content": "0 features passed, 0 failed, 0 skipped\n0 scenarios passed, 0 failed, 0 skipped\n0 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 28, 
+                "content": [
+                    "no_feature"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature File without Feature, only with Comments", 
+                "index": 29
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/only_comments.feature\" with:", 
+                        "clause": "given", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 31, 
+                        "content": "# COMMENT: Comment starts at begin of line.\n    # INDENTED-COMMENT: Comment starts after some whitespace."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/only_comments.feature\"", 
+                        "clause": "when", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 37, 
+                        "content": "0 features passed, 0 failed, 0 skipped\n0 scenarios passed, 0 failed, 0 skipped\n0 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 44, 
+                "content": [
+                    "no_feature"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature File without Feature, only with Empty Lines", 
+                "index": 45
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/only_empty_lines.feature\" with:", 
+                        "clause": "given", 
+                        "index": 46
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 47, 
+                        "content": ""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/only_empty_lines.feature\"", 
+                        "clause": "when", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 51
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 52, 
+                        "content": "0 features passed, 0 failed, 0 skipped\n0 scenarios passed, 0 failed, 0 skipped\n0 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 59, 
+                "content": [
+                    "no_feature"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature File without Feature, only with Tags", 
+                "index": 60
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/only_tags.feature\" with:", 
+                        "clause": "given", 
+                        "index": 61
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 62, 
+                        "content": "@weird\n@no_feature"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/only_tags.feature\"", 
+                        "clause": "when", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 67
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 68, 
+                        "content": "0 features passed, 0 failed, 0 skipped\n0 scenarios passed, 0 failed, 0 skipped\n0 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 74, 
+                "content": [
+                    "no_feature", 
+                    "parser.with_parse_error"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature File with Text", 
+                "index": 76
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/only_text.feature\" with:", 
+                        "clause": "given", 
+                        "index": 77
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 78, 
+                        "content": "This File: Contains only text without keywords.\nOOPS."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/only_text.feature\"", 
+                        "clause": "when", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 83
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 84, 
+                        "content": "Failed to parse \"{__WORKDIR__}/features/only_text.feature\":\nParser failure in state init, at line 1: 'This File: Contains only text without keywords.'\nREASON: No feature found."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 91, 
+                "content": [
+                    "no_feature", 
+                    "parser.with_parse_error"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature File with Scenario, but without Feature keyword", 
+                "index": 93
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/naked_scenario_only.feature\" with:", 
+                        "clause": "given", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 95, 
+                        "content": "Scenario:\n  Given a step passes\n  When a step passes\n  Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/naked_scenario_only.feature\"", 
+                        "clause": "when", 
+                        "index": 101
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 102
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 103, 
+                        "content": "Failed to parse \"{__WORKDIR__}/features/naked_scenario_only.feature\":\nParser failure in state init, at line 1: 'Scenario:'\nREASON: Scenario may not occur before Feature."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 110, 
+                "content": [
+                    "many_features", 
+                    "parser.with_parse_error"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature file with 2 features", 
+                "index": 112
+            }, 
+            "description": {
+                "index": 114, 
+                "content": "NOTE: Gherkin parser supports only one feature per feature file."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 116
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 117, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/two_features.feature\" with:", 
+                        "clause": "given", 
+                        "index": 124
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 125, 
+                        "content": "Feature: F1\n  Scenario: F1.1\n    Given a step passes\n    When a step passes\n    Then a step passes\n\nFeature: F2\n  Scenario: F2.1\n    Given a step passes\n    Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/two_features.feature\"", 
+                        "clause": "when", 
+                        "index": 137
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 138
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 139, 
+                        "content": "Failed to parse \"{__WORKDIR__}/features/two_features.feature\":\nParser failure in state steps, at line 7: 'Feature: F2'\nREASON: Multiple features in one file are not supported."
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

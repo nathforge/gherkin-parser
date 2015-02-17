@@ -1,0 +1,298 @@
+{
+    "language": {
+        "index": 0, 
+        "content": "en"
+    }, 
+    "tags": {
+        "index": 2, 
+        "content": [
+            "tag1", 
+            "tag2", 
+            "tag3"
+        ]
+    }, 
+    "title": {
+        "content": "Title", 
+        "index": 4
+    }, 
+    "description": {
+        "index": 5, 
+        "content": "Desc 1\nDesc 2\n    Desc 3"
+    }, 
+    "background": {
+        "title": {
+            "content": "Title", 
+            "index": 9
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "given", 
+                    "clause": "given", 
+                    "index": 10
+                }, 
+                "table": [
+                    {
+                        "index": 11, 
+                        "columns": [
+                            "key", 
+                            "value"
+                        ]
+                    }, 
+                    {
+                        "index": 12, 
+                        "columns": [
+                            "name", 
+                            "Test"
+                        ]
+                    }
+                ], 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "when", 
+                    "clause": "when", 
+                    "index": 13
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 14, 
+                    "content": "Text\n    test"
+                }
+            }, 
+            {
+                "title": {
+                    "content": "then", 
+                    "clause": "then", 
+                    "index": 18
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 19, 
+                    "content": "Text\n    test"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 25
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Empty scenario", 
+                "index": 28
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 31, 
+                "content": [
+                    "tag1", 
+                    "tag2", 
+                    "tag3"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Scenario", 
+                "index": 33
+            }, 
+            "description": {
+                "index": 34, 
+                "content": "Desc 1\nDesc 2\n    Desc 3"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "given", 
+                        "clause": "given", 
+                        "index": 38
+                    }, 
+                    "table": [
+                        {
+                            "index": 39, 
+                            "columns": [
+                                "key", 
+                                "value"
+                            ]
+                        }, 
+                        {
+                            "index": 40, 
+                            "columns": [
+                                "name", 
+                                "Test"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "when", 
+                        "clause": "when", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "Text\n    test"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "then", 
+                        "clause": "then", 
+                        "index": 46
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 47, 
+                        "content": "Text\n    test"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": true, 
+                "content": "", 
+                "index": 53
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 54
+                }, 
+                "table": []
+            }
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": true, 
+                "content": "Empty scenario outline", 
+                "index": 57
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 58
+                }, 
+                "table": []
+            }
+        }, 
+        {
+            "tags": {
+                "index": 61, 
+                "content": [
+                    "tag1", 
+                    "tag2", 
+                    "tag3"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Scenario Outline", 
+                "index": 63
+            }, 
+            "description": {
+                "index": 64, 
+                "content": "Desc 1\nDesc 2\n    Desc 3"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "given <key> is <value>", 
+                        "clause": "given", 
+                        "index": 68
+                    }, 
+                    "table": [
+                        {
+                            "index": 69, 
+                            "columns": [
+                                "key", 
+                                "value"
+                            ]
+                        }, 
+                        {
+                            "index": 70, 
+                            "columns": [
+                                "name", 
+                                "Test"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "when <key> is <value>", 
+                        "clause": "when", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 72, 
+                        "content": "Text\n    <key>"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "then <key> is <value>", 
+                        "clause": "then", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 77, 
+                        "content": "Text\n    <key>"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "Example title", 
+                    "index": 82
+                }, 
+                "table": [
+                    {
+                        "index": 83, 
+                        "columns": [
+                            "key", 
+                            "value"
+                        ]
+                    }, 
+                    {
+                        "index": 84, 
+                        "columns": [
+                            "name", 
+                            "Test"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,231 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Step Dialect for BDD Steps with Given/When/Then Keywords", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "In order to execute a sequence of steps with BDD keywords (Given/When/Then)\nAs a test/story writer\nI want to have the possibility to express myself.\n\n. NOTE:\n.   * More details are provided in other features."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Simple example", 
+                "index": 10
+            }, 
+            "description": {
+                "index": 12, 
+                "content": "Normally preferred style with BDD keywords.\nNote that BDD keywords are dependent on language settings."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a step passes", 
+                        "clause": "given", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a step passes", 
+                        "clause": "when", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a step passes", 
+                        "clause": "when", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a step passes", 
+                        "clause": "then", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a step passes", 
+                        "clause": "then", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a step passes", 
+                        "clause": "then", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Simple example (with lower-case keywords)", 
+                "index": 23
+            }, 
+            "description": {
+                "index": 25, 
+                "content": "Alternative style with lower-case BDD keywords."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a step passes", 
+                        "clause": "given", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a step passes", 
+                        "clause": "when", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a step passes", 
+                        "clause": "when", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a step passes", 
+                        "clause": "then", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a step passes", 
+                        "clause": "then", 
+                        "index": 31
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a step passes", 
+                        "clause": "then", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Step usage example with details by running behave", 
+                "index": 35
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 38, 
+                        "content": "from behave import given, when, then, step\n\n@given('a step passes')\ndef given_step_passes(context):\n    pass\n\n@when('a step passes')\ndef when_step_passes(context):\n    pass\n\n@then('a step passes')\ndef then_step_passes(context):\n    pass\n\n@step('a step passes with \"{param}\"')\ndef step_passes_with_param(context, param):\n    pass\n\n@step('another step passes')\ndef step_passes(context):\n    pass\n\n@step('another step passes with \"{param}\"')\ndef step_passes(context, param):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/basic_steps.feature\" with:", 
+                        "clause": "given", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 66, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    And another step passes\n    When a step passes with \"Alice\"\n    Then another step passes with \"Bob\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/basic_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 76, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n4 steps passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 80
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 81, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes ... passed\n    And another step passes ... passed\n    When a step passes with \"Alice\" ... passed\n    Then another step passes with \"Bob\" ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

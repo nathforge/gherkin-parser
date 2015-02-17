@@ -1,0 +1,410 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Default Formatter", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". SPECIFICATION:\n.  * Default formatter is used when no other formatter is specified/provided.\n.  * Default formatter uses stdout as default output/outfile.\n.  * Pretty formatter is the default formatter.\n.  * Behave configfile can specify the default formatter."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 10, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 11
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 14, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 22, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes\n    When a step passes\n    Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 30, 
+                        "content": "Feature: Bob\n  Scenario: B1\n    When a step passes\n    Then a step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 37, 
+                "content": [
+                    "no_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Pretty formatter is used as default formatter if no other is defined", 
+                "index": 38
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" does not exist", 
+                        "clause": "given", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/\"", 
+                        "clause": "when", 
+                        "index": 40
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 46
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 47, 
+                        "content": "Feature: Alice # features/alice.feature:1\n  Scenario: A1          # features/alice.feature:2\n    Given a step passes # features/steps/passing_steps.py:3\n    When a step passes  # features/steps/passing_steps.py:3\n    Then a step passes  # features/steps/passing_steps.py:3\n\nFeature: Bob # features/bob.feature:1\n  Scenario: B1         # features/bob.feature:2\n    When a step passes # features/steps/passing_steps.py:3\n    Then a step passes # features/steps/passing_steps.py:3"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 61, 
+                "content": [
+                    "with_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Configfile can define own default formatter", 
+                "index": 62
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 64, 
+                        "content": "[behave]\ndefault_format = plain\nshow_timings = false"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave features/\"", 
+                        "clause": "when", 
+                        "index": 69
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 70
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 71, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 76, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step passes ... passed\n\nFeature: Bob\n  Scenario: B1\n    When a step passes ... passed\n    Then a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 89, 
+                "content": [
+                    "with_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use default formatter with own outfile instead of stdout", 
+                "index": 90
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 91
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 92, 
+                        "content": "[behave]\ndefault_format = plain\nshow_timings = false"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --outfile=output/default.out features/\"", 
+                        "clause": "when", 
+                        "index": 97
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 98
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 99, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"output/default.out\" should contain:", 
+                        "clause": "then", 
+                        "index": 103
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 104, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step passes ... passed\n\nFeature: Bob\n  Scenario: B1\n    When a step passes ... passed\n    Then a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 118, 
+                "content": [
+                    "with_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Can override default formatter from configfile on command-line", 
+                "index": 119
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 120
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 121, 
+                        "content": "[behave]\ndefault_format = plain\nshow_timings = false"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress features/\"", 
+                        "clause": "when", 
+                        "index": 126
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 127
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 128, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 132
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 133, 
+                        "content": "features/alice.feature  .\nfeatures/bob.feature  ."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 140, 
+                "content": [
+                    "with_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Default formatter is used when non is provided on command-line", 
+                "index": 141
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 142
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 143, 
+                        "content": "[behave]\ndefault_format = plain\nformat = progress\noutfiles = output/progress.out\nshow_timings = false"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I remove the directory \"output\"", 
+                        "clause": "given", 
+                        "index": 150
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave features/\"", 
+                        "clause": "when", 
+                        "index": 151
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 152
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 153, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 157
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 158, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step passes ... passed\n\nFeature: Bob\n  Scenario: B1\n    When a step passes ... passed\n    Then a step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"output/progress.out\" should contain:", 
+                        "clause": "then", 
+                        "index": 170
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 171, 
+                        "content": "features/alice.feature  .\nfeatures/bob.feature  ."
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

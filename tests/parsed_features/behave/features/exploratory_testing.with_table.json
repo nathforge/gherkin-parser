@@ -1,0 +1,251 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Exploratory Testing with Tables and Table Annotations", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a tester\nI want sometimes to explore a problem domain\nAnd see not only the expected results\nBut also the actual results in a table.\n\n . HINT: Does not work with monochrome format in pretty formatter:\n .   behave -f pretty --no-color ...\n .   behave -c ..."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 12, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 13
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/explore_with_table_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 16, 
+                        "content": "from behave import given, when, then, step\n\ndatabase = {\n    \"Alice\": { \"age\": 10 },\n    \"Bob\":   { \"age\": 11 },\n}\n\n@when('I query the database with')\ndef step_query_database_and_update_table(context):\n    assert context.table, \"REQUIRE: table\"\n    context.table.require_column(\"Name\")\n    age_index = context.table.ensure_column_exists(\"Age\")\n    for index, row in enumerate(context.table.rows):\n        name = row[\"Name\"]\n        person = database.get(name, None)\n        if person:\n            row.cells[age_index] = str(person[\"age\"])\n    context.current_table = context.table\n\n@when('I add {number:n} to column \"{column}\"')\ndef step_query_and_annotate_database(context, number, column):\n    assert context.current_table, \"REQUIRE: current_table\"\n    age_index = context.current_table.ensure_column_exists(\"Age\")\n    for row in context.current_table.rows:\n        value = int(row.cells[age_index]) or 0\n        row.cells[age_index] = str(value + number)\n\n@step('note that the \"{name}\" column was added to the table')\ndef step_note_that_column_was_added(context, name):\n    assert context.current_table.has_column(name)\n\n@then('note that the \"{name}\" column was modified in the table')\ndef step_note_that_column_was_modified(context, name):\n    pass\n\n@then('I inspect the table')\ndef step_inspect_table(context):\n    assert context.current_table\n    context.table = context.current_table\n\n@then('the table contains')\ndef step_inspect_table(context):\n    assert context.table, \"REQUIRE: table\"\n    assert context.current_table, \"REQUIRE: current_table\"\n    assert context.table == context.current_table"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Add table column with new data in a step and ensure changes are shown", 
+                "index": 65
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/table.set_column_data.feature\" with:", 
+                        "clause": "given", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 67, 
+                        "content": "Feature:\n  Scenario:\n    When I query the database with:\n      | Name  |\n      | Alice |\n      | Bob   |\n    Then note that the \"Age\" column was added to the table"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/table.set_column_data.feature\"", 
+                        "clause": "when", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 77
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 78, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n2 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 83, 
+                        "content": "| Name  | Age |\n| Alice | 10  |\n| Bob   | 11  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the Age table column was added by the step\"", 
+                        "clause": "then", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Modify table cells in a column and ensure changes are shown", 
+                "index": 91
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/table.modify_column.feature\" with:", 
+                        "clause": "given", 
+                        "index": 92
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 93, 
+                        "content": "Feature:\n  Scenario:\n    When I query the database with:\n       | Name  | Age  |\n       | Alice | 222  |\n       | Bob   | 333  |\n    Then note that the \"Age\" column was modified in the table\n    Then the table contains:\n       | Name  | Age |\n       | Alice | 10  |\n       | Bob   | 11  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/table.modify_column.feature\"", 
+                        "clause": "when", 
+                        "index": 106
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 107
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 108, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 112
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 113, 
+                        "content": "| Name  | Age |\n| Alice | 10  |\n| Bob   | 11  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the Age column was modified in the table\"", 
+                        "clause": "then", 
+                        "index": 118
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 119
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 120, 
+                        "content": "| Name  | Age |\n| Alice | 222 |\n| Bob   | 333 |"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Modify table cells in a column (formatter=pretty with colors)", 
+                "index": 127
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f pretty features/table.modify_column.feature\"", 
+                        "clause": "when", 
+                        "index": 128
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 129
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 130, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 134
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 135, 
+                        "content": "| Name  | Age |\n| Alice | 10  |\n| Bob   | 11  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the Age column was modified in the table\"", 
+                        "clause": "then", 
+                        "index": 140
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

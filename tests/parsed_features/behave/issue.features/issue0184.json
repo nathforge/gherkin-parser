@@ -1,0 +1,412 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #184: TypeError when running behave with --include option", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". Running behave with option '--include' causes fail with following error:\n.\n.  Traceback (most recent call last):\n.   File \"/.../bin/behave\", line 8, in\n.     load_entry_point('behave==1.2.3', 'console_scripts', 'behave')()\n.   File \"/.../lib/python2.7/site-packages/behave/__main__.py\", line 111, in main\n.   ...\n.   File \"/.../lib/python2.7/site-packages/behave/runner.py\", line 490, in run_with_paths\n.     if not self.config.exclude(filename) ]\n.   File \"/.../lib/python2.7/site-packages/behave/configuration.py\", line 488, in exclude\n.     if self.include_re and self.include_re.search(filename) is None:\n.   TypeError: expected string or buffer\n.\n. RELATED:\n.  * features/runner.select_files_by_regexp.feature\n.  * features/runner.select_files_by_regexp2.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 20, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 21
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 24, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 31
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 32, 
+                        "content": "Feature: Alice\n  Scenario: A1\n    Given a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 38, 
+                        "content": "Feature: Bob\n  Scenario: B1\n    When another step passes\n\n  Scenario: B2\n    Then another step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use --include command-line option to select some features", 
+                "index": 47
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --include='features/a.*\\.feature'\"", 
+                        "clause": "when", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 50, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 54
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 55, 
+                        "content": "Feature: Alice"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "Feature: Bob"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use --include command-line option to select all features", 
+                "index": 64
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --include='.*\\.feature'\"", 
+                        "clause": "when", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 67, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n3 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use --exclude command-line option", 
+                "index": 73
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --exclude='features/a.*\\.feature'\"", 
+                        "clause": "when", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 76, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 80
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 81, 
+                        "content": "Feature: Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 84
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 85, 
+                        "content": "Feature: Alice"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use --include and --exclude command-line options", 
+                "index": 90
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --include='.*\\.feature' --exclude='features/a.*\\.feature'\"", 
+                        "clause": "when", 
+                        "index": 91
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 92
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 93, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 97
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 98, 
+                        "content": "Feature: Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 101
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 102, 
+                        "content": "Feature: Alice"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use --include command-line option with file location", 
+                "index": 106
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --include='features/a.*\\.feature' features/alice.feature:3\"", 
+                        "clause": "when", 
+                        "index": 107
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 108
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 109, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 113
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 114, 
+                        "content": "Feature: Alice"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 118, 
+                        "content": "Feature: Bob"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use --exclude command-line option with feature list file", 
+                "index": 122
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"selected.txt\" with:", 
+                        "clause": "given", 
+                        "index": 123
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 124, 
+                        "content": "# -- FEATURE-LIST FILE:\nfeatures/alice.feature:3\nfeatures/bob.feature:7"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-skipped --exclude='.*/a.*\\.feature' @selected.txt\"", 
+                        "clause": "when", 
+                        "index": 129
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 130
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 131, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 1 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 135
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 136, 
+                        "content": "Feature: Bob\n  Scenario: B2"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 140
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 141, 
+                        "content": "Feature: Alice"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

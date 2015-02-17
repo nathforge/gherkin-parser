@@ -1,0 +1,660 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "User-specific Configuration Data (userdata)", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a test writer\nI want to provide my own configuration data\nSo that the test suite and/or the environment can be adapted to its needs.\n\n. MECHANISM:\n.   * Use -D name=value (--define) option to specify user data on command-line.\n.   * Specify user data in section \"behave.userdata\" of \"behave.ini\"\n.   * Load/setup user data in before_all() hook (advanced cases)\n.\n. USING USER DATA:\n.   * context.config.userdata (as dict)\n.\n. SUPPORTED DATA TYPES (from \"behave.ini\" and command-line):\n.   * string\n.   * bool-like (= \"true\", if definition has no value)"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 18, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 19
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/pass_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 22, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/userdata_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 30, 
+                        "content": "from behave import step\nfrom hamcrest import assert_that, equal_to\n\n@step('the following user-data is provided')\ndef step_userdata_is_provided_with_table(context):\n    assert context.table, \"REQUIRE: table\"\n    context.table.require_columns([\"name\", \"value\"])\n    userdata = context.config.userdata\n    for row in context.table.rows:\n        name = row[\"name\"]\n        expected_value = row[\"value\"]\n        if name in userdata:\n            actual_value = userdata[name]\n            assert_that(str(actual_value), equal_to(expected_value))\n        else:\n            assert False, \"MISSING: userdata %s\" % name\n\n@step('I modify the user-data with')\ndef step_modify_userdata_with_table(context):\n    assert context.table, \"REQUIRE: table\"\n    context.table.require_columns([\"name\", \"value\"])\n    userdata = context.config.userdata\n    for row in context.table.rows:\n        name = row[\"name\"]\n        value = row[\"value\"]\n        userdata[name] = value"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 59, 
+                "content": [
+                    "userdata.define"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use define command-line option", 
+                "index": 60
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/userdata_ex1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 61
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 62, 
+                        "content": "Feature:\n  Scenario:\n    Given the following user-data is provided:\n      | name    | value |\n      | person1 | Alice |\n      | person2 | Bob   |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"behave.ini\"", 
+                        "clause": "given", 
+                        "index": 70
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -D person1=Alice --define person2=Bob features/userdata_ex1.feature\"", 
+                        "clause": "when", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 72
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 73, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 78, 
+                "content": [
+                    "userdata.define"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Duplicated define with other value overrides first value", 
+                "index": 79
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/userdata_ex2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 80
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 81, 
+                        "content": "Feature:\n  Scenario:\n    Given the following user-data is provided:\n      | name    | value |\n      | person1 | Bob   |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"behave.ini\"", 
+                        "clause": "given", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -D person1=Alice -D person1=Bob features/userdata_ex2.feature\"", 
+                        "clause": "when", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 90
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 91, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 96, 
+                "content": [
+                    "userdata.define"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use boolean flag as command-line definition", 
+                "index": 97
+            }, 
+            "description": {
+                "index": 99, 
+                "content": "Ensure that command-line define without value part is a boolean flag."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/userdata_ex3.feature\" with:", 
+                        "clause": "given", 
+                        "index": 101
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 102, 
+                        "content": "Feature:\n  Scenario:\n    Given the following user-data is provided:\n      | name    | value |\n      | DEBUG   | true  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"behave.ini\"", 
+                        "clause": "given", 
+                        "index": 109
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -D DEBUG features/userdata_ex3.feature\"", 
+                        "clause": "when", 
+                        "index": 110
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 112, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 117, 
+                "content": [
+                    "userdata.config"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use user-data from behave configuration file", 
+                "index": 118
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 119
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 120, 
+                        "content": "[behave.userdata]\nperson1 = Alice\nperson2 = Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave features/userdata_ex1.feature\"", 
+                        "clause": "when", 
+                        "index": 125
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 126
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 127, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 132, 
+                "content": [
+                    "userdata.config"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Override user-data from behave configuration file on command-line", 
+                "index": 133
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/userdata_config2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 134
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 135, 
+                        "content": "Feature:\n  Scenario:\n    Given the following user-data is provided:\n      | name    | value   |\n      | person1 | Charly  |\n      | person2 | Bob     |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 143
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 144, 
+                        "content": "[behave.userdata]\nperson1 = Alice\nperson2 = Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -D person1=Charly features/userdata_config2.feature\"", 
+                        "clause": "when", 
+                        "index": 149
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 150
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 151, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 156, 
+                "content": [
+                    "userdata.config"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Extend user-data from behave configuration file on command-line", 
+                "index": 157
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/userdata_config3.feature\" with:", 
+                        "clause": "given", 
+                        "index": 158
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 159, 
+                        "content": "Feature:\n  Scenario:\n    Given the following user-data is provided:\n      | name    | value   |\n      | person1 | Alice   |\n      | person2 | Bob     |\n      | person3 | Charly  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 168
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 169, 
+                        "content": "[behave.userdata]\nperson1 = Alice\nperson2 = Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -D person3=Charly features/userdata_config3.feature\"", 
+                        "clause": "when", 
+                        "index": 174
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 175
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 176, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 181, 
+                "content": [
+                    "userdata.load"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Load user-data configuration in before_all hook (JSON)", 
+                "index": 182
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "an empty file named \"behave.ini\"", 
+                        "clause": "given", 
+                        "index": 183
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 184
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 185, 
+                        "content": "import json\nimport os.path\n\ndef before_all(context):\n    userdata = context.config.userdata\n    configfile = userdata.get(\"configfile\", \"userconfig.json\")\n    if os.path.exists(configfile):\n        config = json.load(open(configfile))\n        userdata.update(config)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"userconfig.json\" with:", 
+                        "clause": "given", 
+                        "index": 196
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 197, 
+                        "content": "{\n    \"person1\": \"Anna\",\n    \"person2\": \"Beatrix\"\n}"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/userdata_load1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 203
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 204, 
+                        "content": "Feature:\n  Scenario:\n    Given the following user-data is provided:\n      | name    | value   |\n      | person1 | Anna    |\n      | person2 | Beatrix |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave features/userdata_load1.feature\"", 
+                        "clause": "when", 
+                        "index": 212
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 213
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 214, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 219, 
+                "content": [
+                    "userdata.load"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Load user-data configuration in before_all hook (INI)", 
+                "index": 220
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 221
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 222, 
+                        "content": "[behave.userdata]\nconfigfile     = userconfig.ini\nconfig_section = behave.userdata.more"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"userconfig.ini\" with:", 
+                        "clause": "given", 
+                        "index": 227
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 228, 
+                        "content": "[behave.userdata.more]\nperson1 = Anna2\nperson2 = Beatrix2"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 233
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 234, 
+                        "content": "try:\n    import configparser\nexcept:\n    import ConfigParser as configparser   # -- PY2\n\ndef before_all(context):\n    userdata = context.config.userdata\n    configfile = userdata.get(\"configfile\", \"userconfig.ini\")\n    section = userdata.get(\"config_section\", \"behave.userdata\")\n    parser = configparser.SafeConfigParser()\n    parser.read(configfile)\n    if parser.has_section(section):\n        userdata.update(parser.items(section))"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/userdata_load2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 249
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 250, 
+                        "content": "Feature:\n  Scenario:\n    Given the following user-data is provided:\n      | name    | value   |\n      | person1 | Anna2    |\n      | person2 | Beatrix2 |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave features/userdata_load2.feature\"", 
+                        "clause": "when", 
+                        "index": 258
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 259
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 260, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 265, 
+                "content": [
+                    "bad_practice", 
+                    "userdata.modify"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Modified user-data is used by the remaining features/scenarios", 
+                "index": 267
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/userdata_modify1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 269
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 270, 
+                        "content": "Feature:\n  Scenario:\n    Given the following user-data is provided:\n      | name    | value   |\n      | person1 | Alice   |\n      | person2 | Bob     |\n    When I modify the user-data with:\n      | name    | value   |\n      | person1 | MODIFIED_VALUE |\n    Then the following user-data is provided:\n      | name    | value   |\n      | person1 | MODIFIED_VALUE |\n      | person2 | Bob     |\n\n  Scenario: Next scenario has modified user-data, too\n    Given the following user-data is provided:\n      | name    | value   |\n      | person1 | MODIFIED_VALUE |\n      | person2 | Bob     |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 291
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 292, 
+                        "content": "[behave.userdata]\nperson1 = Alice\nperson2 = Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave features/userdata_modify1.feature\"", 
+                        "clause": "when", 
+                        "index": 297
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 298
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 299, 
+                        "content": "2 scenarios passed, 0 failed, 0 skipped\n4 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"modifying userdata is BAD-PRACTICE, except in before_all() hook\"", 
+                        "clause": "then", 
+                        "index": 303
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

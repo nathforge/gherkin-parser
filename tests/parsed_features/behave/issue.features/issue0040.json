@@ -1,0 +1,319 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #40 Test Summary Scenario/Step Counts are incorrect for Scenario Outline", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As I user\nI want that each passed and each failed scenario is counted\nAnd I want that each passed and failed step in a ScenarioOutline is counted"
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 7
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 8
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 9
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 10, 
+                    "content": "from behave import given, when, then\n\n@given(u'a step {outcome} with \"{name}\"')\ndef step(context, outcome, name):\n    context.name = name\n    assert outcome == \"passes\"\n\n@when(u'a step {outcome} with \"{name}\"')\ndef step(context, outcome, name):\n    assert outcome == \"passes\"\n    assert context.name == name\n\n@then(u'a step {outcome} with \"{name}\"')\ndef step(context, outcome, name):\n    assert outcome == \"passes\"\n    assert context.name == name"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "ScenarioOutline with Passing Steps", 
+                "index": 29
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue40_1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 31, 
+                        "content": "Feature: Verify Scenario/Step Summary Pass Count with ScenarioOutline\n  Scenario Outline:\n    Given a step passes with \"<name>\"\n    When  a step passes with \"<name>\"\n    Then  a step passes with \"<name>\"\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f plain features/issue40_1.feature\"", 
+                        "clause": "when", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 45, 
+                        "content": "2 scenarios passed, 0 failed, 0 skipped\n6 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "ScenarioOutline with Failing Given-Steps", 
+                "index": 50
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue40_2G.feature\" with:", 
+                        "clause": "given", 
+                        "index": 51
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 52, 
+                        "content": "Feature: Scenario/Step Summary Pass/Fail Count with ScenarioOutline\n  Scenario Outline:\n    Given a step fails with \"<name>\"\n    When  a step passes with \"<name>\"\n    Then  a step passes with \"<name>\"\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f plain features/issue40_2G.feature\"", 
+                        "clause": "when", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 66, 
+                        "content": "0 scenarios passed, 2 failed, 0 skipped\n0 steps passed, 2 failed, 4 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "ScenarioOutline with Failing When-Steps", 
+                "index": 71
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue40_2W.feature\" with:", 
+                        "clause": "given", 
+                        "index": 72
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 73, 
+                        "content": "Feature: Scenario/Step Summary Pass/Fail Count with ScenarioOutline\n  Scenario Outline:\n    Given a step passes with \"<name>\"\n    When  a step fails with \"<name>\"\n    Then  a step passes with \"<name>\"\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f plain features/issue40_2W.feature\"", 
+                        "clause": "when", 
+                        "index": 85
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 86
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 87, 
+                        "content": "0 scenarios passed, 2 failed, 0 skipped\n2 steps passed, 2 failed, 2 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "ScenarioOutline with Failing Then-Steps", 
+                "index": 92
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue40_2T.feature\" with:", 
+                        "clause": "given", 
+                        "index": 93
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 94, 
+                        "content": "Feature: Scenario/Step Summary Pass/Fail Count with ScenarioOutline\n  Scenario Outline:\n    Given a step passes with \"<name>\"\n    When  a step passes with \"<name>\"\n    Then  a step fails with \"<name>\"\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f plain features/issue40_2T.feature\"", 
+                        "clause": "when", 
+                        "index": 106
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 107
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 108, 
+                        "content": "0 scenarios passed, 2 failed, 0 skipped\n4 steps passed, 2 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "ScenarioOutline with Mismatched When-Step Example Row", 
+                "index": 113
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue40_3W.feature\" with:", 
+                        "clause": "given", 
+                        "index": 114
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 115, 
+                        "content": "Feature: Scenario/Step Summary Pass/Fail Count with ScenarioOutline\n  Scenario Outline:\n    Given a step passes with \"<name>\"\n    When  a step passes with \"Alice\"\n    Then  a step passes with \"<name>\"\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f plain features/issue40_3W.feature\"", 
+                        "clause": "when", 
+                        "index": 127
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 128
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 129, 
+                        "content": "1 scenario passed, 1 failed, 0 skipped\n4 steps passed, 1 failed, 1 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "ScenarioOutline with Mismatched Then-Step Example Row", 
+                "index": 134
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue40_3W.feature\" with:", 
+                        "clause": "given", 
+                        "index": 135
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 136, 
+                        "content": "Feature: Scenario/Step Summary Pass/Fail Count with ScenarioOutline\n  Scenario Outline:\n    Given a step passes with \"<name>\"\n    When  a step passes with \"<name>\"\n    Then  a step passes with \"Alice\"\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f plain features/issue40_3W.feature\"", 
+                        "clause": "when", 
+                        "index": 148
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 149
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 150, 
+                        "content": "1 scenario passed, 1 failed, 0 skipped\n5 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

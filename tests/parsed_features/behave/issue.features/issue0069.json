@@ -1,0 +1,118 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #69: JUnitReporter: Fault when processing ScenarioOutlines with failing steps", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "The problem occurs when \"behave --junit ...\" is used\nAnd a feature contains one or more ScenarioOutline(s) with failing steps.\n\nThe JUnitReport does not process ScenarioOutline correctly (logic-error).\nTherefore, Scenarios of a ScenarioOutline are processes as Scenario steps.\nThis causes problems when the step.status is \"failed\".\n\nRELATED:\n  * issue"
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 13
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 14
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 15
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 16, 
+                    "content": "from behave import given\n\n@given(u'a {outcome} step with \"{name}\"')\ndef step(context, outcome, name):\n    context.name = name\n    assert outcome == \"passing\"\n\n@when(u'a {outcome} step with \"{name}\" occurs')\ndef step(context, outcome, name):\n    assert outcome == \"passing\"\n    assert context.name == name\n\n@then(u'a {outcome} step with \"{name}\" is reached')\ndef step(context, outcome, name):\n    assert outcome == \"passing\"\n    assert context.name == name"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "ScenarioOutline with Failing Steps", 
+                "index": 35
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue63_case2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 37, 
+                        "content": "Feature: ScenarioOutline with Passing and Failing Steps\n  Scenario Outline:\n    Given a passing step with \"<name>\"\n    When  a failing step with \"<name>\" occurs\n    Then  a passing step with \"<name>\" is reached\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c --junit features/issue63_case2.feature\"", 
+                        "clause": "when", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 51, 
+                        "content": "0 scenarios passed, 2 failed, 0 skipped\n2 steps passed, 2 failed, 2 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 56, 
+                        "content": "AttributeError: 'Scenario' object has no attribute 'exception'"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 60, 
+                        "content": "behave/reporter/junit.py"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

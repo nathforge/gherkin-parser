@@ -1,0 +1,155 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #67: JSON formatter cannot serialize tables.", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "The JSON formatter cannot handle tables (currently):\n\n  * Table as setup/intermediate/result table in steps of scenario\n  * Examples tables in a ScenarioOutline\n\nA JSON exception occurs when such a feature file should be processed."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Scenario with Tables", 
+                "index": 11
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps1.py\" with:", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 14, 
+                        "content": "from behave import given, when, then\n\n@given(u'I add the following employees')\ndef step(context):\n    pass  # -- SKIP: Table processing here.\n\n@when(u'I select department \"{department}\"')\ndef step(context, department):\n    context.department = department\n\n@then(u'I get the following employees')\ndef step(context):\n    pass  # -- SKIP: Table processing here."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/issue67_case1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 30, 
+                        "content": "Feature: Scenario with Tables\n  Scenario:\n   Given I add the following employees:\n      | name      | department  |\n      | Alice     | Wonderland  |\n      | Bob       | Moonwalk    |\n    When I select department \"Wonderland\"\n    Then I get the following employees:\n      | name      | department  |\n      | Alice     | Wonderland  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json features/issue67_case1.feature\"", 
+                        "clause": "when", 
+                        "index": 42
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 44, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 49, 
+                        "content": "TypeError: <Row [u'Alice', u'Wonderland']> is not JSON serializable"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "ScenarioOutline with Examples Table", 
+                "index": 53
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps2.py\" with:", 
+                        "clause": "given", 
+                        "index": 54
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 55, 
+                        "content": "from behave import given, when, then\n\n@given(u'a step with \"{name}\"')\ndef step(context, name):\n    context.name = name\n\n@when(u'a step with \"{name}\" occurs')\ndef step(context, name):\n    assert context.name == name\n\n@then(u'a step with \"{name}\" is reached')\ndef step(context, name):\n    assert context.name == name"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/issue67_case2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 70
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 71, 
+                        "content": "Feature: ScenarioOutline with Examples Table\n  Scenario Outline:\n    Given a step with \"<name>\"\n    When  a step with \"<name>\" occurs\n    Then  a step with \"<name>\" is reached\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json features/issue67_case2.feature\"", 
+                        "clause": "when", 
+                        "index": 83
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 84
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 85, 
+                        "content": "2 scenarios passed, 0 failed, 0 skipped\n6 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,542 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Setup logging_format", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a tester\nI want to configure the logging_format for log_capture mode\nSo that log-records are shown in my preferred format.\n\nAs a tester\nI want to configure the logging_format for logging mode (no-log_capture)\nSo that log-records are shown in my preferred format.\n\n. SPECIFICATION:\n.  * logging_format can be defined on command-line\n.  * logging_format can be defined in behave configuration file\n.\n. NOTE:\n.  The log record format can also be defined in a logging configuration file."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 17, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 18
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/use_behave4cmd_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 21, 
+                        "content": "import behave4cmd0.log.steps\nimport behave4cmd0.failing_steps\nimport behave4cmd0.passing_steps"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 27, 
+                        "content": "def before_all(context):\n    context.config.setup_logging()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example.log_and_fail.feature\" with:", 
+                        "clause": "given", 
+                        "index": 31
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 32, 
+                        "content": "Feature:\n  Scenario: Failing\n    Given I create log records with:\n        | category | level   | message |\n        | root     |  ERROR  | Hello Alice |\n        | root     |  WARN   | Hello Bob   |\n    When a step fails"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 42, 
+                "content": [
+                    "capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use logging_format on command-line (case: log_capture mode)", 
+                "index": 43
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 45, 
+                        "content": "[behave]\nlog_capture = true\nlogging_level = WARN"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --logging-format='LOG.%(levelname)-8s  %(name)-10s: %(message)s' features/\"", 
+                        "clause": "when", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 51
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 52, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain \"Captured logging:\"", 
+                        "clause": "then", 
+                        "index": 56
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 58, 
+                        "content": "Captured logging:\nLOG.ERROR     root      : Hello Alice\nLOG.WARNING   root      : Hello Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I use the log record configuration:", 
+                        "clause": "when", 
+                        "index": 63
+                    }, 
+                    "table": [
+                        {
+                            "index": 64, 
+                            "columns": [
+                                "property", 
+                                "value"
+                            ]
+                        }, 
+                        {
+                            "index": 65, 
+                            "columns": [
+                                "format", 
+                                "LOG.%(levelname)-8s  %(name)-10s: %(message)s"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain the following log records:", 
+                        "clause": "then", 
+                        "index": 66
+                    }, 
+                    "table": [
+                        {
+                            "index": 67, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 68, 
+                            "columns": [
+                                "root", 
+                                "ERROR", 
+                                "Hello Alice"
+                            ]
+                        }, 
+                        {
+                            "index": 69, 
+                            "columns": [
+                                "root", 
+                                "WARN", 
+                                "Hello Bob"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 72, 
+                "content": [
+                    "capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use logging_format in config-file (case: log_capture mode)", 
+                "index": 73
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 75, 
+                        "content": "[behave]\nlog_capture = true\nlogging_level = WARN\nlogging_format = LOG.%(levelname)-8s  %(name)-10s: %(message)s"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/\"", 
+                        "clause": "when", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain \"Captured logging:\"", 
+                        "clause": "then", 
+                        "index": 83
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 84
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 85, 
+                        "content": "Captured logging:\nLOG.ERROR     root      : Hello Alice\nLOG.WARNING   root      : Hello Bob"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 91, 
+                "content": [
+                    "no_capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use logging_format on command-line (case: logging mode)", 
+                "index": 92
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 93
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 94, 
+                        "content": "[behave]\nlog_capture = false\nlogging_level = WARN"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --logging-format='LOG.%(levelname)-8s  %(name)-10s: %(message)s' features/\"", 
+                        "clause": "when", 
+                        "index": 99
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 101, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain \"Captured logging:\"", 
+                        "clause": "then", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 106
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 107, 
+                        "content": "LOG.ERROR     root      : Hello Alice\nLOG.WARNING   root      : Hello Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I use the log record configuration:", 
+                        "clause": "when", 
+                        "index": 111
+                    }, 
+                    "table": [
+                        {
+                            "index": 112, 
+                            "columns": [
+                                "property", 
+                                "value"
+                            ]
+                        }, 
+                        {
+                            "index": 113, 
+                            "columns": [
+                                "format", 
+                                "LOG.%(levelname)-8s  %(name)-10s: %(message)s"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain the following log records:", 
+                        "clause": "then", 
+                        "index": 114
+                    }, 
+                    "table": [
+                        {
+                            "index": 115, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 116, 
+                            "columns": [
+                                "root", 
+                                "ERROR", 
+                                "Hello Alice"
+                            ]
+                        }, 
+                        {
+                            "index": 117, 
+                            "columns": [
+                                "root", 
+                                "WARN", 
+                                "Hello Bob"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 120, 
+                "content": [
+                    "no_capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use logging_format in config-file (case: logging mode)", 
+                "index": 121
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 122
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 123, 
+                        "content": "[behave]\nlog_capture = false\nlogging_level = WARN\nlogging_format = LOG.%(levelname)-8s  %(name)-10s: %(message)s"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/\"", 
+                        "clause": "when", 
+                        "index": 129
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 130
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain \"Captured logging:\"", 
+                        "clause": "then", 
+                        "index": 131
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 132
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 133, 
+                        "content": "LOG.ERROR     root      : Hello Alice\nLOG.WARNING   root      : Hello Bob"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 138, 
+                "content": [
+                    "capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use logging_datefmt in config-file", 
+                "index": 139
+            }, 
+            "description": {
+                "index": 141, 
+                "content": "Ensure that \"logging_datefmt\" option can be used."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 143
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 144, 
+                        "content": "[behave]\nlogging_format = %(asctime)s  LOG.%(levelname)-8s %(name)s: %(message)s\nlogging_datefmt = %Y-%m-%dT%H:%M:%S"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/\"", 
+                        "clause": "when", 
+                        "index": 149
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 150
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 151, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain \"LOG.ERROR    root: Hello Alice\"", 
+                        "clause": "then", 
+                        "index": 155
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain \"LOG.WARNING  root: Hello Bob\"", 
+                        "clause": "then", 
+                        "index": 156
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

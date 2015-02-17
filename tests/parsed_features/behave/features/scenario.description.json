@@ -1,0 +1,242 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Scenario Description", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a tester\nI want to explain the rationale of a test scenario or scenario outline\nBefore I actually execute the steps.\n\n. SPECIFICATION: Scenario Description\n.   * Scenario descriptions are in optional section between\n.     Scenario line and the first step.\n.   * All description lines are added to the scenario description.\n.   * Empty lines are not part of the scenario description (are removed).\n.   * Comment lines are not part of the scenario description (are removed).\n.   * A Scenario/ScenarioOutline with a scenario description,\n.     but without steps is valid (to support preparation of scenarios).\n.\n. SPECIFICATION: A scenario description line...\n.   * must not start with step keywords, like:\n.\n.       Given, When, Then, And, But, etc.\n.       (including lower-case versions)\n.\n.   * must not start with '*' (ASTERISK) due to generic step keyword ambiguity\n.   * must not start with '@' (AT) due to tag ambiguity\n.     (supporting: scenario without steps but with step description).\n.   * may start with '|' (table-cell-separator).\n.   * does not contain only whitespace chars (empty line, filtered-out).\n.   * does not start with '\n.\n. GRAMMAR STRUCTURE:\n.   Scenario-Line : 1\n.       Scenario-Description-Line : 0 .. N\n.       Step-Line : 0 .. N\n.\n.   Scenario-Line := Scenario-Keyword ':' Scenario-Name\n.   Scenario-Description-Line := Line does not start with Step-Keyword\n.   Step-Line := Step-Keyword Words+"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 38, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 39
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 40
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "from behave import step\nimport sys\n\n@step('a step passes')\ndef step_passes(context):\n    pass\n\n@step('a step passes with \"{comment}\"')\ndef step_passes(context, comment):\n    sys.stdout.write(\"PASSING-STEP: %s;\\n\" % comment)\n\n@step('a step fails')\ndef step_fails(context):\n    assert False, \"XFAIL-STEP\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "First Example for a Scenario Description", 
+                "index": 60
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example_description1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 61
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 62, 
+                        "content": "Feature:\n  Scenario: E1\n\n    This is a simple scenario description before the steps start.\n    It explains why this scenario is important.\n\n    Here another scenario description line after an empty line.\n\n        Given a step passes with \"Alice\"\n        When a step passes with \"Bob\"\n        Then a step passes with \"Charly\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/example_description1.feature\"", 
+                        "clause": "when", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 77, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 83, 
+                        "content": "Feature:\n  Scenario: E1\n    Given a step passes with \"Alice\" ... passed\n    When a step passes with \"Bob\" ... passed\n    Then a step passes with \"Charly\" ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Inspect the Scenario Description by using JSON", 
+                "index": 92
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example_description1.feature\" exists", 
+                        "clause": "given", 
+                        "index": 93
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json.pretty -o example1.json -f plain -T features/example_description1.feature\"", 
+                        "clause": "when", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"example1.json\" should contain:", 
+                        "clause": "then", 
+                        "index": 96
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 97, 
+                        "content": "\"description\": [\n  \"This is a simple scenario description before the steps start.\",\n  \"It explains why this scenario is important.\",\n  \"Here another scenario description line after an empty line.\"\n],\n\"keyword\": \"Scenario\",\n\"location\": \"features/example_description1.feature:2\",\n\"name\": \"E1\","
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Second Example with 2 scenario with scenario descriptions", 
+                "index": 109
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example_description2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 110
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 111, 
+                        "content": "@one\nFeature: F2\n\n   Feature description line 1.\n   Feature description line 2.\n\n  @foo\n  Scenario: S2.1\n\n    Scenario description line S2.1-1.\n      Scenario description line S2.1-2 (indentation is removed).\n\n        Given a step passes with \"Alice\"\n        Then a step passes with \"Charly\"\n\n  @foo\n  @bar @baz\n  Scenario: S2.2\n\n    Scenario description line S2.2-1.\n\n        When a step passes with \"Bob\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json.pretty -o example2.json -f plain -T features/example_description2.feature\"", 
+                        "clause": "when", 
+                        "index": 135
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 136
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 137, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 142
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 143, 
+                        "content": "Feature: F2\n  Scenario: S2.1\n    Given a step passes with \"Alice\" ... passed\n    Then a step passes with \"Charly\" ... passed\n\n  Scenario: S2.2\n    When a step passes with \"Bob\" ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"example2.json\" should contain:", 
+                        "clause": "then", 
+                        "index": 152
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 153, 
+                        "content": "\"description\": [\n  \"Scenario description line S2.1-1.\",\n  \"Scenario description line S2.1-2 (indentation is removed).\"\n],\n\"keyword\": \"Scenario\",\n\"location\": \"features/example_description2.feature:8\",\n\"name\": \"S2.1\","
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"example2.json\" should contain:", 
+                        "clause": "then", 
+                        "index": 162
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 163, 
+                        "content": "\"description\": [\n  \"Scenario description line S2.2-1.\"\n],\n\"keyword\": \"Scenario\",\n\"location\": \"features/example_description2.feature:18\",\n\"name\": \"S2.2\","
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

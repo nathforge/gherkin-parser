@@ -1,0 +1,509 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Background", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a test writer\nI want to run a number of steps in each scenario\nAnd I want to avoid duplicating these steps for each scenario\nSo that I write these steps only once (DRY principle).\n\n. SPECIFICATION:\n.   * A feature can have an optional \"Background\" section\n.   * The Background must be specified before any Scenario/ScenarioOutline\n.   * The Background may occur at most once\n.   * The Background steps are executed in each Scenario/ScenarioOutline\n.   * The Background steps are executed before any Scenario steps\n.   * If a Background step fails then the is marked as scenario failed\n.   * If a Background fails in a scenario then other scenarios are still executed.\n.\n. RELATED:\n.   * parser.background.sad_cases.feature\n.\n. NOTE:\n.   Cucumber has a slightly different runtime behaviour.\n.   When a background step fails the first scenario is marked as failed.\n.   But the remaining scenarios are marked as skipped.\n.\n.   This can lead to problems when you have sporadic background step failures.\n.   For this reason, behave retries the background steps for each scenario.\n.   But this may lead to an increased test duration if a systematic failure\n.   occurs in the failing background step.\n.\n. SEE ALSO:\n.   * https://github.com/cucumber/cucumber/blob/master/features/docs/gherkin/background.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 32, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 33
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/background_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "from behave import step\n\n@step('{word} background step passes')\ndef step_background_step_passes(context, word):\n    pass\n\n@step('{word} background step fails')\ndef step_background_step_fails(context, word):\n    assert False, \"XFAIL: background step\"\n\n@step('{word} background step fails sometimes')\ndef step_background_step_fails_sometimes(context, word):\n    should_fail = (context.scenarios_count % 2) == 0\n    if should_fail:\n        step_background_step_fails(context, word)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 54, 
+                        "content": "from behave import step\n\n@step('{word} step passes')\ndef step_passes(context, word):\n    pass\n\n@step('{word} step fails')\ndef step_fails(context, word):\n    assert False, \"XFAIL\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature with a Background and Scenarios", 
+                "index": 66
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/background_example1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 67
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 68, 
+                        "content": "Feature:\n  Background:\n    Given a background step passes\n    And another background step passes\n\n  Scenario: S1\n    When a step passes\n\n  Scenario: S2\n    Then a step passes\n    And another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/background_example1.feature\"", 
+                        "clause": "when", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 83, 
+                        "content": "2 scenarios passed, 0 failed, 0 skipped\n7 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 87
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 88, 
+                        "content": "Feature:\n  Background:\n\n  Scenario: S1\n    Given a background step passes ... passed\n    And another background step passes ... passed\n    When a step passes ... passed\n\n  Scenario: S2\n    Given a background step passes ... passed\n    And another background step passes ... passed\n    Then a step passes ... passed\n    And another step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the Background steps are injected into each Scenario\"", 
+                        "clause": "then", 
+                        "index": 103
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the Background steps are executed before any Scenario steps\"", 
+                        "clause": "then", 
+                        "index": 104
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Failing Background Step causes all Scenarios to fail", 
+                "index": 107
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/background_fail_example.feature\" with:", 
+                        "clause": "given", 
+                        "index": 108
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 109, 
+                        "content": "Feature:\n\n  Background: B1\n    Given a background step passes\n    And a background step fails\n    And another background step passes\n\n  Scenario: S1\n    When a step passes\n\n  Scenario: S2\n    Then a step passes\n    And another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/background_fail_example.feature\"", 
+                        "clause": "when", 
+                        "index": 124
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 125
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 126, 
+                        "content": "0 scenarios passed, 2 failed, 0 skipped\n2 steps passed, 2 failed, 5 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 130
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 131, 
+                        "content": "Feature:\n  Background: B1\n\n  Scenario: S1\n    Given a background step passes ... passed\n    And a background step fails ... failed\nAssertion Failed: XFAIL: background step\n\n  Scenario: S2\n    Given a background step passes ... passed\n    And a background step fails ... failed\nAssertion Failed: XFAIL: background step"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the failing Background step causes all Scenarios to fail\"", 
+                        "clause": "then", 
+                        "index": 145
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Failing Background Step does not prevent that other Scenarios are executed", 
+                "index": 148
+            }, 
+            "description": {
+                "index": 150, 
+                "content": "If a Background step fails sometimes\nit should be retried in the remaining Scenarios where it might pass."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/background_fails_sometimes_example.feature\" with:", 
+                        "clause": "given", 
+                        "index": 153
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 154, 
+                        "content": "Feature:\n\n  Background: B2\n    Given a background step fails sometimes\n\n  Scenario: S1\n    Given a step passes\n\n  Scenario: S2\n    When another step passes\n\n  Scenario: S3\n    Then another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 169
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 170, 
+                        "content": "scenarios_count = 0\n\ndef before_scenario(context, scenario):\n    global scenarios_count\n    context.scenarios_count = scenarios_count\n    scenarios_count += 1"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/background_fails_sometimes_example.feature\"", 
+                        "clause": "when", 
+                        "index": 178
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 179
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 180, 
+                        "content": "1 scenario passed, 2 failed, 0 skipped\n2 steps passed, 2 failed, 2 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 184
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 185, 
+                        "content": "Feature:\n    Background: B2\n\n    Scenario: S1\n      Given a background step fails sometimes ... failed\n  Assertion Failed: XFAIL: background step\n\n    Scenario: S2\n      Given a background step fails sometimes ... passed\n      When another step passes ... passed\n\n    Scenario: S3\n      Given a background step fails sometimes ... failed\n  Assertion Failed: XFAIL: background step"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature with a Background and ScenarioOutlines", 
+                "index": 203
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/background_outline_example.feature\" with:", 
+                        "clause": "given", 
+                        "index": 204
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 205, 
+                        "content": "Feature:\n  Background:\n    Given a background step passes\n    And another background step passes\n\n  Scenario Outline: SO1\n    When a step <outcome1>\n    Then another step <outcome2>\n\n    Examples: Alpha\n      | outcome1 | outcome2 |\n      | passes   | passes   |\n      | passes   | passes   |\n\n  Scenario Outline: SO2\n    Given <word1> step passes\n    Then <word2> step passes\n\n    Examples:\n      | word1   | word2   |\n      | a       | a       |\n      | a       | another |\n      | another | a       |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/background_outline_example.feature\"", 
+                        "clause": "when", 
+                        "index": 230
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 231
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 232, 
+                        "content": "5 scenarios passed, 0 failed, 0 skipped\n20 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 236
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 237, 
+                        "content": "Feature:\n  Background:\n\n  Scenario Outline: SO1 -- @1.1 Alpha\n    Given a background step passes ... passed\n    And another background step passes ... passed\n    When a step passes ... passed\n    Then another step passes ... passed\n\n  Scenario Outline: SO1 -- @1.2 Alpha\n    Given a background step passes ... passed\n    And another background step passes ... passed\n    When a step passes ... passed\n    Then another step passes ... passed\n\n  Scenario Outline: SO2 -- @1.1\n    Given a background step passes ... passed\n    And another background step passes ... passed\n    Given a step passes ... passed\n    Then a step passes ... passed\n\n  Scenario Outline: SO2 -- @1.2\n    Given a background step passes ... passed\n    And another background step passes ... passed\n    Given a step passes ... passed\n    Then another step passes ... passed\n\n  Scenario Outline: SO2 -- @1.3\n    Given a background step passes ... passed\n    And another background step passes ... passed\n    Given another step passes ... passed\n    Then a step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the Background steps are injected into each ScenarioOutline\"", 
+                        "clause": "then", 
+                        "index": 271
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the Background steps are executed before any ScenarioOutline steps\"", 
+                        "clause": "then", 
+                        "index": 272
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Failing Background Step causes all ScenarioOutlines to fail", 
+                "index": 275
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/background_fail_outline_example.feature\" with:", 
+                        "clause": "given", 
+                        "index": 276
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 277, 
+                        "content": "Feature:\n  Background:\n    Given a background step passes\n    And a background step fails\n    But another background step passes\n\n  Scenario Outline: SO1\n    When a step <outcome1>\n    Then another step <outcome2>\n\n    Examples: Alpha\n      | outcome1 | outcome2 |\n      | passes   | passes   |\n      | passes   | fails    |\n      | fails    | passes   |\n      | fails    | fails    |\n\n  Scenario Outline: SO2\n      When <word1> step passes\n\n    Examples: Beta\n      | word1   |\n      | a       |\n      | another |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/background_fail_outline_example.feature\"", 
+                        "clause": "when", 
+                        "index": 303
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 304
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 305, 
+                        "content": "0 scenarios passed, 6 failed, 0 skipped\n6 steps passed, 6 failed, 16 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 309
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 310, 
+                        "content": "Feature:\n  Background:\n\n  Scenario Outline: SO1 -- @1.1 Alpha\n    Given a background step passes ... passed\n    And a background step fails ... failed\nAssertion Failed: XFAIL: background step\n\n  Scenario Outline: SO1 -- @1.2 Alpha\n    Given a background step passes ... passed\n    And a background step fails ... failed\nAssertion Failed: XFAIL: background step\n\n  Scenario Outline: SO1 -- @1.3 Alpha\n    Given a background step passes ... passed\n    And a background step fails ... failed\nAssertion Failed: XFAIL: background step\n\n  Scenario Outline: SO1 -- @1.4 Alpha\n    Given a background step passes ... passed\n    And a background step fails ... failed\nAssertion Failed: XFAIL: background step\n\n  Scenario Outline: SO2 -- @1.1 Beta\n    Given a background step passes ... passed\n    And a background step fails ... failed\nAssertion Failed: XFAIL: background step\n\n  Scenario Outline: SO2 -- @1.2 Beta\n    Given a background step passes ... passed\n    And a background step fails ... failed\nAssertion Failed: XFAIL: background step"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the failing Background step causes each ScenarioOutline to be marked as skipped\"", 
+                        "clause": "then", 
+                        "index": 344
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature with Background after first Scenario should fail (SAD CASE)", 
+                "index": 347
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/background_sad_example1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 348
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 349, 
+                        "content": "Feature:\n  Scenario: S1\n    When a step passes\n\n  Background: B1\n    Given a background step passes\n\n  Scenario: S2\n    Then a step passes\n    And another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/background_sad_example1.feature\"", 
+                        "clause": "when", 
+                        "index": 361
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 362
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 363, 
+                        "content": "Parser failure in state steps, at line 5: 'Background: B1'\nREASON: Background may not occur after Scenario/ScenarioOutline."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature with two Backgrounds should fail (SAD CASE)", 
+                "index": 369
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/background_sad_example2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 370
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 371, 
+                        "content": "Feature:\n  Background: B1\n    Given a background step passes\n\n  Background: B2 (XFAIL)\n    Given another background step passes\n\n  Scenario: S1\n    When a step passes\n\n  Scenario: S2\n    Then a step passes\n    And another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/background_sad_example2.feature\"", 
+                        "clause": "when", 
+                        "index": 386
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 387
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 388, 
+                        "content": "Parser failure in state steps, at line 5: 'Background: B2 (XFAIL)'\nREASON: Background should not be used here."
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,599 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Steps Usage Formatter", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a test writer\nI want to get an overview which step definitions are used and where\nTo simplify the refactoring of step definitions (and features).\n\n. SOLUTION: Use StepsUsageFormatter in dry-run mode, like:\n.\n.       behave --dry-run -f steps.usage features/\n.\n. NOTE: This formatter corresponds to the \"usage\" formatter in cucumber."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 14, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 15
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 18, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass\n\n@step('{word:w} step fails')\ndef step_passes(context, word):\n    assert False, \"XFAIL-STEP\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/unused_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 30, 
+                        "content": "from behave import step\n\n@step('an unused step')\ndef step_unused(context):\n    pass\n\n@step('another unused step')\ndef step_another_unused(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/alice_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "from behave import given, when, then\n\n@given('{person} lives in {city}')\ndef step_given_person_lives_in_city(context, person, city):\n    pass\n\n@when('I visit {person}')\ndef step_when_visit_person(context, person):\n    pass\n\n@then('I meet {person} in {city}')\ndef step_then_meet_person_in_city(context, person, city):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/charly_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 58, 
+                        "content": "from behave import given, when, then\n\n@given('{person} works for {company}')\ndef step_given_person_works_for_company(context, person, company):\n    pass\n\n@when('I plan a meeting with {person}')\ndef step_when_plan_meeting_with_person(context, person):\n    pass\n\n@then('I meet him at the {company} office')\ndef step_then_meet_him_at_company_office(context, company):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 73
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 74, 
+                        "content": "Feature:\n  Scenario: Visit Alice\n    Given Alice lives in Paris\n    When I visit Alice\n    Then I meet Alice in Paris\n\n  Scenario: Visit Bob\n    Given Bob lives in Berlin\n    When I visit Bob\n    Then I meet Bob in Berlin"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 86
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 87, 
+                        "content": "Feature:\n  Scenario: Visit Bob\n    Given Bob lives in Barcelona\n    When I visit Bob\n    Then I meet Bob in Barcelona\n    And a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/charly.feature\" with:", 
+                        "clause": "given", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 96, 
+                        "content": "Feature:\n  Scenario: Meeting with Charly\n    Given Charly works for ACME\n    When I plan a meeting with Charly\n    Then I meet him at the ACME office"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 105, 
+                "content": [
+                    "usecase.primary"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Show step definitions usage with all features in dry-run mode", 
+                "index": 106
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run -f steps.usage features/\"", 
+                        "clause": "when", 
+                        "index": 107
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 108
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 109, 
+                        "content": "@given('{person} lives in {city}')        # features/steps/alice_steps.py:3\n  Given Alice lives in Paris              # features/alice.feature:3\n  Given Bob lives in Berlin               # features/alice.feature:8\n  Given Bob lives in Barcelona            # features/bob.feature:3\n\n@when('I visit {person}')                 # features/steps/alice_steps.py:7\n  When I visit Alice                      # features/alice.feature:4\n  When I visit Bob                        # features/alice.feature:9\n  When I visit Bob                        # features/bob.feature:4\n\n@then('I meet {person} in {city}')        # features/steps/alice_steps.py:11\n  Then I meet Alice in Paris              # features/alice.feature:5\n  Then I meet Bob in Berlin               # features/alice.feature:10\n  Then I meet Bob in Barcelona            # features/bob.feature:5\n\n@given('{person} works for {company}')    # features/steps/charly_steps.py:3\n  Given Charly works for ACME             # features/charly.feature:3\n\n@when('I plan a meeting with {person}')   # features/steps/charly_steps.py:7\n  When I plan a meeting with Charly       # features/charly.feature:4\n\n@then('I meet him at the {company} office')  # features/steps/charly_steps.py:11\n  Then I meet him at the ACME office         # features/charly.feature:5\n\n@step('{word:w} step passes')             # features/steps/passing_steps.py:3\n  And a step passes                       # features/bob.feature:6\n\nUNUSED STEP DEFINITIONS[3]:\n  @step('{word:w} step fails')            # features/steps/passing_steps.py:7\n  @step('an unused step')                 # features/steps/unused_steps.py:3\n  @step('another unused step')            # features/steps/unused_steps.py:7"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the UNUSED STEP DEFINITIONS are ordered by file location\"", 
+                        "clause": "then", 
+                        "index": 142
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"step definitions from unused_steps.py are not used by any feature\"", 
+                        "clause": "then", 
+                        "index": 143
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 146, 
+                "content": [
+                    "usecase.primary"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Show step definitions usage with one feature (dry-run mode)", 
+                "index": 147
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run -f steps.usage features/alice.feature\"", 
+                        "clause": "when", 
+                        "index": 148
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 149
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 150, 
+                        "content": "@given('{person} lives in {city}')        # features/steps/alice_steps.py:3\n  Given Alice lives in Paris              # features/alice.feature:3\n  Given Bob lives in Berlin               # features/alice.feature:8\n\n@when('I visit {person}')                 # features/steps/alice_steps.py:7\n  When I visit Alice                      # features/alice.feature:4\n  When I visit Bob                        # features/alice.feature:9\n\n@then('I meet {person} in {city}')        # features/steps/alice_steps.py:11\n  Then I meet Alice in Paris              # features/alice.feature:5\n  Then I meet Bob in Berlin               # features/alice.feature:10\n\nUNUSED STEP DEFINITIONS[7]:\n  @given('{person} works for {company}')       # features/steps/charly_steps.py:3\n  @when('I plan a meeting with {person}')      # features/steps/charly_steps.py:7\n  @then('I meet him at the {company} office')  # features/steps/charly_steps.py:11\n  @step('{word:w} step passes')                # features/steps/passing_steps.py:3\n  @step('{word:w} step fails')                 # features/steps/passing_steps.py:7\n  @step('an unused step')                      # features/steps/unused_steps.py:3\n  @step('another unused step')                 # features/steps/unused_steps.py:7"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"step definitions from charly_steps.py, passing_steps.py are now no longer used\"", 
+                        "clause": "then", 
+                        "index": 172
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 175, 
+                "content": [
+                    "usecase.primary"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Show step definitions usage with two features (dry-run mode)", 
+                "index": 176
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run -f steps.usage features/alice.feature features/charly.feature\"", 
+                        "clause": "when", 
+                        "index": 177
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 178
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 179, 
+                        "content": "@given('{person} lives in {city}')        # features/steps/alice_steps.py:3\n  Given Alice lives in Paris              # features/alice.feature:3\n  Given Bob lives in Berlin               # features/alice.feature:8\n\n@when('I visit {person}')                 # features/steps/alice_steps.py:7\n  When I visit Alice                      # features/alice.feature:4\n  When I visit Bob                        # features/alice.feature:9\n\n@then('I meet {person} in {city}')        # features/steps/alice_steps.py:11\n  Then I meet Alice in Paris              # features/alice.feature:5\n  Then I meet Bob in Berlin               # features/alice.feature:10\n\n@given('{person} works for {company}')    # features/steps/charly_steps.py:3\n  Given Charly works for ACME             # features/charly.feature:3\n\n@when('I plan a meeting with {person}')   # features/steps/charly_steps.py:7\n  When I plan a meeting with Charly       # features/charly.feature:4\n\n@then('I meet him at the {company} office')  # features/steps/charly_steps.py:11\n  Then I meet him at the ACME office         # features/charly.feature:5\n\nUNUSED STEP DEFINITIONS[4]:\n  @step('{word:w} step passes')           # features/steps/passing_steps.py:3\n  @step('{word:w} step fails')            # features/steps/passing_steps.py:7\n  @step('an unused step')                 # features/steps/unused_steps.py:3\n  @step('another unused step')            # features/steps/unused_steps.py:7"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"step definitions from passing_steps.py, unused_steps.py are not used by any feature\"", 
+                        "clause": "then", 
+                        "index": 207
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 210, 
+                "content": [
+                    "usecase.secondary"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Show step definitions usage with all features in normal mode", 
+                "index": 211
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f steps.usage features/\"", 
+                        "clause": "when", 
+                        "index": 212
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 213
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 214, 
+                        "content": "@given('{person} lives in {city}')        # features/steps/alice_steps.py:3\n  Given Alice lives in Paris              # features/alice.feature:3\n  Given Bob lives in Berlin               # features/alice.feature:8\n  Given Bob lives in Barcelona            # features/bob.feature:3\n\n@when('I visit {person}')                 # features/steps/alice_steps.py:7\n  When I visit Alice                      # features/alice.feature:4\n  When I visit Bob                        # features/alice.feature:9\n  When I visit Bob                        # features/bob.feature:4\n\n@then('I meet {person} in {city}')        # features/steps/alice_steps.py:11\n  Then I meet Alice in Paris              # features/alice.feature:5\n  Then I meet Bob in Berlin               # features/alice.feature:10\n  Then I meet Bob in Barcelona            # features/bob.feature:5\n\n@given('{person} works for {company}')    # features/steps/charly_steps.py:3\n  Given Charly works for ACME             # features/charly.feature:3\n\n@when('I plan a meeting with {person}')   # features/steps/charly_steps.py:7\n  When I plan a meeting with Charly       # features/charly.feature:4\n\n@then('I meet him at the {company} office')  # features/steps/charly_steps.py:11\n  Then I meet him at the ACME office         # features/charly.feature:5\n\n@step('{word:w} step passes')             # features/steps/passing_steps.py:3\n  And a step passes                       # features/bob.feature:6\n\nUNUSED STEP DEFINITIONS[3]:\n  @step('{word:w} step fails')            # features/steps/passing_steps.py:7\n  @step('an unused step')                 # features/steps/unused_steps.py:3\n  @step('another unused step')            # features/steps/unused_steps.py:7"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 248, 
+                "content": [
+                    "corner.case"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "StepsUsageFormatter shows undefined steps", 
+                "index": 249
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/undefined.feature\" with:", 
+                        "clause": "given", 
+                        "index": 250
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 251, 
+                        "content": "Feature: With undefined steps\n  Scenario:\n    Given a step is undefined\n    Then another step is undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run -f steps.usage features/alice.feature features/undefined.feature\"", 
+                        "clause": "when", 
+                        "index": 257
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 258
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 259, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 0 skipped, 3 untested\n0 steps passed, 0 failed, 0 skipped, 2 undefined, 6 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 264
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 265, 
+                        "content": "@given('{person} lives in {city}')        # features/steps/alice_steps.py:3\n  Given Alice lives in Paris              # features/alice.feature:3\n  Given Bob lives in Berlin               # features/alice.feature:8\n\n@when('I visit {person}')                 # features/steps/alice_steps.py:7\n  When I visit Alice                      # features/alice.feature:4\n  When I visit Bob                        # features/alice.feature:9\n\n@then('I meet {person} in {city}')        # features/steps/alice_steps.py:11\n  Then I meet Alice in Paris              # features/alice.feature:5\n  Then I meet Bob in Berlin               # features/alice.feature:10\n\nUNUSED STEP DEFINITIONS[7]:\n  @given('{person} works for {company}')       # features/steps/charly_steps.py:3\n  @when('I plan a meeting with {person}')      # features/steps/charly_steps.py:7\n  @then('I meet him at the {company} office')  # features/steps/charly_steps.py:11\n  @step('{word:w} step passes')                # features/steps/passing_steps.py:3\n  @step('{word:w} step fails')                 # features/steps/passing_steps.py:7\n  @step('an unused step')                      # features/steps/unused_steps.py:3\n  @step('another unused step')                 # features/steps/unused_steps.py:7\n\nUNDEFINED STEPS[2]:\n  Given a step is undefined               # features/undefined.feature:3\n  Then another step is undefined          # features/undefined.feature:4"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 293, 
+                "content": [
+                    "corner.case"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "StepsUsageFormatter shows all locations of undefined step usage", 
+                "index": 294
+            }, 
+            "description": {
+                "index": 296, 
+                "content": "Ensure that all location are shown where an undefined step is used"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/undefined_duplicates.feature\" with:", 
+                        "clause": "given", 
+                        "index": 298
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 299, 
+                        "content": "Feature: With undefined steps\n\n  Scenario: Same undefined step used twice\n    Given a step is undefined\n    And a step is undefined\n    Then a step passes\n\n  Scenario: Same undefined step used again\n    Given a step passes\n    And a step is undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run -f steps.usage features/undefined_duplicates.feature\"", 
+                        "clause": "when", 
+                        "index": 311
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 312
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 313, 
+                        "content": "0 scenarios passed, 0 failed, 0 skipped, 2 untested\n0 steps passed, 0 failed, 0 skipped, 3 undefined, 2 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 317
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 318, 
+                        "content": "UNDEFINED STEPS[3]:\n  Given a step is undefined               # features/undefined_duplicates.feature:4\n  And a step is undefined                 # features/undefined_duplicates.feature:5\n  And a step is undefined                 # features/undefined_duplicates.feature:10"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 325, 
+                "content": [
+                    "use_outline"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Scenario Outlines should not cause duplicated step entries", 
+                "index": 326
+            }, 
+            "description": {
+                "index": 328, 
+                "content": "Scenario Outlines generate Scenarios that use the same step multiple times.\nThis duplication should not be listed."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/use_scenario_outline.feature\" with:", 
+                        "clause": "given", 
+                        "index": 331
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 332, 
+                        "content": "Feature:\n  Scenario Outline:\n    Given a step <outcome1>\n    When another step <outcome2>\n\n  Examples:\n    | outcome1 | outcome2 |\n    |  passes  | passes   |\n    |  passes  | fails    |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run -f steps.usage features/use_scenario_outline.feature\"", 
+                        "clause": "when", 
+                        "index": 343
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 344
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 345, 
+                        "content": "0 scenarios passed, 0 failed, 0 skipped, 2 untested\n0 steps passed, 0 failed, 0 skipped, 0 undefined, 4 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 349
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 350, 
+                        "content": "@step('{word:w} step passes')             # features/steps/passing_steps.py:3\n  Given a step passes                     # features/use_scenario_outline.feature:3\n  When another step passes                # features/use_scenario_outline.feature:4\n\n@step('{word:w} step fails')              # features/steps/passing_steps.py:7\n  When another step fails                 # features/use_scenario_outline.feature:4"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 358
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 359, 
+                        "content": "@step('{word:w} step passes')             # features/steps/passing_steps.py:3\n  Given a step passes                     # features/use_scenario_outline.feature:3\n  When another step passes                # features/use_scenario_outline.feature:4\n  Given a step passes                     # features/use_scenario_outline.feature:3"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 366, 
+                "content": [
+                    "use_outline"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Scenario Outlines should not cause duplicated entries for undefined steps", 
+                "index": 367
+            }, 
+            "description": {
+                "index": 369, 
+                "content": "Scenario Outlines generate Scenarios that use the same step multiple times.\nThis duplication should not be listed."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/scenario_outline_with_undefined.feature\" with:", 
+                        "clause": "given", 
+                        "index": 372
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 373, 
+                        "content": "Feature:\n  Scenario Outline:\n    Given a step is <status1>\n    When another step is <status2>\n\n  Examples:\n    | status1   | status2   |\n    | undefined | undefined |\n    | undefined | undefined |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run -f steps.usage features/scenario_outline_with_undefined.feature\"", 
+                        "clause": "when", 
+                        "index": 384
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 385
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 386, 
+                        "content": "0 scenarios passed, 0 failed, 0 skipped, 2 untested\n0 steps passed, 0 failed, 0 skipped, 4 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 390
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 391, 
+                        "content": "UNDEFINED STEPS[2]:\n  Given a step is undefined               # features/scenario_outline_with_undefined.feature:3\n  When another step is undefined          # features/scenario_outline_with_undefined.feature:4"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 396
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 397, 
+                        "content": "UNDEFINED STEPS[2]:\n  Given a step is undefined               # features/scenario_outline_with_undefined.feature:3\n  Given a step is undefined               # features/scenario_outline_with_undefined.feature:3\n  When another step is undefined          # features/scenario_outline_with_undefined.feature:4\n  When another step is undefined          # features/scenario_outline_with_undefined.feature:4"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

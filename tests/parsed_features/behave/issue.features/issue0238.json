@@ -1,0 +1,105 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue", 
+            "feature_request"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #238 Skip a Scenario in a Scenario Outline", 
+        "index": 2
+    }, 
+    "description": null, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 4
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 5
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/issue238_1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 6
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 7, 
+                        "content": "Feature: Testing Scenario skipping\n    Scenario Outline:\n        Given a set of \"<thing>\"\n        When I ensure that \"<thing>\" != invalid\n        Then it should pass\n\n      Examples:\n        | thing   |\n        | valid   |\n        | invalid |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 20, 
+                        "content": "@given('a set of \"{thing}\"')\ndef step_check_thing_assumption(ctx, thing):\n    if thing == \"invalid\":\n        ctx.scenario.skip(\"ASSUMPTION-MISMATCH: INVALID-THING\")\n\n@when('I ensure that \"{thing}\" != invalid')\ndef step_ensure_that_thing_is_valid(ctx, thing):\n    assert thing != \"invalid\"\n\n@then('it should pass')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --show-skipped --no-timings\"", 
+                        "clause": "when", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 1 skipped\n3 steps passed, 0 failed, 3 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "Scenario Outline:  -- @1.1\n  Given a set of \"valid\" ... passed\n  When I ensure that \"valid\" != invalid ... passed\n  Then it should pass ... passed\n\nScenario Outline:  -- @1.2\n  Given a set of \"invalid\" ... skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the step that skipped the scenario is also marked as skipped\"", 
+                        "clause": "then", 
+                        "index": 51
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

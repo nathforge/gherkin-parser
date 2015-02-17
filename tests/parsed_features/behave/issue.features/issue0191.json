@@ -1,0 +1,282 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #191 Using context.execute_steps() may change context.table/.text", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". PROBLEM DESCRIPTION:\n. When you execute nested steps via \"context.execute_steps()\" in a\n. step implementation, the following context attributes of the current step\n. may be modified and may be longer valid:\n.   * context.text (multi-line text)\n.   * context.table"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 11, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 12
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/common_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 15, 
+                        "content": "from behave import given, step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass\n\n@given('I define the following nested steps')\ndef step_define_nested_steps(context):\n    assert context.text is not None, \"REQUIRE: text\"\n    context.nested_steps = context.text"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/table_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 28, 
+                        "content": "from behave import when, then, step\n\n@step('I use another table with')\ndef step_use_another_table_with(context):\n    assert context.table, \"REQUIRE: table\"\n    context.nested_table = context.table\n\n@when('I execute the nested steps and use the table')\ndef step_execute_nested_steps_and_use_table(context):\n    assert context.table, \"REQUIRE: table\"\n    assert context.nested_steps, \"REQUIRE: context.nested_steps\"\n    context.my_table1 = context.table\n    context.execute_steps(context.nested_steps)\n    context.my_table2 = context.table\n\n@then('the original table is restored after the nested steps are executed')\ndef step_table_is_restored(context):\n    assert context.my_table1 is not None\n    assert context.my_table2 is not None\n    assert context.my_table1 is context.my_table2"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/text_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 51, 
+                        "content": "from behave import when, then, step\n\n@step('I use another step with text \"{text}\"')\ndef step_use_another_text_with(context, text):\n    assert context.text is None\n    context.text = text     # -- MODIFY: context.text (emulation)\n\n@step('I use another text with')\ndef step_use_another_text_with(context):\n    assert context.text is not None, \"REQUIRE: text\"\n    context.nested_text = context.text\n\n@when('I execute the nested steps and use the text')\ndef step_execute_nested_steps_and_use_text(context):\n    assert context.text is not None, \"REQUIRE: text\"\n    assert context.nested_steps, \"REQUIRE: context.nested_steps\"\n    context.my_text1 = context.text\n    context.execute_steps(context.nested_steps)\n    context.my_text2 = context.text\n\n@then('the original text is restored after the nested steps are executed')\ndef step_text_is_restored(context):\n    assert context.my_text1 is not None\n    assert context.my_text2 is not None\n    assert context.my_text1 is context.my_text2"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 79, 
+                "content": [
+                    "nested_steps.with_table"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "After executing simple nested steps the original table is restored", 
+                "index": 80
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.nested_simple_steps_and_table.feature\" with:", 
+                        "clause": "given", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 82, 
+                        "content": "Feature:\n  Scenario:\n    Given I define the following nested steps:\n        '''\n        Given a step passes\n        When another step passes\n        '''\n    When I execute the nested steps and use the table:\n        | Name   | Age |\n        | Alice  | 21  |\n        | Bob    | 32  |\n    Then the original table is restored after the nested steps are executed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/example.nested_simple_steps_and_table.feature\"", 
+                        "clause": "when", 
+                        "index": 96
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 97
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 98, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 103, 
+                "content": [
+                    "nested_steps.with_table"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "After executing nested steps with a table the original table is restored", 
+                "index": 104
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.nested_steps_and_table.feature\" with:", 
+                        "clause": "given", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 106, 
+                        "content": "Feature:\n  Scenario:\n    Given I define the following nested steps:\n        '''\n        Given I use another table with:\n            | Person | Registered |\n            | Anton  | true  |\n            | Barby  | false |\n        '''\n    When I execute the nested steps and use the table:\n        | Name   | Age |\n        | Charly | 41  |\n        | Doro   | 52  |\n    Then the original table is restored after the nested steps are executed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/example.nested_steps_and_table.feature\"", 
+                        "clause": "when", 
+                        "index": 122
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 123
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 124, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 130, 
+                "content": [
+                    "nested_steps.with_text"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "After executing simple nested steps the original text is restored", 
+                "index": 131
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.nested_simple_steps_and_text.feature\" with:", 
+                        "clause": "given", 
+                        "index": 132
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 133, 
+                        "content": "Feature:\n  Scenario:\n    Given I define the following nested steps:\n        '''\n        Given a step passes\n        When another step passes\n        '''\n    When I execute the nested steps and use the text:\n        '''\n        Lorem ipsum\n        Ipsum lorem\n        '''\n    Then the original text is restored after the nested steps are executed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/example.nested_simple_steps_and_text.feature\"", 
+                        "clause": "when", 
+                        "index": 148
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 149
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 150, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 155, 
+                "content": [
+                    "nested_steps.with_text"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "After executing nested steps with a text the original text is restored", 
+                "index": 156
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.nested_steps_and_text.feature\" with:", 
+                        "clause": "given", 
+                        "index": 157
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 158, 
+                        "content": "Feature:\n  Scenario:\n    Given I define the following nested steps:\n        '''\n        Given I use another step with text \"Hello Alice\"\n        '''\n    When I execute the nested steps and use the text:\n        '''\n        Lorem ipsum\n        Ipsum lorem\n        '''\n    Then the original text is restored after the nested steps are executed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/example.nested_steps_and_text.feature\"", 
+                        "clause": "when", 
+                        "index": 172
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 173
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 174, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

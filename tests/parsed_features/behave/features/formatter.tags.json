@@ -1,0 +1,235 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Tags Formatter (Tag Counts)", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a tester\nI want to obtain a quick overview which tags are used (and how often)\nSo that I can better use tags on command-line\n\nNOTE: Primarily intended for dry-run mode."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 9, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 10
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 13, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 21, 
+                        "content": "@one\nFeature: Alice\n\n  @setup\n  Scenario: Setup Feature\n    Given a step passes\n\n  @wip\n  Scenario: A1 with tags: @wip (inherited: @one)\n    Given a step passes\n\n  @foo\n  @wip\n  Scenario: A2 with tags: @foo, @wip (inherited: @one)\n    When a step passes\n\n  @foo @bar\n  Scenario: A3 with tags: @foo, @bar (inherited: @one)\n    Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 42
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 43, 
+                        "content": "@two\nFeature: Bob\n\n  Scenario: B1 without tags (inherited: @two)\n    Given a step passes\n\n  @foo @one\n  Scenario: B2 with tags: @foo, @one (inherited: @two)\n    When a step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use Tags formatter to get an overview of used tags", 
+                "index": 56
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f tags --dry-run features/\"", 
+                        "clause": "when", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 0 skipped, 6 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 64, 
+                        "content": "TAG COUNTS (alphabetically sorted):\n  @bar      1    (used for scenario)\n  @foo      3    (used for scenario)\n  @one      2    (used for feature: 1, scenario: 1)\n  @setup    1    (used for scenario)\n  @two      1    (used for feature)\n  @wip      2    (used for scenario)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"tags inherited from its feature are (normally) not counted.\"", 
+                        "clause": "then", 
+                        "index": 73
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use Tags formatter together with another formatter", 
+                "index": 76
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f tags -f plain -T features/\"", 
+                        "clause": "when", 
+                        "index": 77
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 78
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 79, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n6 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 83
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 84, 
+                        "content": "Feature: Alice\n\n  Scenario: Setup Feature\n    Given a step passes ... passed\n\n  Scenario: A1 with tags: @wip (inherited: @one)\n    Given a step passes ... passed\n\n  Scenario: A2 with tags: @foo, @wip (inherited: @one)\n    When a step passes ... passed\n\n  Scenario: A3 with tags: @foo, @bar (inherited: @one)\n    Then a step passes ... passed\n\nFeature: Bob\n\n  Scenario: B1 without tags (inherited: @two)\n    Given a step passes ... passed\n\n  Scenario: B2 with tags: @foo, @one (inherited: @two)\n    When a step passes ... passed\n\nTAG COUNTS (alphabetically sorted):\n  @bar      1    (used for scenario)\n  @foo      3    (used for scenario)\n  @one      2    (used for feature: 1, scenario: 1)\n  @setup    1    (used for scenario)\n  @two      1    (used for feature)\n  @wip      2    (used for scenario)"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use Tags formatter when tags are selected", 
+                "index": 116
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f tags --tags=@setup,@wip features/\"", 
+                        "clause": "when", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 118
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 119, 
+                        "content": "1 feature passed, 0 failed, 1 skipped\n3 scenarios passed, 0 failed, 3 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 123
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 124, 
+                        "content": "TAG COUNTS (alphabetically sorted):\n  @bar      1    (used for scenario)\n  @foo      3    (used for scenario)\n  @one      2    (used for feature: 1, scenario: 1)\n  @setup    1    (used for scenario)\n  @two      1    (used for feature)\n  @wip      2    (used for scenario)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"all tags are detected even from skipped features and scenarios\"", 
+                        "clause": "then", 
+                        "index": 133
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

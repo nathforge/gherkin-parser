@@ -1,0 +1,64 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #171: Importing step from other step file fails with AmbiguousStep Error", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". When a step module imports another step module\n. this should not cause AmbiguousStep errors\n. due to duplicated registration of the same step functions.\n.\n. NOTES:\n.   * In general you should avoid this case (provided as example here)."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 11, 
+                "content": [
+                    "reuse.colocated_test"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Step module imports other step module", 
+                "index": 12
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I use the current directory as working directory", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/step.import_other_step_module.feature\"", 
+                        "clause": "when", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

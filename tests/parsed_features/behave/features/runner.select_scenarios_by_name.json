@@ -1,0 +1,556 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Select named scenarios to run", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a tester\nI want to select a subset of all scenarios\nBy using their name or parts of the scenario name.\n\n. SPECIFICATION: When --name option is provided\n.   * Name selection is applied only to scenarios (currently)\n.   * A scenario is selected when scenario name part matches one of the provided names\n.   * Regular expressions can be used to match parts\n.   * If a scenario is not selected, it should be marked as skipped"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 14, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 15
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 18, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 25
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 26, 
+                        "content": "Feature: Alice\n    Scenario: Alice in Wonderland\n        Given a step passes\n\n    Scenario: Alice in Florida\n        When a step passes\n\n    Scenario: Alice in Antarctica\n        Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 38, 
+                        "content": "Feature: Bob\n    Scenario: Bob in Berlin\n        Given a step passes\n\n    Scenario: Bob in Florida\n        When a step passes\n\n    Scenario: Alice and Bob\n        Then a step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios with name=\"Alice\" and inspect list", 
+                "index": 51
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --name=\"Alice\" --dry-run features/\"", 
+                        "clause": "when", 
+                        "index": 52
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 54, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 2 skipped, 4 untested\n0 steps passed, 0 failed, 2 skipped, 0 undefined, 4 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 60, 
+                        "content": "Feature: Alice\n    Scenario: Alice in Wonderland\n    Scenario: Alice in Florida\n    Scenario: Alice in Antarctica\n\nFeature: Bob\n    Scenario: Alice and Bob"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios with name=\"Alice\" and run them", 
+                "index": 70
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --name=\"Alice\" features/\"", 
+                        "clause": "when", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 72
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 73, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n4 scenarios passed, 0 failed, 2 skipped\n4 steps passed, 0 failed, 2 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 78
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 79, 
+                        "content": "Feature: Alice\n  Scenario: Alice in Wonderland\n    Given a step passes ... passed\n  Scenario: Alice in Florida\n    When a step passes ... passed\n  Scenario: Alice in Antarctica\n    Then a step passes ... passed\n\nFeature: Bob\n  Scenario: Alice and Bob\n    Then a step passes ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios with name=\"Bob\"", 
+                "index": 93
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --name=\"Bob\" --dry-run features/\"", 
+                        "clause": "when", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 96, 
+                        "content": "0 features passed, 0 failed, 1 skipped, 1 untested\n0 scenarios passed, 0 failed, 3 skipped, 3 untested\n0 steps passed, 0 failed, 3 skipped, 0 undefined, 3 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 101
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 102, 
+                        "content": "Feature: Bob\n    Scenario: Bob in Berlin\n    Scenario: Bob in Florida\n    Scenario: Alice and Bob"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios with name=\"Florida\"", 
+                "index": 109
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --name=\"Florida\" --dry-run features/\"", 
+                        "clause": "when", 
+                        "index": 110
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 112, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 4 skipped, 2 untested\n0 steps passed, 0 failed, 4 skipped, 0 undefined, 2 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 118, 
+                        "content": "Feature: Alice\n    Scenario: Alice in Florida\n\nFeature: Bob\n    Scenario: Bob in Florida"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios with name that consists of multiple words", 
+                "index": 126
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --name=\"Alice and Bob\" --dry-run features/\"", 
+                        "clause": "when", 
+                        "index": 127
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 128
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 129, 
+                        "content": "0 features passed, 0 failed, 1 skipped, 1 untested\n0 scenarios passed, 0 failed, 5 skipped, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 133
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 134, 
+                        "content": "Feature: Bob\n    Scenario: Alice and Bob"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios by using two names", 
+                "index": 139
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --name=\"Alice\" --name=\"Florida\" --dry-run features/\"", 
+                        "clause": "when", 
+                        "index": 140
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 141
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 142, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 1 skipped, 5 untested\n0 steps passed, 0 failed, 1 skipped, 0 undefined, 5 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 147
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 148, 
+                        "content": "Feature: Alice\n  Scenario: Alice in Wonderland\n  Scenario: Alice in Florida\n  Scenario: Alice in Antarctica\n\nFeature: Bob\n  Scenario: Bob in Florida\n  Scenario: Alice and Bob"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios by using a regular expression", 
+                "index": 159
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --name=\"Alice in .*\" --dry-run features/\"", 
+                        "clause": "when", 
+                        "index": 160
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 161
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 162, 
+                        "content": "0 features passed, 0 failed, 1 skipped, 1 untested\n0 scenarios passed, 0 failed, 3 skipped, 3 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 166
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 167, 
+                        "content": "Feature: Alice\n  Scenario: Alice in Wonderland\n  Scenario: Alice in Florida\n  Scenario: Alice in Antarctica"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 173
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 174, 
+                        "content": "Scenario: Bob in"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios by using another regular expression", 
+                "index": 178
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --name=\".* in .*\" --dry-run features/\"", 
+                        "clause": "when", 
+                        "index": 179
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 180
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 181, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 1 skipped, 5 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 185
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 186, 
+                        "content": "Feature: Alice\n  Scenario: Alice in Wonderland\n  Scenario: Alice in Florida\n  Scenario: Alice in Antarctica\n\nFeature: Bob\n    Scenario: Bob in Berlin\n    Scenario: Bob in Florida"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 196
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 197, 
+                        "content": "Scenario: Alice and Bob"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios by using two regular expressions", 
+                "index": 201
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --name=\"Alice in .*\" --name=\"Bob in .*\" --dry-run features/\"", 
+                        "clause": "when", 
+                        "index": 202
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 203
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 204, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 1 skipped, 5 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 208
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 209, 
+                        "content": "Feature: Alice\n  Scenario: Alice in Wonderland\n  Scenario: Alice in Florida\n  Scenario: Alice in Antarctica\n\nFeature: Bob\n    Scenario: Bob in Berlin\n    Scenario: Bob in Florida"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 219
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 220, 
+                        "content": "Scenario: Alice and Bob"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select scenarios by using an unknown/unused name", 
+                "index": 224
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --name=\"UNKNOWN\" --dry-run features/\"", 
+                        "clause": "when", 
+                        "index": 225
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 226
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 227, 
+                        "content": "0 features passed, 0 failed, 2 skipped\n0 scenarios passed, 0 failed, 6 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

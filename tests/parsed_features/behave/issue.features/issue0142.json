@@ -1,0 +1,108 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue", 
+            "not_reproducible"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #142: --junit flag fails to output with step table data: TypeError: <Row [u'data', u'value']> is not JSON serializable", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": "DUPLICATES: issue"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 6
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 7
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 8
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 9, 
+                        "content": "from behave import given, when, then, step\n\n@then('use table data with')\ndef step_impl(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/issue0142_example.feature\" with:", 
+                        "clause": "given", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 17, 
+                        "content": "Feature:\n    Scenario: Use a table\n     Then use table data with:\n         | data                             | value |\n         | behave outputs junit with tables | false |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --junit -f json features/issue0142_example.feature\"", 
+                        "clause": "when", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 25
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 27, 
+                        "content": "TypeError: <Row [u'behave outputs junit with tables', u'false']> is not JSON serializable"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 31, 
+                        "content": "Traceback (most recent call last):"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

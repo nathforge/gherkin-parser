@@ -1,0 +1,349 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Runner should support a --dry-run option", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a tester\nI want to check if behave tests are syntactically correct\nAnd all step definitions exist\nBefore I actually run the tests (by executing steps).\n\n. SPECIFICATION: Dry-run mode\n.   * Undefined steps are detected\n.   * Marks steps as \"untested\" or \"undefined\"\n.   * Marks scenarios as \"untested\"\n.   * Marks features as \"untested\"\n.   * Causes no failed scenarios, features\n.   * Causes failed test-run when undefined steps are found."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 16, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 17
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 20, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass\n\n@step('a step fails')\ndef step_fails(context):\n    assert False, \"XFAIL\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 31
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 32, 
+                        "content": "Feature: Alice\n\n    @selected\n    Scenario: A1\n        Given a step passes\n        When a step passes\n        Then a step passes\n\n    @other_selected\n    Scenario: A2\n        Given a step passes\n        When a step fails\n        Then a step passes\n\n    @selected\n    Scenario: A3\n        Given a step passes\n\n    @selected\n    Scenario: A4\n        Given a step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 56, 
+                        "content": "Feature: Bob\n    Scenario: B1\n        Given a step passes\n        When a step passes\n        Then a step passes\n\n    Scenario: B2\n        Given a step passes\n        When a step fails\n        Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/undefined_steps.feature\" with:", 
+                        "clause": "given", 
+                        "index": 68
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 69, 
+                        "content": "Feature: Undefined Steps\n\n    @selected\n    Scenario: U1\n        Given a step passes\n        When a step is undefined\n        Then a step fails\n\n    @other_selected\n    Scenario: U2 fails\n        Given a step is undefined\n        When a step passes\n        And  a step fails\n        Then a step is undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Dry-run one feature should mark feature/scenarios/steps as untested", 
+                "index": 87
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run features/alice.feature\"", 
+                        "clause": "when", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 90, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 0 skipped, 4 untested\n0 steps passed, 0 failed, 0 skipped, 0 undefined, 8 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 96, 
+                        "content": "Feature: Alice\n    Scenario: A1\n    Scenario: A2\n    Scenario: A3\n    Scenario: A4"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Dry-run one feature with tags should mark skipped scenario/steps as skipped", 
+                "index": 104
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --tags=@selected --no-skipped features/alice.feature\"", 
+                        "clause": "when", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 106
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 107, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 1 skipped, 3 untested\n0 steps passed, 0 failed, 3 skipped, 0 undefined, 5 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 112
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 113, 
+                        "content": "Feature: Alice\n    Scenario: A1\n    Scenario: A3\n    Scenario: A4"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Dry-run two features", 
+                "index": 121
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run features/alice.feature features/bob.feature\"", 
+                        "clause": "when", 
+                        "index": 122
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 123
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 124, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 0 skipped, 6 untested\n0 steps passed, 0 failed, 0 skipped, 0 undefined, 14 untested"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Dry-run one feature with undefined steps", 
+                "index": 130
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run features/undefined_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 131
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 132
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 133, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 0 skipped, 2 untested\n0 steps passed, 0 failed, 0 skipped, 3 undefined, 4 untested"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Dry-run two features, one with undefined steps", 
+                "index": 139
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run features/alice.feature features/undefined_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 140
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 141
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 142, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 0 skipped, 6 untested\n0 steps passed, 0 failed, 0 skipped, 3 undefined, 12 untested"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Dry-run two features, one with undefined steps and use tags", 
+                "index": 148
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run --tags=@selected features/alice.feature features/undefined_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 149
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 150
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 151, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 2 skipped, 4 untested\n0 steps passed, 0 failed, 7 skipped, 1 undefined, 7 untested"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Dry-run two features, one with undefined steps and use other tags", 
+                "index": 157
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run --tags=@other_selected features/alice.feature features/undefined_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 158
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 159
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 160, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 2 untested\n0 scenarios passed, 0 failed, 4 skipped, 2 untested\n0 steps passed, 0 failed, 8 skipped, 2 undefined, 5 untested"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

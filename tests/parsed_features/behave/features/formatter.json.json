@@ -1,0 +1,648 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "JSON Formatter", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "In order to process data with other tools\nAs a tester\nI want that behave generates test run data in JSON format."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 8, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 9
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 12, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass\n\n@step('a step fails')\ndef step_fails(context):\n    assert False, \"XFAIL-STEP\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter on simple feature", 
+                "index": 24
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/simple_feature_with_name.feature\" with:", 
+                        "clause": "given", 
+                        "index": 25
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 26, 
+                        "content": "Feature: Simple, empty Feature"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json.pretty features/simple_feature_with_name.feature\"", 
+                        "clause": "when", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 31, 
+                        "content": "0 features passed, 0 failed, 1 skipped\n0 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "[\n  {\n    \"keyword\": \"Feature\",\n    \"location\": \"features/simple_feature_with_name.feature:1\",\n    \"name\": \"Simple, empty Feature\",\n    \"status\": \"skipped\",\n    \"tags\": []\n  }\n]"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter on simple feature with description", 
+                "index": 48
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/simple_feature_with_description.feature\" with:", 
+                        "clause": "given", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 50, 
+                        "content": "Feature: Simple feature with description\n\n    First feature description line.\n    Second feature description line.\n\n    Third feature description line (following an empty line)."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json.pretty features/simple_feature_with_description.feature\"", 
+                        "clause": "when", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 60, 
+                        "content": "0 features passed, 0 failed, 1 skipped\n0 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 65, 
+                        "content": "[\n  {\n    \"description\": [\n      \"First feature description line.\",\n      \"Second feature description line.\",\n      \"Third feature description line (following an empty line).\"\n    ],\n    \"keyword\": \"Feature\",\n    \"location\": \"features/simple_feature_with_description.feature:1\",\n    \"name\": \"Simple feature with description\",\n    \"status\": \"skipped\",\n    \"tags\": []\n  }\n]"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter on simple feature with tags", 
+                "index": 82
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/simple_feature_with_tags.feature\" with:", 
+                        "clause": "given", 
+                        "index": 83
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 84, 
+                        "content": "@foo @bar\nFeature: Simple feature with tags"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json.pretty features/simple_feature_with_tags.feature\"", 
+                        "clause": "when", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 90, 
+                        "content": "0 features passed, 0 failed, 1 skipped\n0 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 95, 
+                        "content": "[\n  {\n    \"keyword\": \"Feature\",\n    \"location\": \"features/simple_feature_with_tags.feature:2\",\n    \"name\": \"Simple feature with tags\",\n    \"status\": \"skipped\",\n    \"tags\": [\n      \"foo\",\n      \"bar\"\n    ]\n  }\n]"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter with feature and one scenario without steps", 
+                "index": 110
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/simple_scenario.feature\" with:", 
+                        "clause": "given", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 112, 
+                        "content": "Feature:\n  Scenario: Simple scenario without steps"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json.pretty features/simple_scenario.feature\"", 
+                        "clause": "when", 
+                        "index": 116
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 118, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 122
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 123, 
+                        "content": "[\n  {\n    \"elements\": [\n      {\n        \"keyword\": \"Scenario\",\n        \"location\": \"features/simple_scenario.feature:2\",\n        \"name\": \"Simple scenario without steps\",\n        \"steps\": [],\n        \"tags\": [],\n        \"type\": \"scenario\"\n      }\n    ],\n    \"keyword\": \"Feature\",\n    \"location\": \"features/simple_scenario.feature:1\",\n    \"name\": \"\",\n    \"status\": \"passed\",\n    \"tags\": []\n  }\n]"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter with feature and one scenario with description", 
+                "index": 145
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/simple_scenario_with_description.feature\" with:", 
+                        "clause": "given", 
+                        "index": 146
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 147, 
+                        "content": "Feature:\n  Scenario: Simple scenario with description but without steps\n\n    First scenario description line.\n    Second scenario description line.\n\n    Third scenario description line (after an empty line)."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json.pretty features/simple_scenario_with_description.feature\"", 
+                        "clause": "when", 
+                        "index": 156
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 157
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 158, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 162
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 163, 
+                        "content": "[\n  {\n    \"elements\": [\n      {\n        \"description\": [\n          \"First scenario description line.\",\n          \"Second scenario description line.\",\n          \"Third scenario description line (after an empty line).\"\n        ],\n        \"keyword\": \"Scenario\",\n        \"location\": \"features/simple_scenario_with_description.feature:2\",\n        \"name\": \"Simple scenario with description but without steps\",\n        \"steps\": [],\n        \"tags\": [],\n        \"type\": \"scenario\"\n      }\n    ],\n    \"keyword\": \"Feature\",\n    \"location\": \"features/simple_scenario_with_description.feature:1\",\n    \"name\": \"\",\n    \"status\": \"passed\",\n    \"tags\": []\n  }\n]"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter with feature and one scenario with tags", 
+                "index": 190
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/simple_scenario_with_tags.feature\" with:", 
+                        "clause": "given", 
+                        "index": 191
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 192, 
+                        "content": "Feature:\n\n  @foo\n  @bar\n  Scenario: Simple scenario with tags but without steps"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json.pretty features/simple_scenario_with_tags.feature\"", 
+                        "clause": "when", 
+                        "index": 199
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 200
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 201, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 205
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 206, 
+                        "content": "[\n  {\n    \"elements\": [\n      {\n        \"keyword\": \"Scenario\",\n        \"location\": \"features/simple_scenario_with_tags.feature:5\",\n        \"name\": \"Simple scenario with tags but without steps\",\n        \"steps\": [],\n        \"tags\": [\n          \"foo\",\n          \"bar\"\n        ],\n        \"type\": \"scenario\"\n      }\n    ],\n    \"keyword\": \"Feature\",\n    \"location\": \"features/simple_scenario_with_tags.feature:1\",\n    \"name\": \"\",\n    \"status\": \"passed\",\n    \"tags\": []\n  }\n]"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter with type-converted step parameters", 
+                "index": 232
+            }, 
+            "description": {
+                "index": 234, 
+                "content": "Ensure that step parameters (match arguments) leads to valid JSON\neven when type converters are used which create non-simple types."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/step_params_with_type_converter.feature\" with:", 
+                        "clause": "given", 
+                        "index": 237
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 238, 
+                        "content": "Feature:\n  Scenario: Use type converter\n      Given \"1+2j\" as complex number\n      And \"red\" as color"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/type_converter_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 244
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 245, 
+                        "content": "from behave import step, register_type\nimport parse\n\n# -- TYPES AND TYPE CONVERTERS:\nclass Color(object):\n    def __init__(self, color_name):\n        self.name = color_name\n\n@parse.with_pattern(\"\\w+\")\ndef parse_color(text):\n    return Color(text.strip())\n\n@parse.with_pattern(\".+\")\ndef parse_complex(text):\n    return complex(text)\n\nregister_type(Color=parse_color)\nregister_type(Complex=parse_complex)\n\n# -- STEPS:\n@step('\"{number:Complex}\" as complex number')\ndef step_complex_number(context, number):\n    context.number = number\n\n@step('\"{color:Color}\" as color')\ndef step_color(context, color):\n    context.color = color"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json.pretty features/step_params_with_type_converter.feature\"", 
+                        "clause": "when", 
+                        "index": 274
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 275
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 276, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 279
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 280, 
+                        "content": "\"match\": {\n  \"arguments\": [\n    {\n      \"name\": \"number\",\n      \"value\": \"1+2j\"\n    }\n  ],\n  \"location\": \"features/steps/type_converter_steps.py:21\"\n},\n\"name\": \"\\\"1+2j\\\" as complex number\","
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 292
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 293, 
+                        "content": "\"match\": {\n  \"arguments\": [\n    {\n      \"name\": \"color\",\n      \"value\": \"red\"\n    }\n  ],\n  \"location\": \"features/steps/type_converter_steps.py:25\"\n},\n\"name\": \"\\\"red\\\" as color\","
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"both matched arguments.values are provided as string\"", 
+                        "clause": "then", 
+                        "index": 305
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 308, 
+                "content": [
+                    "xfail", 
+                    "regression_problem.with_duration"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter with feature and one scenario with steps", 
+                "index": 310
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/scenario_with_steps.feature\" with:", 
+                        "clause": "given", 
+                        "index": 311
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 312, 
+                        "content": "Feature:\n  Scenario: Simple scenario with with steps\n      Given a step passes\n      When a step passes\n      Then a step passes\n      And a step passes\n      But a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f json.pretty features/scenario_with_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 321
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 322
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 323, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 327
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 328, 
+                        "content": "\"steps\": [\n    {\n      \"keyword\": \"Given\",\n      \"location\": \"features/scenario_with_steps.feature:2\",\n      \"match\": {\n        \"arguments\": [],\n        \"location\": \"features/steps/steps.py:3\"\n      },\n      \"name\": \"a step passes\",\n      \"result\": {\n        \"duration\": XXX,\n        \"status\": \"passed\",\n      }\n      \"step_type\": \"given\",\n    },\n    {\n      \"keyword\": \"When\",\n      \"location\": \"features/scenario_with_steps.feature:3\",\n      \"match\": {\n        \"arguments\": [],\n        \"location\": \"features/steps/steps.py:3\"\n      },\n      \"name\": \"a step passes\",\n      \"result\": {\n        \"duration\": XXX,\n        \"status\": \"passed\",\n      }\n      \"step_type\": \"when\",\n    },\n    {\n      \"keyword\": \"Then\",\n      \"location\": \"features/scenario_with_steps.feature:4\",\n      \"match\": {\n        \"arguments\": [],\n        \"location\": \"features/steps/steps.py:3\"\n      },\n      \"name\": \"a step passes\",\n      \"result\": {\n        \"duration\": XXX,\n        \"status\": \"passed\",\n      }\n      \"step_type\": \"then\",\n    },\n    {\n      \"keyword\": \"And\",\n      \"location\": \"features/scenario_with_steps.feature:5\",\n      \"match\": {\n        \"arguments\": [],\n        \"location\": \"features/steps/steps.py:3\"\n      },\n      \"name\": \"a step passes\",\n      \"result\": {\n        \"duration\": XXX,\n        \"status\": \"passed\",\n      }\n      \"step_type\": \"then\",\n    },\n    {\n      \"keyword\": \"But\",\n      \"location\": \"features/scenario_with_steps.feature:6\",\n      \"match\": {\n        \"arguments\": [],\n        \"location\": \"features/steps/steps.py:3\"\n      },\n      \"name\": \"a step passes\",\n      \"result\": {\n        \"duration\": XXX,\n        \"status\": \"passed\",\n      }\n      \"step_type\": \"then\",\n    }\n],"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 403, 
+                "content": [
+                    "wip"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter with feature and two scenarios", 
+                "index": 404
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 406, 
+                "content": [
+                    "wip"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter with feature and background", 
+                "index": 407
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 409, 
+                "content": [
+                    "wip"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter with feature and scenario outline without steps", 
+                "index": 410
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter with feature and scenario outline with description", 
+                "index": 411
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter with feature and scenario outline with tags", 
+                "index": 412
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter with feature and scenario outline with steps", 
+                "index": 413
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use JSON formatter with feature and scenario outline with steps and examples", 
+                "index": 414
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": null
+        }
+    ]
+}

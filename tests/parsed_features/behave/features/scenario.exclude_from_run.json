@@ -1,0 +1,351 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Exclude Scenario from Test Run", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a test writer\nI want sometimes to decide at runtime\nthat a scenario is excluded from a test run\nSo that the command-line configuration becomes simpler\n(and auto-configuration is supported).\n\n. MECHANISM:\n.   The \"before_scenario()\" hook can decide just before a scenario should run\n.   that the scenario should be excluded from the test-run.\n.   NOTE: Hooks are not called in dry-run mode.\n.\n. RATIONALE:\n.   There are certain situations where it is better to skip a scenario\n.   than to run and fail the scenario.\n.\n.   Reasons for these cases are of often test environment related:\n.     * test environment does not fulfill the desired criteria\n.     * used testbed does not fulfill test requirements\n.\n.   Instead of providing the exclude-scenario selection on the command-line,\n.   the test (environment) and configuration logic should determine\n.   if a test should be excluded (as auto-configuration functionality).\n.\n. EXAMPLE:\n.   Certain scenarios should not run on Windows (or Linux, ...).\n.\n. EVALUATION ORDER:\n.   Before the user can exclude a scenario from a test-run,\n.   additional mechanisms decide, if the scenario is part of the selected run-set.\n.   These are:\n.     * tags\n.     * ...\n.\n. RELATED:\n.   * features/feature.exclude_from_run.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 39, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 40
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example.feature\" with:", 
+                        "clause": "given", 
+                        "index": 42
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 43, 
+                        "content": "Feature:\n\n  Scenario: Alice\n     Given a step passes\n      When another step passes\n      Then some step passes\n\n  Scenario: Bob and Alice\n     Given some step passes\n\n  Scenario: Bob\n     Given another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 58, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass\n\n@step('{word:w} step fails')\ndef step_fails(context, word):\n    assert False, \"XFAIL-STEP\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 70, 
+                "content": [
+                    "use_hook.before_scenario"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Exclude a scenario from the test run (using: before_scenario() hook)", 
+                "index": 71
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 72
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 73, 
+                        "content": "import sys\n\ndef should_exclude_scenario(context, scenario):\n    if scenario.name.startswith(\"Alice\"):\n        return True\n    return False\n\ndef before_scenario(context, scenario):\n    if should_exclude_scenario(context, scenario):\n        sys.stdout.write(\"EXCLUDED-BY-USER: Scenario %s\\n\" % scenario.name)\n        scenario.skip()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/example.feature\"", 
+                        "clause": "when", 
+                        "index": 86
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 87
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 88, 
+                        "content": "2 scenarios passed, 0 failed, 1 skipped\n2 steps passed, 0 failed, 3 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 92
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 93, 
+                        "content": "EXCLUDED-BY-USER: Scenario Alice"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 98, 
+                "content": [
+                    "use_hook.before_feature"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Exclude a scenario from the test run (using: before_feature() hook)", 
+                "index": 99
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 101, 
+                        "content": "import sys\n\ndef should_exclude_scenario(scenario):\n    if \"Alice\" in scenario.name:  # MATCHES: Alice, Bob and Alice\n        return True\n    return False\n\ndef before_feature(context, feature):\n    # -- NOTE: walk_scenarios() flattens ScenarioOutline.scenarios\n    for scenario in feature.walk_scenarios():\n        if should_exclude_scenario(scenario):\n            sys.stdout.write(\"EXCLUDED-BEFORE-FEATURE: Scenario %s\\n\" % scenario.name)\n            scenario.skip()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/example.feature\"", 
+                        "clause": "when", 
+                        "index": 116
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 118, 
+                        "content": "1 scenario passed, 0 failed, 2 skipped\n1 step passed, 0 failed, 4 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 122
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 123, 
+                        "content": "EXCLUDED-BEFORE-FEATURE: Scenario Alice\nEXCLUDED-BEFORE-FEATURE: Scenario Bob and Alice"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Skip scenario in a step", 
+                "index": 129
+            }, 
+            "description": {
+                "index": 131, 
+                "content": "Expect that remaining steps of the scenario are skipped.\nThe skipping step is also marked as skipped\nto better detect scenarios that are partly executed and then skipped\n(otherwise a passed step would hide that the remaining steps are skipped)."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/skip_scenario.feature\" with:", 
+                        "clause": "given", 
+                        "index": 136
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 137, 
+                        "content": "Feature:\n\n  Scenario: Alice2\n     Given a step passes\n     And the assumption \"location:Wonderland\" is not met\n     When another step passes\n     Then some step passes\n\n  Scenario: Bob and Alice2\n     Given some step passes\n     When I skip the remaining scenario\n     Then another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/skip_scenario_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 151
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 152, 
+                        "content": "from behave import given, step\n\n@given('the assumption \"{name}\" is not met')\ndef step_assumption_not_met(context, name):\n    context.scenario.skip(\"Assumption %s not met\" % name)\n\n@step('I skip the remaining scenario')\ndef step_skip_scenario(context):\n    context.scenario.skip()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 163
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 164, 
+                        "content": "# -- OVERRIDE WITH EMPTY-ENVIRONMENT."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/skip_scenario.feature\"", 
+                        "clause": "when", 
+                        "index": 167
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 168
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 169, 
+                        "content": "0 scenarios passed, 0 failed, 2 skipped\n2 steps passed, 0 failed, 5 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 173
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 174, 
+                        "content": "Scenario: Alice2\n  Given a step passes ... passed\n  And the assumption \"location:Wonderland\" is not met ... skipped\n\nScenario: Bob and Alice2\n  Given some step passes ... passed\n  When I skip the remaining scenario ... skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the step that skipped the scenario is also marked as skipped\"", 
+                        "clause": "then", 
+                        "index": 183
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Skip scenario in after_scenario hook", 
+                "index": 186
+            }, 
+            "description": {
+                "index": 188, 
+                "content": "Expect that scenario is not marked as skipped\nbecause it was already executed (with status: passed, failed, ...)."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/pass_and_fail.feature\" with:", 
+                        "clause": "given", 
+                        "index": 191
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 192, 
+                        "content": "Feature:\n\n  Scenario: Passing\n     Given a step passes\n\n  Scenario: Failing\n     Given some step passes\n     When a step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 202
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 203, 
+                        "content": "def before_all(context):\n    context.config.setup_logging()\n\ndef after_scenario(context, scenario):\n    scenario.skip(\"AFTER-SCENARIO\")"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/pass_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 210
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 211
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 212, 
+                        "content": "1 scenario passed, 1 failed, 0 skipped\n2 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the scenarios are not marked as skipped (SKIP-TOO-LATE)\"", 
+                        "clause": "then", 
+                        "index": 216
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,108 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "feature_request", 
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #228: Allow before_scenario to determine whether steps should be run.", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": "Allow before_scenario to call mark_skipped() and early out if the current\nscenario should be skipped."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Allow before_scenario to skip the current scenario", 
+                "index": 7
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 11, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with", 
+                        "clause": "given", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 19, 
+                        "content": "def before_scenario(context, scenario):\n    if scenario.name == 'Skip this scenario':\n        scenario.skip()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/issue228_example.feature\" with", 
+                        "clause": "given", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 25, 
+                        "content": "Feature:\n  Scenario: Skip this scenario\n    Given I'm using an \"undefined step\"\n\n  Scenario: Run this scenario\n    Given a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/issue228_example.feature\"", 
+                        "clause": "when", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 1 skipped\n1 step passed, 0 failed, 1 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

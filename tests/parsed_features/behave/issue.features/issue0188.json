@@ -1,0 +1,86 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #188: Better diagnostics if nested step is undefined", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". Currently if nested step has no match, it's shown like this:\n.\n.     Assertion Failed: Sub-step failed: When I do strange thign\n.     Substep info: None\n.\n. Took some time to find that typo.\n. The suggestion is to fill substep error_message with at least \"No match for step\"\n. so it would become:\n.\n.     Assertion Failed: Sub-step failed: When I do strange thign\n.     Substep info: No match for step\n.\n. IMPLEMENTATION NOTE:\n. A slightly different output is provided:\n.\n.     Assertion Failed: UNDEFINED SUB-STEP: When I do strange thign"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Nested steps contain an undefined step", 
+                "index": 21
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 24, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass\n\n@then('a good diagnostic message is shown')\ndef step_good_diagnostic_message_is_shown(context):\n    pass\n\n@step('I execute nested steps with an undefined step')\ndef step_passes(context):\n    context.execute_steps(u'''\n      Given another step passes\n      When an undefined, nested step is executed\n      Then third step passes\n    ''')"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example.execute_nested_undefined_step.feature\" with:", 
+                        "clause": "given", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 44, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When I execute nested steps with an undefined step\n    Then a good diagnostic message is shown"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/example.execute_nested_undefined_step.feature\"", 
+                        "clause": "when", 
+                        "index": 51
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 52
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 53, 
+                        "content": "Scenario:\n  Given a step passes ... passed\n  When I execute nested steps with an undefined step ... failed\nAssertion Failed: UNDEFINED SUB-STEP: When an undefined, nested step is executed"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

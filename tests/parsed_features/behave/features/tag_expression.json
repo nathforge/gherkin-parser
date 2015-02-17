@@ -1,0 +1,639 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Tag Expression", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a tester\nI want to select a subset of all features/scenarios by using tags\nAnd I want to include and/or exclude some tags\nSo that I can focus on the \"important\" scenarios (and features).\n\n. SPECIFICATION:\n.   * a tag expression is a boolean expression\n.   * a tag expression supports the operators: and, or, not\n.   * a tag expression is structured as:\n.       (or_expr1) and (or_expr2) and ...\n.\n. EXAMPLES:\n.   | Tag logic         | Tag expression  | Comment |\n.   | @foo              | @foo            | Select elements with @foo tag |\n.   | @foo              |  foo            | Same, '@' is optional.        |\n.   | not @foo          | -@foo           | Use minus for \"not\".          |\n.   | not @foo          | ~foo            | Same, use tilde instead of minus |\n.   | @foo or @bar      | @foo,@bar       | Use comma for \"or\".           |\n.   | @foo and @bar     | @foo @bar       | Use space separated terms.    |\n.   | @foo or  not @bar | @foo,-@bar      |                               |\n.   | @foo and not @bar | @foo -@bar      |                               |"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select @foo", 
+                "index": 25
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the tag expression \"@foo\"", 
+                        "clause": "given", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the tag expression selects elements with tags:", 
+                        "clause": "then", 
+                        "index": 27
+                    }, 
+                    "table": [
+                        {
+                            "index": 28, 
+                            "columns": [
+                                "tags", 
+                                "selected?"
+                            ]
+                        }, 
+                        {
+                            "index": 29, 
+                            "columns": [
+                                "", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 30, 
+                            "columns": [
+                                "@foo", 
+                                "yes"
+                            ]
+                        }, 
+                        {
+                            "index": 31, 
+                            "columns": [
+                                "@other", 
+                                "no"
+                            ]
+                        }, 
+                        {
+                            "index": 32, 
+                            "columns": [
+                                "@foo @other", 
+                                "yes"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Tag expression with 0..1 tags", 
+                "index": 35
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the model elements with name and tags:", 
+                        "clause": "given", 
+                        "index": 36
+                    }, 
+                    "table": [
+                        {
+                            "index": 37, 
+                            "columns": [
+                                "name", 
+                                "tags", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 38, 
+                            "columns": [
+                                "S0", 
+                                "", 
+                                "Untagged"
+                            ]
+                        }, 
+                        {
+                            "index": 39, 
+                            "columns": [
+                                "S1", 
+                                "@foo", 
+                                "With 1 tag"
+                            ]
+                        }, 
+                        {
+                            "index": 40, 
+                            "columns": [
+                                "S2", 
+                                "@other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 41, 
+                            "columns": [
+                                "S3", 
+                                "@foo @other", 
+                                "With 2 tags"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"are all combinations of 0..2 tags\"", 
+                        "clause": "given", 
+                        "index": 42
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the tag expression selects model elements with:", 
+                        "clause": "then", 
+                        "index": 43
+                    }, 
+                    "table": [
+                        {
+                            "index": 44, 
+                            "columns": [
+                                "tag expression", 
+                                "selected?", 
+                                "Case comment"
+                            ]
+                        }, 
+                        {
+                            "index": 45, 
+                            "columns": [
+                                "", 
+                                "S0, S1, S2, S3", 
+                                "Select all (empty tag expression)"
+                            ]
+                        }, 
+                        {
+                            "index": 46, 
+                            "columns": [
+                                "@foo", 
+                                "S1, S3", 
+                                "Select @foo"
+                            ]
+                        }, 
+                        {
+                            "index": 47, 
+                            "columns": [
+                                "-@foo", 
+                                "S0, S2", 
+                                "not @foo, selects untagged elements"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"tag expression variants are also supported\"", 
+                        "clause": "then", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the tag expression selects model elements with:", 
+                        "clause": "then", 
+                        "index": 49
+                    }, 
+                    "table": [
+                        {
+                            "index": 50, 
+                            "columns": [
+                                "tag expression", 
+                                "selected?", 
+                                "Case comment"
+                            ]
+                        }, 
+                        {
+                            "index": 51, 
+                            "columns": [
+                                "foo", 
+                                "S1, S3", 
+                                "@foo: '@' is optional"
+                            ]
+                        }, 
+                        {
+                            "index": 52, 
+                            "columns": [
+                                "-foo", 
+                                "S0, S2", 
+                                "not @foo: '@' is optional"
+                            ]
+                        }, 
+                        {
+                            "index": 53, 
+                            "columns": [
+                                "~foo", 
+                                "S0, S2", 
+                                "not @foo: tilde as minus"
+                            ]
+                        }, 
+                        {
+                            "index": 54, 
+                            "columns": [
+                                "~@foo", 
+                                "S0, S2", 
+                                "not @foo: '~@' is supported"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Tag expression with two tags (@foo, @bar)", 
+                "index": 57
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the model elements with name and tags:", 
+                        "clause": "given", 
+                        "index": 58
+                    }, 
+                    "table": [
+                        {
+                            "index": 59, 
+                            "columns": [
+                                "name", 
+                                "tags", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 60, 
+                            "columns": [
+                                "S0", 
+                                "", 
+                                "Untagged"
+                            ]
+                        }, 
+                        {
+                            "index": 61, 
+                            "columns": [
+                                "S1", 
+                                "@foo", 
+                                "With 1 tag"
+                            ]
+                        }, 
+                        {
+                            "index": 62, 
+                            "columns": [
+                                "S2", 
+                                "@bar", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 63, 
+                            "columns": [
+                                "S3", 
+                                "@other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 64, 
+                            "columns": [
+                                "S4", 
+                                "@foo @bar", 
+                                "With 2 tags"
+                            ]
+                        }, 
+                        {
+                            "index": 65, 
+                            "columns": [
+                                "S5", 
+                                "@foo @other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 66, 
+                            "columns": [
+                                "S6", 
+                                "@bar @other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 67, 
+                            "columns": [
+                                "S7", 
+                                "@foo @bar @other", 
+                                "With 3 tags"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"are all combinations of 0..3 tags\"", 
+                        "clause": "given", 
+                        "index": 68
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the tag expression selects model elements with:", 
+                        "clause": "then", 
+                        "index": 69
+                    }, 
+                    "table": [
+                        {
+                            "index": 70, 
+                            "columns": [
+                                "tag expression", 
+                                "selected?", 
+                                "Case"
+                            ]
+                        }, 
+                        {
+                            "index": 71, 
+                            "columns": [
+                                "", 
+                                "S0, S1, S2, S3, S4, S5, S6, S7", 
+                                "Select all"
+                            ]
+                        }, 
+                        {
+                            "index": 72, 
+                            "columns": [
+                                "@foo,@bar", 
+                                "S1, S2, S4, S5, S6, S7", 
+                                "@foo or @bar"
+                            ]
+                        }, 
+                        {
+                            "index": 73, 
+                            "columns": [
+                                "@foo,-@bar", 
+                                "S0, S1, S3, S4, S5, S7", 
+                                "@foo or not @bar"
+                            ]
+                        }, 
+                        {
+                            "index": 74, 
+                            "columns": [
+                                "-@foo,-@bar", 
+                                "S0, S1, S2, S3, S5, S6", 
+                                "not @foo or @not @bar"
+                            ]
+                        }, 
+                        {
+                            "index": 75, 
+                            "columns": [
+                                "@foo  @bar", 
+                                "S4, S7", 
+                                "@foo and @bar"
+                            ]
+                        }, 
+                        {
+                            "index": 76, 
+                            "columns": [
+                                "@foo -@bar", 
+                                "S1, S5", 
+                                "@foo and not @bar"
+                            ]
+                        }, 
+                        {
+                            "index": 77, 
+                            "columns": [
+                                "-@foo -@bar", 
+                                "S0, S3", 
+                                "not @foo and not @bar"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Tag expression with three tags (@foo, @bar, @zap)", 
+                "index": 80
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the model elements with name and tags:", 
+                        "clause": "given", 
+                        "index": 81
+                    }, 
+                    "table": [
+                        {
+                            "index": 82, 
+                            "columns": [
+                                "name", 
+                                "tags", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 83, 
+                            "columns": [
+                                "S0", 
+                                "", 
+                                "Untagged"
+                            ]
+                        }, 
+                        {
+                            "index": 84, 
+                            "columns": [
+                                "S1", 
+                                "@foo", 
+                                "With 1 tag"
+                            ]
+                        }, 
+                        {
+                            "index": 85, 
+                            "columns": [
+                                "S2", 
+                                "@bar", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 86, 
+                            "columns": [
+                                "S3", 
+                                "@zap", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 87, 
+                            "columns": [
+                                "S4", 
+                                "@other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 88, 
+                            "columns": [
+                                "S5", 
+                                "@foo @bar", 
+                                "With 2 tags"
+                            ]
+                        }, 
+                        {
+                            "index": 89, 
+                            "columns": [
+                                "S6", 
+                                "@foo @zap", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 90, 
+                            "columns": [
+                                "S7", 
+                                "@foo @other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 91, 
+                            "columns": [
+                                "S8", 
+                                "@bar @zap", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 92, 
+                            "columns": [
+                                "S9", 
+                                "@bar @other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 93, 
+                            "columns": [
+                                "S10", 
+                                "@zap @other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 94, 
+                            "columns": [
+                                "S11", 
+                                "@foo @bar @zap", 
+                                "With 3 tags"
+                            ]
+                        }, 
+                        {
+                            "index": 95, 
+                            "columns": [
+                                "S12", 
+                                "@foo @bar @other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 96, 
+                            "columns": [
+                                "S13", 
+                                "@foo @zap @other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 97, 
+                            "columns": [
+                                "S14", 
+                                "@bar @zap @other", 
+                                ""
+                            ]
+                        }, 
+                        {
+                            "index": 98, 
+                            "columns": [
+                                "S15", 
+                                "@foo @bar @zap @other", 
+                                "With 4 tags"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"are all combinations of 0..4 tags\"", 
+                        "clause": "given", 
+                        "index": 99
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the tag expression selects model elements with:", 
+                        "clause": "then", 
+                        "index": 100
+                    }, 
+                    "table": [
+                        {
+                            "index": 101, 
+                            "columns": [
+                                "tag expression", 
+                                "selected?", 
+                                "Case"
+                            ]
+                        }, 
+                        {
+                            "index": 102, 
+                            "columns": [
+                                "@foo,@bar  @zap", 
+                                "S6, S8, S11, S13, S14, S15", 
+                                "(@foo or @bar) and @zap"
+                            ]
+                        }, 
+                        {
+                            "index": 103, 
+                            "columns": [
+                                "@foo,@bar -@zap", 
+                                "S1, S2, S5, S7, S9, S12", 
+                                "(@foo or @bar) and not @zap"
+                            ]
+                        }, 
+                        {
+                            "index": 104, 
+                            "columns": [
+                                "@foo,-@bar @zap", 
+                                "S3, S6, S10, S11, S13, S15", 
+                                "(@foo or not @bar) and @zap"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

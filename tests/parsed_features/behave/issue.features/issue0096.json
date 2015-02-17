@@ -1,0 +1,298 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #96: Sub-steps failed without any error info to help debug issue", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". I am trying to run execute_steps. One of them fails, but the error output\n. from behave has no details whatsoever. It is virtually impossible\n. to figure out why it failed. as no error output is present except the\n. final error message\n.\n.   def before_scenario(context,scenario):\n.       context.execute_steps(u'''\n.           When \"admin:admin\" sends POST \"/tasks/testStart\"\n.           Then I expect HTTP code 200\n.       ''')\n.\n. File \".../behave/runner.py\", line 262, in execute_steps\n.  assert False, \"FAILED SUB-STEP: %s\" % step\n.  AssertionError: FAILED SUB-STEP: When \"admin:admin\" sends POST \"/tasks/testStart\"\n.\n.  All we get is the \"sub-step failed\" but no info whatsoever\n.  as to why it failed..."
+    }, 
+    "background": {
+        "title": {
+            "content": "", 
+            "index": 23
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 24
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 25
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 26, 
+                    "content": "from behave import step\nimport sys\n\n@step(u'a step passes')\ndef step_passes(context):\n    pass\n\n@step(u'a step fails')\ndef step_fails(context):\n    assert False, 'EXPECT: Step fails.'\n\n@step(u'a step fails with stdout \"{message}\"')\ndef step_fails_with_stdout(context, message):\n    sys.stdout.write(\"%s\\n\" % message)\n    assert False, 'EXPECT: Step fails with stdout.'\n\n@step(u'a step fails with stderr \"{message}\"')\ndef step_fails_with_stderr(context, message):\n    sys.stderr.write(\"%s\\n\" % message)\n    assert False, 'EXPECT: Step fails with stderr.'\n\n@step(u'a step raises an error \"{message}\"')\ndef step_raises_exception(context, message):\n    raise RuntimeError(message)\n\n@step(u'the following steps should pass')\ndef step_following_steps_should_pass(context):\n    context.execute_steps(context.text.strip())"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Execute steps and one fails (EXPECTATION-MISMATCH: Assert fails)", 
+                "index": 57
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue96_case1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "Feature:\n    Scenario:\n        When the following steps should pass:\n           \"\"\"\n           Given a step passes\n           When  a step fails\n           Then  a step passes\n           \"\"\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/issue96_case1.feature\"", 
+                        "clause": "when", 
+                        "index": 69
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 70
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 71, 
+                        "content": "Assertion Failed: FAILED SUB-STEP: When a step fails\nSubstep info: Assertion Failed: EXPECT: Step fails."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Execute steps and error occurs (UNEXPECTED: exception is raised)", 
+                "index": 76
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue96_case2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 77
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 78, 
+                        "content": "Feature:\n    Scenario:\n        When the following steps should pass:\n           \"\"\"\n           Given a step passes\n           When a step raises an error \"Alice is alive\"\n           Then a step passes\n           \"\"\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/issue96_case2.feature\"", 
+                        "clause": "when", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 90, 
+                        "content": "RuntimeError: Alice is alive"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 93
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 94, 
+                        "content": "Assertion Failed: FAILED SUB-STEP: When a step raises an error \"Alice is alive\"\nSubstep info: Traceback (most recent call last):"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Execute steps and one fails with stdout capture", 
+                "index": 99
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue96_case3.feature\" with:", 
+                        "clause": "given", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 101, 
+                        "content": "Feature:\n    Scenario:\n        When the following steps should pass:\n           \"\"\"\n           Given a step passes\n           When a step fails with stdout \"STDOUT: Alice is alive\"\n           Then a step passes\n           \"\"\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/issue96_case3.feature\"", 
+                        "clause": "when", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 112
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 113, 
+                        "content": "Assertion Failed: FAILED SUB-STEP: When a step fails with stdout \"STDOUT: Alice is alive\"\nSubstep info: Assertion Failed: EXPECT: Step fails with stdout.\nCaptured stdout:\nSTDOUT: Alice is alive"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Execute steps and one fails with stderr capture", 
+                "index": 120
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue96_case4.feature\" with:", 
+                        "clause": "given", 
+                        "index": 121
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 122, 
+                        "content": "Feature:\n    Scenario:\n        When the following steps should pass:\n           \"\"\"\n           Given a step passes\n           When a step fails with stderr \"STDERR: Alice is alive\"\n           Then a step passes\n           \"\"\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/issue96_case4.feature\"", 
+                        "clause": "when", 
+                        "index": 132
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 133
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 134, 
+                        "content": "Assertion Failed: FAILED SUB-STEP: When a step fails with stderr \"STDERR: Alice is alive\"\nSubstep info: Assertion Failed: EXPECT: Step fails with stderr.\nCaptured stderr:\nSTDERR: Alice is alive"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Execute steps and fail in before_scenario hook", 
+                "index": 141
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue96_case5.feature\" with:", 
+                        "clause": "given", 
+                        "index": 142
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 143, 
+                        "content": "Feature:\n    Scenario:\n        Given a step passes\n        When  a step passes\n        Then  a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 150
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 151, 
+                        "content": "def before_scenario(context, scenario):\n    context.execute_steps(u'''\n       Given a step passes\n       When a step passes\n       Then a step fails\n    ''')"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/issue96_case5.feature\"", 
+                        "clause": "when", 
+                        "index": 159
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 160
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 161, 
+                        "content": "AssertionError: FAILED SUB-STEP: Then a step fails\nSubstep info: Assertion Failed: EXPECT: Step fails."
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

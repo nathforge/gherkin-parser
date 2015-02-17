@@ -1,0 +1,869 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Select Scenarios by File Location", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "To simplify running only one scenario in a feature (or some scenarios)\nAs a tester\nI want to select a scenario by using its file location,\nlike: \"alice.feature:10\"   (schema: {filename}:{line})\n\n\n. CONCEPT: File Location\n.   * A file location consists of file name and a positive line number\n.   * A file location is represented as \"{filename}:{line}\" (or \"{filename}\")\n.   * A file location with filename but without line number\n.     refers to the complete file\n.   * A file location with line number 0 (zero) refers to the complete file\n.\n. SPECIFICATION: Scenario selection by file locations\n.   * scenario.line == file_location.line selects scenario (preferred method).\n.   * Any line number in the following range is acceptable:\n.        scenario.line <= file_location.line < next_scenario.line\n.   * The first scenario is selected,\n.     if the file location line number is less than first scenario.line.\n.   * The last scenario is selected,\n.     if the file location line number is greater than the lines in the file.\n.\n. SPECIFICATION: Runner with scenario locations (file locations)\n.   * Adjacent file locations are merged if they refer to the same file, like:\n.\n.       alice.feature:10\n.       alice.feature:20\n.\n.       => MERGED: Selects/runs \"alice.feature\" with 2 scenarios.\n.\n.       alice.feature\n.       alice.feature:20\n.\n.       => MERGED: Selects \"alice.feature\" with all scenarios.\n.\n.       alice.feature:10\n.       bob.feature:20\n.       alice.feature:20\n.\n.       => NOT MERGED: Selects/runs \"alice.feature\" twice.\n.\n.   * If file locations (scenario locations) are used,\n.     scenarios with @setup or @teardown tags are selected, too.\n.\n.     REASON: Simplifies to use a Setup Scenario instead of a Background.\n.\n.   * Additional scenario selection mechanisms, like tags, names,\n.     are applied afterwards."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 53, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 54
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 56
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 57, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 65, 
+                        "content": "Feature: Alice\n\n  Scenario: Alice First\n    When a step passes\n\n  Scenario: Alice Last\n    Then a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 75, 
+                        "content": "Feature: Bob\n\n  @setup\n  Scenario: Setup Bob\n    Given a step passes\n\n  Scenario: Bob in Berlin\n    When a step passes\n\n  Scenario: Bob in Paris\n    Then a step passes\n\n  @teardown\n  Scenario: Teardown Bob\n    Then a step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 94, 
+                "content": [
+                    "file_location.select"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select one scenario with its exact file location", 
+                "index": 95
+            }, 
+            "description": {
+                "index": 97, 
+                "content": "CASE: scenario.line == file_location.line"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --no-skipped features/alice.feature:3\"", 
+                        "clause": "when", 
+                        "index": 99
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 101, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 1 skipped, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 106, 
+                        "content": "Feature: Alice\n  Scenario: Alice First"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 110
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 111, 
+                        "content": "Scenario: Alice Last"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 115, 
+                "content": [
+                    "file_location.select"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select one scenario with a larger file location", 
+                "index": 116
+            }, 
+            "description": {
+                "index": 118, 
+                "content": "CASE: scenario.line <= file_location.line < next_scenario.line"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --no-skipped features/alice.feature:4\"", 
+                        "clause": "when", 
+                        "index": 120
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 121
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 122, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 1 skipped, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 126
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 127, 
+                        "content": "Feature: Alice\n  Scenario: Alice First"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 131
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 132, 
+                        "content": "Scenario: Alice Last"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 136, 
+                "content": [
+                    "file_location.select"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select next scenario with its exact location", 
+                "index": 137
+            }, 
+            "description": {
+                "index": 139, 
+                "content": "CASE: scenario.line < file_location.line == next_scenario.line"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --no-skipped features/alice.feature:6\"", 
+                        "clause": "when", 
+                        "index": 141
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 142
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 143, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 1 skipped, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 147
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 148, 
+                        "content": "Feature: Alice\n  Scenario: Alice Last"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 152
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 153, 
+                        "content": "Scenario: Alice First"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 157, 
+                "content": [
+                    "file_location.select_first"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select first scenario if line number is smaller than first scenario line", 
+                "index": 158
+            }, 
+            "description": {
+                "index": 160, 
+                "content": "CASE: 0 < file_location.line < first_scenario.line"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --no-skipped features/alice.feature:1\"", 
+                        "clause": "when", 
+                        "index": 162
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 163
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 164, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 1 skipped, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 168
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 169, 
+                        "content": "Feature: Alice\n  Scenario: Alice First"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 173
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 174, 
+                        "content": "Scenario: Alice Last"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 178, 
+                "content": [
+                    "file_location.select_last"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select last scenario when line number is too large", 
+                "index": 179
+            }, 
+            "description": {
+                "index": 181, 
+                "content": "CASE: last_scenario.line < file.last_line < file_location.line"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --no-skipped features/alice.feature:100\"", 
+                        "clause": "when", 
+                        "index": 183
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 184
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 185, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 1 skipped, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 189
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 190, 
+                        "content": "Feature: Alice\n  Scenario: Alice Last"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 194
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 195, 
+                        "content": "Scenario: Alice First"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 200, 
+                "content": [
+                    "file_location.select_all"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select all scenarios with line number 0 (zero)", 
+                "index": 201
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --no-skipped features/alice.feature:0\"", 
+                        "clause": "when", 
+                        "index": 202
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 203
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 204, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 0 skipped, 2 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 208
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 209, 
+                        "content": "Feature: Alice\n  Scenario: Alice First\n  Scenario: Alice Last"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 215, 
+                "content": [
+                    "file_location.select", 
+                    "with.feature_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Select a scenario by using file locations from a features configfile", 
+                "index": 217
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"alice1.txt\" with:", 
+                        "clause": "given", 
+                        "index": 218
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 219, 
+                        "content": "# -- FEATURES CONFIGFILE:\n# Selects Alice First\nfeatures/alice.feature:3"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --no-skipped @alice1.txt\"", 
+                        "clause": "when", 
+                        "index": 224
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 225
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 226, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 1 skipped, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 230
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 231, 
+                        "content": "Feature: Alice\n  Scenario: Alice First"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 235
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 236, 
+                        "content": "Scenario: Alice Last"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 240, 
+                "content": [
+                    "file_location.autoselect_setup_teardown"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Auto-select scenarios tagged with @setup or @teardown if file location is used", 
+                "index": 241
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --no-skipped features/bob.feature:7\"", 
+                        "clause": "when", 
+                        "index": 242
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 243
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 244, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 1 skipped, 3 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 248
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 249, 
+                        "content": "Feature: Bob\n  Scenario: Setup Bob\n  Scenario: Bob in Berlin\n  Scenario: Teardown Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 255
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 256, 
+                        "content": "Scenario: Bob in Paris"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 260, 
+                "content": [
+                    "merge.file_locations"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Merge 2 adjacent file locations that refer to the same file", 
+                "index": 261
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --no-skipped features/alice.feature:3 features/alice.feature:6\"", 
+                        "clause": "when", 
+                        "index": 262
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 263
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 264, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 0 skipped, 2 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 268
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 269, 
+                        "content": "Feature: Alice\n  Scenario: Alice First\n  Scenario: Alice Last"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 274
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 275, 
+                        "content": "Feature: Alice\n  Scenario: Alice First\n\nFeature: Alice\n  Scenario: Alice Last"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 283, 
+                "content": [
+                    "merge.file_locations", 
+                    "file_location.select_all"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Merge filename and adjacent file location that refer to the same file", 
+                "index": 285
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --no-skipped features/alice.feature:3 features/alice.feature\"", 
+                        "clause": "when", 
+                        "index": 286
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 287
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 288, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 0 skipped, 2 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 292
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 293, 
+                        "content": "Feature: Alice\n  Scenario: Alice First\n  Scenario: Alice Last"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 298
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 299, 
+                        "content": "Feature: Alice\n  Scenario: Alice First\n\nFeature: Alice\n  Scenario: Alice First\n  Scenario: Alice Last"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 308, 
+                "content": [
+                    "merge.file_locations", 
+                    "with.feature_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Merge 2 adjacent file locations to same file from features configfile", 
+                "index": 310
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"alice1_and_alice2.txt\" with:", 
+                        "clause": "given", 
+                        "index": 311
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 312, 
+                        "content": "# -- FEATURES CONFIGFILE:\n# Selects Alice First, Alice Last\nfeatures/alice.feature:3\nfeatures/alice.feature:6"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --no-skipped @alice1_and_alice2.txt\"", 
+                        "clause": "when", 
+                        "index": 318
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 319
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 320, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 0 skipped, 2 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 324
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 325, 
+                        "content": "Feature: Alice\n  Scenario: Alice First\n  Scenario: Alice Last"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 330
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 331, 
+                        "content": "Feature: Alice\n  Scenario: Alice First\n\nFeature: Alice\n  Scenario: Alice Last"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 339, 
+                "content": [
+                    "no_merge.file_locations", 
+                    "with.feature_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "No merge occurs if file locations to same file are not adjacent", 
+                "index": 341
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"alice1_bob2_and_alice2.txt\" with:", 
+                        "clause": "given", 
+                        "index": 342
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 343, 
+                        "content": "# -- FEATURES CONFIGFILE:\n# Selects Alice First, Bob in Paris (Setup, Teardown), Alice Last\nfeatures/alice.feature:3\nfeatures/bob.feature:10\nfeatures/alice.feature:6"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --dry-run --no-skipped @alice1_bob2_and_alice2.txt\"", 
+                        "clause": "when", 
+                        "index": 350
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 351
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 352, 
+                        "content": "0 features passed, 0 failed, 0 skipped, 3 untested\n0 scenarios passed, 0 failed, 3 skipped, 5 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 356
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 357, 
+                        "content": "Feature: Alice\n  Scenario: Alice First\n\nFeature: Bob\n  Scenario: Setup Bob\n  Scenario: Bob in Paris\n  Scenario: Teardown Bob\n\nFeature: Alice\n  Scenario: Alice Last"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 369
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 370, 
+                        "content": "Feature: Alice\n  Scenario: Alice First\n  Scenario: Alice Last"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

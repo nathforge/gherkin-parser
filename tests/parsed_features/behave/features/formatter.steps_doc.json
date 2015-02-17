@@ -1,0 +1,173 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Steps Doc Formatter", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a test writer\nI want to get a quick overview how to use a step definition\nBy reading the step definition documentation (doc-stings).\n\n. SOLUTION: Use StepsDocFormatter in dry-run mode, like:\n.\n.       behave --dry-run -f steps.doc features/"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 12, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 13
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 16, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    '''This step always passes.'''\n    pass\n\n@step('a step fails')\ndef step_fails(context):\n    '''This step is expected to fail.'''\n    assert False, \"XFAIL-STEP\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/alice_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 30, 
+                        "content": "from behave import given, when, then\n\n@given('{person} lives in {city}')\ndef step_given_person_lives_in_city(context, person, city):\n    '''\n    Setup the data where a person lives and store in the database.\n\n    :param person:  Person's name (as string).\n    :param city:    City where the person lives (as string).\n    '''\n    database = getattr(context, \"database\", None)\n    if not database:\n        context.database = {}\n    context.database[person] = { \"city\": city }\n\n@when('I visit {person}')\ndef step_when_visit_person(context, person):\n    # -- NO DOC-STRING.\n    pass\n\n@then('I meet {person} in {city}')\ndef step_then_meet_person_in_city(context, person, city):\n    '''\n    Checks if I can meet the person in the expected city.\n\n    :param person:  Person's name as key (as string).\n    :param city:    Expected city (as string).\n    '''\n    person_data = context.database.get(person, None)\n    assert person_data is not None, \"Person %s not found\" % person\n    assert person_data[\"city\"] == city"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"features/none.feature\"", 
+                        "clause": "given", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 66, 
+                "content": [
+                    "usecase.primary"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Show documentation of available step definitions in dry-run mode", 
+                "index": 67
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run -f steps.doc features/\"", 
+                        "clause": "when", 
+                        "index": 68
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 69
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 70, 
+                        "content": "@given('{person} lives in {city}')\n  Function: step_given_person_lives_in_city()\n  Location: features/steps/alice_steps.py:3\n    Setup the data where a person lives and store in the database.\n\n    :param person:  Person's name (as string).\n    :param city:    City where the person lives (as string).\n\n@when('I visit {person}')\n  Function: step_when_visit_person()\n  Location: features/steps/alice_steps.py:16\n\n@then('I meet {person} in {city}')\n  Function: step_then_meet_person_in_city()\n  Location: features/steps/alice_steps.py:21\n    Checks if I can meet the person in the expected city.\n\n    :param person:  Person's name as key (as string).\n    :param city:    Expected city (as string).\n\n@step('a step passes')\n  Function: step_passes()\n  Location: features/steps/passing_steps.py:3\n    This step always passes.\n\n@step('a step fails')\n  Function: step_fails()\n  Location: features/steps/passing_steps.py:8\n    This step is expected to fail."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the step definitions are ordered by file location\"", 
+                        "clause": "then", 
+                        "index": 101
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"@when('I visit {person}') has no doc-string\"", 
+                        "clause": "then", 
+                        "index": 102
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 105, 
+                "content": [
+                    "usecase.secondary"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Show documentation of available step definitions in normal mode", 
+                "index": 106
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f steps.doc features/\"", 
+                        "clause": "when", 
+                        "index": 107
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 108
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 109, 
+                        "content": "@given('{person} lives in {city}')\n  Function: step_given_person_lives_in_city()\n  Location: features/steps/alice_steps.py:3\n    Setup the data where a person lives and store in the database.\n\n    :param person:  Person's name (as string).\n    :param city:    City where the person lives (as string).\n\n@when('I visit {person}')\n  Function: step_when_visit_person()\n  Location: features/steps/alice_steps.py:16\n\n@then('I meet {person} in {city}')\n  Function: step_then_meet_person_in_city()\n  Location: features/steps/alice_steps.py:21\n    Checks if I can meet the person in the expected city.\n\n    :param person:  Person's name as key (as string).\n    :param city:    Expected city (as string).\n\n@step('a step passes')\n  Function: step_passes()\n  Location: features/steps/passing_steps.py:3\n    This step always passes.\n\n@step('a step fails')\n  Function: step_fails()\n  Location: features/steps/passing_steps.py:8\n    This step is expected to fail."
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

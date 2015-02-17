@@ -1,0 +1,222 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "World (or Context)", 
+        "index": 0
+    }, 
+    "description": null, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "access World variable", 
+                "index": 2
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a World variable initialized to 1", 
+                        "clause": "given", 
+                        "index": 3
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes a scenario that increments the World variable by 1", 
+                        "clause": "when", 
+                        "index": 4
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the feature passes", 
+                        "clause": "then", 
+                        "index": 5
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the World variable should have contained 2 at the end of the scenario", 
+                        "clause": "then", 
+                        "index": 6
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "different World instances between scenarios", 
+                "index": 8
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a World variable initialized to 1", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes two scenarios that increment the World variable by 1", 
+                        "clause": "when", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the feature passes", 
+                        "clause": "then", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the World variable should have contained 2 at the end of the first scenario", 
+                        "clause": "then", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the World variable should have contained 2 at the end of the second scenario", 
+                        "clause": "then", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "call function from World", 
+                "index": 15
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a World function", 
+                        "clause": "given", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes a scenario that calls the World function", 
+                        "clause": "when", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the feature passes", 
+                        "clause": "then", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the World function should have been called", 
+                        "clause": "then", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "replace World constructor", 
+                "index": 21
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a custom World constructor", 
+                        "clause": "given", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a World function", 
+                        "clause": "given", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes a scenario that calls the World function", 
+                        "clause": "when", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the feature passes", 
+                        "clause": "then", 
+                        "index": 25
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the World function should have been called", 
+                        "clause": "then", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,134 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Exclude Feature from Test Run", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a test writer\nI want sometimes to decide at runtime\nthat a feature is excluded from a test run\nSo that the command-line configuration becomes simpler\n(and auto-configuration is supported).\n\n. MECHANISM:\n.   The \"before_feature()\" hook can decide just before a feature should run\n.   that the feature should be excluded from the test-run.\n.   NOTE: Hooks are not called in dry-run mode.\n.\n. RATIONALE:\n.   There are certain situations where it is better to skip a feature\n.   than to run and fail the feature.\n.\n.   Reasons for these cases are of often test environment related:\n.     * test environment does not fulfill the desired criteria\n.     * used testbed does not fulfill test requirements\n.\n.   Instead of providing the exclude-feature selection on the command-line,\n.   the test (environment) and configuration logic should determine\n.   if a test should be excluded (as auto-configuration functionality).\n.\n. EXAMPLE:\n.   Certain features should not run on Windows (or Linux, ...).\n.\n. EVALUATION ORDER:\n.   Before the user can exclude a feature from a test-run,\n.   additional mechanisms decide, if the feature is part of the selected run-set.\n.   These are:\n.     * tags\n.     * ...\n.\n. RELATED:\n.   * features/scenario.exclude_from_run.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 39, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 40
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 42
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 43, 
+                        "content": "Feature: Alice\n  Scenario: Alice in Wonderland\n     Given a step passes\n      When another step passes\n      Then some step passes\n\n  Scenario: Alice and Bob\n     Given another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 54, 
+                        "content": "Feature: Bob\n  Scenario: Bob in Berlin\n     Given some step passes\n     When another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 60
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 61, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Exclude a feature from the test run (using: before_feature() hook)", 
+                "index": 70
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 72, 
+                        "content": "import sys\n\ndef should_exclude_feature(feature):\n    if \"Alice\" in feature.name:\n        return True\n    return False\n\ndef before_feature(context, feature):\n    if should_exclude_feature(feature):\n        sys.stdout.write(\"EXCLUDED-BY-USER: Feature %s\\n\" % feature.name)\n        feature.skip()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/\"", 
+                        "clause": "when", 
+                        "index": 85
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 86
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 87, 
+                        "content": "1 feature passed, 0 failed, 1 skipped\n1 scenario passed, 0 failed, 2 skipped\n2 steps passed, 0 failed, 4 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 92
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 93, 
+                        "content": "EXCLUDED-BY-USER: Feature Alice"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

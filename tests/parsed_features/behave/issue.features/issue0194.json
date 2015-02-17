@@ -1,0 +1,298 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #194: Nested steps prevent that original stdout/stderr is restored", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". When nested steps are used,\n. the original stdout/stderr streams are not restored after the scenario.\n. This is caused by starting/stopping capture again while executing nested steps.\n.\n. ENSURE THAT:\n.   * Original streams are restored in after_scenario() hook.\n.   * Nested steps should not replace existing capture objects."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 11, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 12
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 15, 
+                        "content": "[behave]\nlog_capture = false\nlogging_level  = INFO\nlogging_format = LOG.%(levelname)-8s  %(name)s: %(message)s"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/use_behave4cmd_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 22, 
+                        "content": "import behave4cmd0.passing_steps\nimport behave4cmd0.failing_steps\nimport behave4cmd0.note_steps"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/stdout_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 28, 
+                        "content": "from behave import given, when, then, step, matchers\nimport parse\nimport sys\n\n# -- USER-DEFINED DATA TYPES:\n@parse.with_pattern(r\"stdout|stderr\")\ndef parse_stream_name(text):\n    assert text in (\"stdout\", \"stderr\")\n    return text\n\nmatchers.register_type(StreamName=parse_stream_name)\n\n# -- UTILITY FUNCTIONS:\ndef write_text_to(stream, text, enforce_newline=True):\n    if enforce_newline and not text.endswith(\"\\n\"):\n        text += \"\\n\"\n    stream.write(text)\n\n# -- STEP DEFINITIONS:\n@step('I write \"{text}\" to {stream_name:StreamName}')\ndef step_write_text_to_stdxxx(context, text, stream_name):\n    stream = getattr(sys, stream_name)\n    write_text_to(stream, text)\n\n@step('I execute the following steps')\ndef step_execute_steps(context):\n    assert context.text, \"REQUIRE: context.text\"\n    context.execute_steps(context.text)\n    sys.stdout.write(\"STDOUT:AFTER-EXECUTE-STEPS\\n\")\n    sys.stderr.write(\"STDERR:AFTER-EXECUTE-STEPS\\n\")"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 60
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 61, 
+                        "content": "import sys\n\nstdout_id = 0\nstderr_id = 0\n\ndef stdout_print(text):\n    sys.__stdout__.write(text + \"\\n\")\n\ndef inspect_stdout(context, scope, statement):\n    global stdout_id\n    stream_id = id(sys.stdout)\n    stream_class = sys.stdout.__class__.__name__\n    expected_id = stdout_id\n    if stream_id != expected_id:\n        name = statement.name\n        stdout_print(\"CHANGED-STDOUT %s:%s: stream.id=%s:%d (was: %d)\" % \\\n                    (scope, name, stream_class, stream_id, expected_id))\n        stdout_id = stream_id\n\ndef inspect_stderr(context, scope, statement):\n    global stderr_id\n    stream_id = id(sys.stderr)\n    stream_class = sys.stderr.__class__.__name__\n    expected_id = stderr_id\n    if stream_id != expected_id:\n        name = statement.name\n        stdout_print(\"CHANGED-STDERR %s:%s: stream.id=%s:%d (was: %d)\" % \\\n                    (scope, name, stream_class, stream_id, expected_id))\n        stderr_id = stream_id\n\ndef inspect_stdxxx(context, scope, statement):\n    inspect_stdout(context, scope, statement)\n    inspect_stderr(context, scope, statement)\n\ndef before_all(context):\n    context.config.setup_logging(filename=\"behave.log\")\n\ndef before_scenario(context, scenario):\n    inspect_stdxxx(context, \"before_scenario\", scenario)\n\ndef after_scenario(context, scenario):\n    inspect_stdxxx(context, \"after_scenario\", scenario)\n    # -- ENSURE: Original streams are restored.\n    assert sys.stdout is sys.__stdout__\n    assert sys.stderr is sys.__stderr__\n    stdout_print(\"AFTER-SCENARIO %s: Streams are restored.\" % scenario.name)\n\ndef before_step(context, step):\n    inspect_stdxxx(context, \"before_step\", step)\n\ndef after_step(context, step):\n    inspect_stdxxx(context, \"after_step\", step)"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Stdout capture works with nested steps", 
+                "index": 116
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/stdout.failing_with_nested.feature\" with", 
+                        "clause": "given", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 118, 
+                        "content": "Feature:\n  Scenario: Failing with nested steps\n    Given I write \"STDOUT:Hello Alice\" to stdout\n    When  I write \"STDOUT:Hello Bob\" to stdout\n    Then  I execute the following steps:\n      '''\n      * I write \"STDOUT:Hello nested.Alice\" to stdout\n      * I write \"STDOUT:Hello nested.Bob\" to stdout\n      '''\n    And I write \"STDOUT:Hello Charly\" to stdout\n    And another step fails\n\n  Scenario: Another failing\n    Given I write \"STDOUT:Hello Dora\" to stdout\n    And another step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/stdout.failing_with_nested.feature\"", 
+                        "clause": "when", 
+                        "index": 135
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 136
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 137, 
+                        "content": "0 scenarios passed, 2 failed, 0 skipped\n5 steps passed, 2 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the summary is only shown if hooks have no errors\"", 
+                        "clause": "then", 
+                        "index": 141
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 142
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 143, 
+                        "content": "Captured stdout:\nSTDOUT:Hello Alice\nSTDOUT:Hello Bob\nSTDOUT:Hello nested.Alice\nSTDOUT:Hello nested.Bob\nSTDOUT:AFTER-EXECUTE-STEPS\nSTDOUT:Hello Charly"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 152
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 153, 
+                        "content": "Captured stdout:\nSTDOUT:Hello Dora"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 157
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 158, 
+                        "content": "AFTER-SCENARIO Failing with nested steps: Streams are restored."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 161
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 162, 
+                        "content": "AFTER-SCENARIO Another failing: Streams are restored."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Stderr capture works with nested steps", 
+                "index": 166
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/stderr.failing_with_nested.feature\" with", 
+                        "clause": "given", 
+                        "index": 167
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 168, 
+                        "content": "Feature:\n  Scenario: Failing with nested steps\n    Given I write \"STDERR:Hello Alice\" to stderr\n    When  I write \"STDERR:Hello Bob\" to stderr\n    Then  I execute the following steps:\n      '''\n      * I write \"STDERR:Hello nested.Alice\" to stderr\n      * I write \"STDERR:Hello nested.Bob\" to stderr\n      '''\n    And I write \"STDERR:Hello Charly\" to stderr\n    And another step fails\n\n  Scenario: Another failing\n    Given I write \"STDERR:Hello Dora\" to stderr\n    And another step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/stderr.failing_with_nested.feature\"", 
+                        "clause": "when", 
+                        "index": 185
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 186
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 187, 
+                        "content": "0 scenarios passed, 2 failed, 0 skipped\n5 steps passed, 2 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the summary is only shown if hooks have no errors\"", 
+                        "clause": "then", 
+                        "index": 191
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 192
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 193, 
+                        "content": "Captured stderr:\nSTDERR:Hello Alice\nSTDERR:Hello Bob\nSTDERR:Hello nested.Alice\nSTDERR:Hello nested.Bob\nSTDERR:AFTER-EXECUTE-STEPS\nSTDERR:Hello Charly"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 202
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 203, 
+                        "content": "Captured stderr:\nSTDERR:Hello Dora"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 207
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 208, 
+                        "content": "AFTER-SCENARIO Failing with nested steps: Streams are restored."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 211
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 212, 
+                        "content": "AFTER-SCENARIO Another failing: Streams are restored."
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,111 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "When an unknown formatter is used", 
+        "index": 0
+    }, 
+    "description": null, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Unknown formatter is used", 
+                "index": 3
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f unknown1\"", 
+                        "clause": "when", 
+                        "index": 4
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 5
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 6, 
+                        "content": "behave: error: format=unknown1 is unknown"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Unknown formatter is used together with another formatter", 
+                "index": 10
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -f unknown1\"", 
+                        "clause": "when", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 13, 
+                        "content": "behave: error: format=unknown1 is unknown"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Two unknown formatters are used", 
+                "index": 17
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -f unknown1 -f tags -f unknown2\"", 
+                        "clause": "when", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 20, 
+                        "content": "behave: error: format=unknown1, unknown2 is unknown"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

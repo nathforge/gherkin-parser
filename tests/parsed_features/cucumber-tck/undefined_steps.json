@@ -1,0 +1,399 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Undefined steps", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 1, 
+        "content": "In order to do Behaviour-Driven Development\nAs a developer\nI want to see the details about undefined steps"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "step definition snippet suggestion", 
+                "index": 5
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 6
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 7, 
+                        "content": "Given I am a veggie\nWhen I eat meat\nThen I get sick"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"I am a veggie\" has no mapping", 
+                        "clause": "given", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"I eat meat\" has no mapping", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"I get sick\" has no mapping", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes the scenario", 
+                        "clause": "when", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Given\" step definition snippet for /^I am a veggie$/ is suggested", 
+                        "clause": "then", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"When\" step definition snippet for /^I eat meat$/ is suggested", 
+                        "clause": "then", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Then\" step definition snippet for /^I get sick$/ is suggested", 
+                        "clause": "then", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "repeating steps (And, But)", 
+                "index": 20
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 22, 
+                        "content": "Given I am a veggie\nAnd I love food\nWhen I eat gherkins\nAnd I eat cucumbers\nThen I feel satiated\nAnd I feel energized\nBut I have nothing left to eat"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the steps have no mappings", 
+                        "clause": "given", 
+                        "index": 31
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes the scenario", 
+                        "clause": "when", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Given\" step definition snippet for /^I am a veggie$/ is suggested", 
+                        "clause": "then", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Given\" step definition snippet for /^I love food$/ is suggested", 
+                        "clause": "then", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"When\" step definition snippet for /^I eat gherkins$/ is suggested", 
+                        "clause": "then", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"When\" step definition snippet for /^I eat cucumbers$/ is suggested", 
+                        "clause": "then", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Then\" step definition snippet for /^I feel satiated$/ is suggested", 
+                        "clause": "then", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Then\" step definition snippet for /^I feel energized$/ is suggested", 
+                        "clause": "then", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Then\" step definition snippet for /^I have nothing left to eat$/ is suggested", 
+                        "clause": "then", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "star steps (*)", 
+                "index": 41
+            }, 
+            "description": {
+                "index": 42, 
+                "content": "All keywords are aliased to * in all i18n translations of Gherkin. The\npurpose is to allow a bullet-list style of steps. Just like with the And\nand But keywords, the previous keyword should be used for step definitions.\nIf there are no previous steps, use Given."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 47
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 48, 
+                        "content": "* I am a veggie\n* I love food\nWhen I eat gherkins\n* I eat cucumbers\nThen I feel satiated\n* I feel energized\n* I have nothing left to eat"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the steps have no mappings", 
+                        "clause": "given", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes the scenario", 
+                        "clause": "when", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Given\" step definition snippet for /^I am a veggie$/ is suggested", 
+                        "clause": "then", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Given\" step definition snippet for /^I love food$/ is suggested", 
+                        "clause": "then", 
+                        "index": 60
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"When\" step definition snippet for /^I eat gherkins$/ is suggested", 
+                        "clause": "then", 
+                        "index": 61
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"When\" step definition snippet for /^I eat cucumbers$/ is suggested", 
+                        "clause": "then", 
+                        "index": 62
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Then\" step definition snippet for /^I feel satiated$/ is suggested", 
+                        "clause": "then", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Then\" step definition snippet for /^I feel energized$/ is suggested", 
+                        "clause": "then", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Then\" step definition snippet for /^I have nothing left to eat$/ is suggested", 
+                        "clause": "then", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "step with doc strings", 
+                "index": 67
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 68
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 69, 
+                        "content": "Given the following Wikipedia excerpt:\n  \\\"\\\"\\\"\n  The cucumber (Cucumis sativus) is a widely cultivated plant\n  in the gourd family Cucurbitaceae, which includes squash,\n  and in the same genus as the muskmelon.\n  \\\"\\\"\\\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes the scenario", 
+                        "clause": "when", 
+                        "index": 77
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Given\" step definition snippet for /^the following Wikipedia excerpt:$/ with a doc string is suggested", 
+                        "clause": "then", 
+                        "index": 78
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "step with data tables:", 
+                "index": 80
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 82, 
+                        "content": "Given the following cucumbers:\n  | variety       | score |\n  | persian       |     3 |\n  | c-thru-cumber |     1 |\n  | lebanese      |     4 |\n  | kekiri        |     5 |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes the scenario", 
+                        "clause": "when", 
+                        "index": 90
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a \"Given\" step definition snippet for /^the following cucumbers:$/ with a data table is suggested", 
+                        "clause": "then", 
+                        "index": 91
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

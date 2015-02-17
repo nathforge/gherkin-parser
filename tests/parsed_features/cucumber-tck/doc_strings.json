@@ -1,0 +1,57 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Doc Strings", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "Multiline strings are handy for specifying a larger piece of\ntext. This is done using the DocString syntax. The text should be\noffset by delimiters consisting of three double-quote marks on lines\nof their own."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Step accepting a DocString parameter", 
+                "index": 7
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 8
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 9, 
+                        "content": "Given a calculator\nWhen the calculator adds up the following numbers:\n  \\\"\\\"\\\"\n  3\n  6\n  1\n  12\n  \\\"\\\"\\\"\nThen the calculator returns \"22\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the scenario with steps for a calculator", 
+                        "clause": "when", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario passes", 
+                        "clause": "then", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

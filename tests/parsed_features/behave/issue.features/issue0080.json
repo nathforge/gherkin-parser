@@ -1,0 +1,112 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #80: source file names not properly printed with python3", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". $ behave -f pretty example/example.feature\n. Scenario: run a simple test\n.    Given we have behave installed\n.    When we implement a test\n.    Then behave will test it for us!"
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 10
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 11
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 12
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 13, 
+                    "content": "from behave import given, when, then\n\n@given(u'a step passes')\ndef step(context):\n    pass\n\n@when(u'a step passes')\ndef step(context):\n    pass\n\n@then(u'a step passes')\ndef step(context):\n    pass"
+                }
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/basic.feature\" with:", 
+                    "clause": "given", 
+                    "index": 28
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 29, 
+                    "content": "Feature:\n  Scenario:\n    Given a step passes\n    When  a step passes\n    Then  a step passes"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Show step locations", 
+                "index": 37
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f pretty --no-timings features/basic.feature\"", 
+                        "clause": "when", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 40
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 41, 
+                        "content": "Feature:  # features/basic.feature:1\n  Scenario:             # features/basic.feature:2\n    Given a step passes # features/steps/steps.py:3\n    When a step passes  # features/steps/steps.py:7\n    Then a step passes  # features/steps/steps.py:11"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain \"", 
+                        "clause": "then", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

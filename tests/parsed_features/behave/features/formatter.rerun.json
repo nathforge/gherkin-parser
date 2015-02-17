@@ -1,0 +1,508 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Rerun Formatter", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "To simplify to run the scenarios that have failed during the last test run\nAs a tester\nI want that behave generates the necessary information for me.\n\n. SOLUTION:\n.\n.   Put RerunFormatter into \"behave.ini\" configuration file:\n.\n.\n.       [behave]\n.       format   = rerun\n.       outfiles = rerun.txt\n.\n.   Then a \"rerun.txt\" file is generated during each test run\n.   that contains the file locations of the failing scenarios, like:\n.\n.\n.\n.       features/alice.feature:10\n.       features/alice.feature:42\n.\n.   To rerun the failing scenarios of the last test run, use:\n.\n.       behave @rerun.txt"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 29, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 30
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 31
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 33, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass\n\n@step('a step fails')\ndef step_fails(context):\n    assert False, \"XFAIL-STEP\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/alice.feature\" with:", 
+                        "clause": "given", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 45, 
+                        "content": "Feature: Alice\n\n  Scenario: Passing\n    Given a step passes\n    When a step passes\n    Then a step passes\n\n  @xfail\n  Scenario: When-step fails\n    Given a step passes\n    When a step fails\n    Then a step passes\n\n  @xfail\n  Scenario: Then-step fails\n    Given a step passes\n    When a step passes\n    Then a step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/bob.feature\" with:", 
+                        "clause": "given", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 66, 
+                        "content": "Feature: Bob\n\n  @xfail\n  Scenario: Failing early\n    Given a step fails\n    When a step passes\n    Then a step fails\n\n  Scenario: Passing\n    Given a step passes\n\n  @xfail\n  Scenario: Failing\n    When a step passes\n    Then a step fails"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 84, 
+                "content": [
+                    "usecase.step1"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Rerun file is generated when failures occur", 
+                "index": 85
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f rerun -o rerun.txt -f plain -T features/\"", 
+                        "clause": "when", 
+                        "index": 86
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 87
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 88, 
+                        "content": "0 features passed, 2 failed, 0 skipped\n2 scenarios passed, 4 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 92
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 93, 
+                        "content": "Failing scenarios:\n  features/alice.feature:9  When-step fails\n  features/alice.feature:15  Then-step fails\n  features/bob.feature:4  Failing early\n  features/bob.feature:13  Failing"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"rerun.txt\" should contain:", 
+                        "clause": "then", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 101, 
+                        "content": "# -- RERUN: 4 failing scenarios during last test run.\nfeatures/alice.feature:9\nfeatures/alice.feature:15\nfeatures/bob.feature:4\nfeatures/bob.feature:13"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 109, 
+                "content": [
+                    "usecase.step2"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use rerun file during next test run to test only failing scenarios", 
+                "index": 110
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"rerun.txt\" with:", 
+                        "clause": "given", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 112, 
+                        "content": "# -- RERUN: 4 failing scenarios during last test run.\nfeatures/alice.feature:9\nfeatures/alice.feature:15\nfeatures/bob.feature:4\nfeatures/bob.feature:13"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --no-skipped @rerun.txt\"", 
+                        "clause": "when", 
+                        "index": 119
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 120
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 121, 
+                        "content": "0 features passed, 2 failed, 0 skipped\n0 scenarios passed, 4 failed, 2 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 125
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 126, 
+                        "content": "Feature: Alice\n\n  Scenario: When-step fails\n    Given a step passes ... passed\n    When a step fails ... failed\nAssertion Failed: XFAIL-STEP\n\n  Scenario: Then-step fails\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step fails ... failed\nAssertion Failed: XFAIL-STEP\n\nFeature: Bob\n\n  Scenario: Failing early\n    Given a step fails ... failed\nAssertion Failed: XFAIL-STEP\n\n  Scenario: Failing\n    When a step passes ... passed\n    Then a step fails ... failed\nAssertion Failed: XFAIL-STEP"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 151
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 152, 
+                        "content": "Failing scenarios:\n  features/alice.feature:9  When-step fails\n  features/alice.feature:15  Then-step fails\n  features/bob.feature:4  Failing early\n  features/bob.feature:13  Failing"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Rerun file is deleted when no failures occur", 
+                "index": 161
+            }, 
+            "description": {
+                "index": 163, 
+                "content": "The rerun output file should be deleted\nif the test run was successful and no failures occurred."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "an empty file named \"rerun.txt\"", 
+                        "clause": "given", 
+                        "index": 166
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f rerun -o rerun.txt -f plain -T --no-skipped --tags=~@xfail features/\"", 
+                        "clause": "when", 
+                        "index": 167
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 168
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 169, 
+                        "content": "2 features passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 4 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"rerun.txt\" should not exist", 
+                        "clause": "then", 
+                        "index": 173
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use RerunFormatter with output=stdout", 
+                "index": 176
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f rerun -f plain -T --no-skipped features/\"", 
+                        "clause": "when", 
+                        "index": 177
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 178
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 179, 
+                        "content": "0 features passed, 2 failed, 0 skipped\n2 scenarios passed, 4 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 183
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 184, 
+                        "content": "# -- RERUN: 4 failing scenarios during last test run.\nfeatures/alice.feature:9\nfeatures/alice.feature:15\nfeatures/bob.feature:4\nfeatures/bob.feature:13"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 193, 
+                "content": [
+                    "with.behave_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use rerun file with RerunFormatter in behave configuration file", 
+                "index": 194
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 195
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 196, 
+                        "content": "[behave]\nformat   = rerun\noutfiles = rerun.txt\nshow_timings = false\nshow_skipped = false"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/\"", 
+                        "clause": "when", 
+                        "index": 203
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 204
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 205, 
+                        "content": "0 features passed, 2 failed, 0 skipped\n2 scenarios passed, 4 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"rerun.txt\" should contain:", 
+                        "clause": "then", 
+                        "index": 209
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 210, 
+                        "content": "# -- RERUN: 4 failing scenarios during last test run.\nfeatures/alice.feature:9\nfeatures/alice.feature:15\nfeatures/bob.feature:4\nfeatures/bob.feature:13"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain @rerun.txt\"", 
+                        "clause": "when", 
+                        "index": 217
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 218
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 219, 
+                        "content": "0 features passed, 2 failed, 0 skipped\n0 scenarios passed, 4 failed, 2 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 223
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 224, 
+                        "content": "Feature: Alice\n\n  Scenario: When-step fails\n    Given a step passes ... passed\n    When a step fails ... failed\nAssertion Failed: XFAIL-STEP\n\n  Scenario: Then-step fails\n    Given a step passes ... passed\n    When a step passes ... passed\n    Then a step fails ... failed\nAssertion Failed: XFAIL-STEP\n\nFeature: Bob\n\n  Scenario: Failing early\n    Given a step fails ... failed\nAssertion Failed: XFAIL-STEP\n\n  Scenario: Failing\n    When a step passes ... passed\n    Then a step fails ... failed\nAssertion Failed: XFAIL-STEP"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"rerun.txt\" should contain:", 
+                        "clause": "then", 
+                        "index": 249
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 250, 
+                        "content": "# -- RERUN: 4 failing scenarios during last test run.\nfeatures/alice.feature:9\nfeatures/alice.feature:15\nfeatures/bob.feature:4\nfeatures/bob.feature:13"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 258, 
+                "content": [
+                    "sad.case", 
+                    "with.behave_configfile"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Two RerunFormatter use same output file", 
+                "index": 260
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 261
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 262, 
+                        "content": "[behave]\nformat   = rerun\noutfiles = rerun.txt"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f rerun -o rerun.txt -f plain features/\"", 
+                        "clause": "when", 
+                        "index": 267
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 268
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 269, 
+                        "content": "0 features passed, 2 failed, 0 skipped\n2 scenarios passed, 4 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"rerun.txt\" should contain:", 
+                        "clause": "then", 
+                        "index": 273
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 274, 
+                        "content": "# -- RERUN: 4 failing scenarios during last test run.\nfeatures/alice.feature:9\nfeatures/alice.feature:15\nfeatures/bob.feature:4\nfeatures/bob.feature:13"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"rerun.txt\" should not contain:", 
+                        "clause": "then", 
+                        "index": 281
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 282, 
+                        "content": "# -- RERUN: 4 failing scenarios during last test run.\nfeatures/alice.feature:9\nfeatures/alice.feature:15\nfeatures/bob.feature:4\nfeatures/bob.feature:13\n\n# -- RERUN: 4 failing scenarios during last test run.\nfeatures/alice.feature:9\nfeatures/alice.feature:15\nfeatures/bob.feature:4\nfeatures/bob.feature:13"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the second RerunFormatter overwrites the output of the first one\"", 
+                        "clause": "then", 
+                        "index": 295
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

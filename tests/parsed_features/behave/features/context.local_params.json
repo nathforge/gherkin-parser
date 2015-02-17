@@ -1,0 +1,99 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Local Context Parameters defined in Scenarios (Steps)", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": ". SPECIFICATION:\n.   * When a step adds/modifies an attribute in the Context object,\n.     then its value is only available to other steps in this scenario.\n.   * After a scenario is executed all Context object changes are undone."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Add Local Context parameter in Scenario/Step", 
+                "index": 7
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the behave context does not have a parameter \"local_name\"", 
+                        "clause": "given", 
+                        "index": 8
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I set the context parameter \"local_name\" to \"Alice\"", 
+                        "clause": "when", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the behave context should have a parameter \"local_name\"", 
+                        "clause": "then", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the behave context should contain:", 
+                        "clause": "then", 
+                        "index": 11
+                    }, 
+                    "table": [
+                        {
+                            "index": 12, 
+                            "columns": [
+                                "Parameter", 
+                                "Value"
+                            ]
+                        }, 
+                        {
+                            "index": 13, 
+                            "columns": [
+                                "local_name", 
+                                "\"Alice\""
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Ensure that Local Context parameter is not available to next Scenario", 
+                "index": 15
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the behave context should not have a parameter \"local_name\"", 
+                        "clause": "then", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,253 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #187 ScenarioOutline uses wrong return value when if fails", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "Ensure that ScenarioOutline run-logic behaves as expected."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 5, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 6
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 7
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 8
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 9, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass\n\n@step('a step fails')\ndef step_fails(context):\n    assert False, \"XFAIL-STEP\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "All examples pass", 
+                "index": 21
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.scenario_outline_pass.feature\" with:", 
+                        "clause": "given", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 23, 
+                        "content": "Feature:  All Examples pass\n  Scenario Outline:\n    Given a step <outcome>\n\n    Examples:\n      | outcome | Comment |\n      | passes  | First example passes |\n      | passes  | Last  example passes |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.scenario_outline_pass.feature\"", 
+                        "clause": "when", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 35, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 40, 
+                "content": [
+                    "scenario_outline.fails"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "First example fails", 
+                "index": 41
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.scenario_outline_fail_first.feature\" with:", 
+                        "clause": "given", 
+                        "index": 42
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 43, 
+                        "content": "Feature:  First Example in Scenario Outline fails\n  Scenario Outline:\n    Given a step <outcome>\n\n    Examples:\n      | outcome | Comment |\n      | fails   | First example fails  |\n      | passes  | Last  example passes |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.scenario_outline_fail_first.feature\"", 
+                        "clause": "when", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 54
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 55, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n1 scenario passed, 1 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 60, 
+                "content": [
+                    "scenario_outline.fails"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Last example fails", 
+                "index": 61
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.scenario_outline_fail_last.feature\" with:", 
+                        "clause": "given", 
+                        "index": 62
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 63, 
+                        "content": "Feature:  Last Example in Scenario Outline fails\n  Scenario Outline:\n    Given a step <outcome>\n\n    Examples:\n      | outcome | Comment |\n      | passes  | First example passes |\n      | fails   | Last  example fails  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.scenario_outline_fail_last.feature\"", 
+                        "clause": "when", 
+                        "index": 73
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 75, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n1 scenario passed, 1 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 80, 
+                "content": [
+                    "scenario_outline.fails"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Middle example fails", 
+                "index": 81
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.scenario_outline_fail_middle.feature\" with:", 
+                        "clause": "given", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 83, 
+                        "content": "Feature:  Middle Example in Scenario Outline fails\n  Scenario Outline:\n    Given a step <outcome>\n\n    Examples:\n      | outcome | Comment |\n      | passes  | First  example passes |\n      | fails   | Middle example fails  |\n      | passes  | Last   example passes |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.scenario_outline_fail_middle.feature\"", 
+                        "clause": "when", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 96, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n2 scenarios passed, 1 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

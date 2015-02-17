@@ -1,0 +1,115 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #125: Duplicate \"Captured stdout\" if substep has failed", 
+        "index": 1
+    }, 
+    "description": null, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 4
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 5
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 6
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 7, 
+                    "content": "from behave import step\n\n@step('a step fails with stdout \"{message}\"')\ndef step_fails_with_stdout(context, message):\n    print(message)\n    assert False, 'EXPECT: Step fails with stdout.'\n\n@step('substep fails with stdout \"{message}\"')\ndef substep_fails_with_stdout(context, message):\n    context.execute_steps(u'When a step fails with stdout \"%s\"' % message)"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Subprocess call shows generated output", 
+                "index": 20
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue125_example.feature\" with:", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 22, 
+                        "content": "Feature:\n    Scenario:\n        When substep fails with stdout \"Hello\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/issue125_example.feature\"", 
+                        "clause": "when", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 29, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n0 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 34, 
+                        "content": "Captured stdout:\nHello\n\nCaptured stdout:\nHello"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "Feature:\n    Scenario:\n        When substep fails with stdout \"Hello\" ... failed\n\nAssertion Failed: FAILED SUB-STEP: When a step fails with stdout \"Hello\"\nSubstep info: Assertion Failed: EXPECT: Step fails with stdout.\nCaptured stdout:\nHello"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

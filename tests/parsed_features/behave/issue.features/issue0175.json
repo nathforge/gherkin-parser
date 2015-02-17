@@ -1,0 +1,127 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #175: Scenario isn't marked as 'failed' when Background step fails", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "Scenario has currently status \"skipped\" when a background step fails.\nExpected is that scenario status should be \"failed\".\nEnsure that this is the case.\n\nRELATED: features/background.feature\nREUSE:   Scenario from there (as copy).\n\n. NOTE:\n.     Cucumber has a slightly different behaviour.\n.     When a background step fails the first scenario is marked as failed.\n.     But the remaining scenarios are marked as skipped.\n.\n.     This can lead to problems when you have sporadic background step failures.\n.     For this reason, behave retries the background steps for each scenario.\n.\n. SEE ALSO:\n.   * https://github.com/cucumber/cucumber/blob/master/features/docs/gherkin/background.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 22, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 23
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/background_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 25
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 26, 
+                        "content": "from behave import step\n\n@step('{word} background step {outcome}')\ndef step_background_step_passes_or_fails(context, word, outcome):\n    if outcome == \"fails\":\n        assert False, \"XFAIL: background step\"\n    elif outcome == \"passes\":\n        pass\n    else:\n        message = \"Unexpected outcome=%s. Use: passes, fails\"\n        raise RuntimeError(message % outcome)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 40, 
+                        "content": "from behave import step\n\n@step('{word} step passes')\ndef step_passes(context, word):\n    pass\n\n@step('{word} step fails')\ndef step_passes(context, word):\n    assert False, \"XFAIL\""
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Failing Background Step causes all Scenarios to fail", 
+                "index": 53
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/example.background_step_fails.feature\" with:", 
+                        "clause": "given", 
+                        "index": 54
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 55, 
+                        "content": "Feature:\n\n  Background: B1\n    Given a background step passes\n    And a background step fails\n    And another background step passes\n\n  Scenario: S1\n    When a step passes\n\n  Scenario: S2\n    Then a step passes\n    And another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/example.background_step_fails.feature\"", 
+                        "clause": "when", 
+                        "index": 70
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 72, 
+                        "content": "0 scenarios passed, 2 failed, 0 skipped\n2 steps passed, 2 failed, 5 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 77, 
+                        "content": "Feature:\n  Background: B1\n\n  Scenario: S1\n    Given a background step passes ... passed\n    And a background step fails ... failed\nAssertion Failed: XFAIL: background step\n\n  Scenario: S2\n    Given a background step passes ... passed\n    And a background step fails ... failed\nAssertion Failed: XFAIL: background step"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

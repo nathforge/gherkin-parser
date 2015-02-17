@@ -1,0 +1,302 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Scenario Outline -- Scenario Name Annotations", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a behave user / test writer\nI want to know in the current example/row combination\nSo that I know the context of success/failure within a test run (without details).\n\n. REQUIREMENTS:\n.   * generated scenario name should better indicate row/example combination.\n.   * name annotation schema for generated scenario names should be configurable.\n.\n. IMPROVEMENTS:\n.   * annotate Scenario Outline name (with row.id, examples.name, ...)\n.\n.\n. SCENARIO OUTLINE NAME ANNOTATION SCHEMA:\n.\n.   scenario_outline_annotation_schema = \"{name} -- @{row.id} {examples.name}\"\n.\n.   | Placeholder     | Description |\n.   |  name           |  Name of the Scenario Outline.                 |\n.   |  examples.name  |  Name of the examples group (or empty string). |\n.   |  examples.index |  Index of examples group (range: 1..N).        |\n.   |  row.index      |  Index of row in examples group (range: 1..R). |\n.   |  row.id         |  Same as: \"{example.index}.{row.index}\"        |"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 26, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 27
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/named_examples.feature\" with:", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 30, 
+                        "content": "Feature:\n  Scenario Outline: Named Examples\n    Given a param <param1>\n\n    Examples: Alice\n      | param1 |\n      |   10   |\n      |   42   |\n\n    Examples: Bob\n      | param1 |\n      |   43   |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/unnamed_examples.feature\" with:", 
+                        "clause": "given", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 45, 
+                        "content": "Feature:\n  Scenario Outline: Unnamed Examples\n    Given a param <param1>\n\n    Examples:\n      | param1 |\n      |   100  |\n      |   101  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/param_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 56, 
+                        "content": "from behave import step\n\n@step('a param {value:w}')\ndef step_impl_with_param(context, value):\n    context.param = value\n\n@step('a param {name}={value}')\ndef step_impl_with_param_value(context, name, value):\n    context.param_name = name\n    context.param_value = value\n"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use default annotation schema for generated scenarios (name annotations)", 
+                "index": 70
+            }, 
+            "description": {
+                "index": 72, 
+                "content": "Each example/row combination should be easy to spot."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" does not exist", 
+                        "clause": "given", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/named_examples.feature\"", 
+                        "clause": "when", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 77, 
+                        "content": "Scenario Outline: Named Examples -- @1.1 Alice\n  Given a param 10 ... passed\n\nScenario Outline: Named Examples -- @1.2 Alice\n  Given a param 42 ... passed\n\nScenario Outline: Named Examples -- @2.1 Bob\n  Given a param 43 ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the default annotation schema is: {name} -- @{row.id} {examples.name}\"", 
+                        "clause": "then", 
+                        "index": 87
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/unnamed_examples.feature\"", 
+                        "clause": "when", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 90, 
+                        "content": "Scenario Outline: Unnamed Examples -- @1.1\n  Given a param 100 ... passed\n\nScenario Outline: Unnamed Examples -- @1.2\n  Given a param 101 ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"each generated scenario name has a unique <row.id> annotation\"", 
+                        "clause": "then", 
+                        "index": 97
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"each generated scenario name contains has its <examples.name> as annotation\"", 
+                        "clause": "then", 
+                        "index": 98
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use own annotation schema for generated scenarios (name annotations)", 
+                "index": 101
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 102
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 103, 
+                        "content": "[behave]\nscenario_outline_annotation_schema = {name} -*- {examples.name} @{row.id}"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/named_examples.feature\"", 
+                        "clause": "when", 
+                        "index": 107
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 108
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 109, 
+                        "content": "Scenario Outline: Named Examples -*- Alice @1.1\n  Given a param 10 ... passed\n\nScenario Outline: Named Examples -*- Alice @1.2\n  Given a param 42 ... passed\n\nScenario Outline: Named Examples -*- Bob @2.1\n  Given a param 43 ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/unnamed_examples.feature\"", 
+                        "clause": "when", 
+                        "index": 119
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 120
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 121, 
+                        "content": "Scenario Outline: Unnamed Examples -*-  @1.1\n  Given a param 100 ... passed\n\nScenario Outline: Unnamed Examples -*-  @1.2\n  Given a param 101 ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Disable name annotations (use: old naming scheme)", 
+                "index": 130
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 131
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 132, 
+                        "content": "[behave]\nscenario_outline_annotation_schema = {name}"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/named_examples.feature\"", 
+                        "clause": "when", 
+                        "index": 136
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 137
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 138, 
+                        "content": "Scenario Outline: Named Examples\n  Given a param 10 ... passed\n\nScenario Outline: Named Examples\n  Given a param 42 ... passed\n\nScenario Outline: Named Examples\n  Given a param 43 ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/unnamed_examples.feature\"", 
+                        "clause": "when", 
+                        "index": 148
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 149
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 150, 
+                        "content": "Scenario Outline: Unnamed Examples\n  Given a param 100 ... passed\n\nScenario Outline: Unnamed Examples\n  Given a param 101 ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,165 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Data Tables", 
+        "index": 0
+    }, 
+    "description": null, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "a data table interpreted as an array", 
+                "index": 2
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 3
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 4, 
+                        "content": "Given the following cukes:\n  | Cucumis sativus | Cucumber     |\n  | Cucumis anguria | Burr Gherkin |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"the following cukes:\" has a passing mapping that receives a data table", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes the scenario", 
+                        "clause": "when", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario passes", 
+                        "clause": "then", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the received data table array equals the following:", 
+                        "clause": "then", 
+                        "index": 12
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 13, 
+                        "content": "[\n  [ \"Cucumis sativus\", \"Cucumber\" ],\n  [ \"Cucumis anguria\", \"Burr Gherkin\" ]\n]"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "a data table can be read as an array of hashes", 
+                "index": 20
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the following data table in a step:", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 22, 
+                        "content": "| Latin           | English      |\n| Cucumis sativus | Cucumber     |\n| Cucumis anguria | Burr Gherkin |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the data table is passed to a step mapping that converts it to key/value pairs", 
+                        "clause": "when", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the data table is converted to the following:", 
+                        "clause": "then", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 29, 
+                        "content": "[\n  { \"Latin\":\"Cucumis sativus\", \"English\":\"Cucumber\" },\n  { \"Latin\":\"Cucumis anguria\", \"English\":\"Burr Gherkin\" }\n]"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "a data table can be read as an array of values", 
+                "index": 36
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the following data table in a step:", 
+                        "clause": "given", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 38, 
+                        "content": "| Latin           | English      |\n| Cucumis sativus | Cucumber     |\n| Cucumis anguria | Burr Gherkin |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the data table is passed to a step mapping that gets the row arrays without the header", 
+                        "clause": "when", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the data table is converted to the following:", 
+                        "clause": "then", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 45, 
+                        "content": "[\n  [ \"Cucumis sativus\", \"Cucumber\" ],\n  [ \"Cucumis anguria\", \"Burr Gherkin\" ]\n]"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,661 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "logging", 
+            "capture"
+        ]
+    }, 
+    "title": {
+        "content": "Capture log output", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": "As a tester\nI want that log output is captured\nBut log-records are only shown when failures/errors occur\nSo that failure diagnostics are simplified\n\n. SPECIFICATION:\n.  * log_capture mode is enabled per default\n.  * log_capture mode can be defined on command-line\n.  * log_capture mode can be defined in behave configuration file\n.  * In log_capture mode: Captured log-records are only shown if a scenario fails\n.\n. RELATED:\n.  * logcapture.*.feature\n.  * logging.*.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 19, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 20
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/use_behave4cmd_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 23, 
+                        "content": "import behave4cmd0.log.steps\nimport behave4cmd0.failing_steps\nimport behave4cmd0.passing_steps"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 29, 
+                        "content": "def before_all(context):\n    context.config.setup_logging()\n    # -- SAME-AS:\n    # import logging\n    # logging.basicConfig(level=context.config.logging_level)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example.log_and_pass.feature\" with:", 
+                        "clause": "given", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 37, 
+                        "content": "Feature:\n  Scenario: Passing\n    Given I create log records with:\n        | category | level   | message |\n        | root     |  FATAL  | Hello Alice  |\n        | foo      |  ERROR  | Hello Bob    |\n        | foo.bar  |  WARN   | Hello Charly |\n        | bar      |  INFO   | Hello Dora   |\n        | baz      |  DEBUG  | Hello Emily  |\n    When another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example.log_and_fail.feature\" with:", 
+                        "clause": "given", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 50, 
+                        "content": "Feature:\n  Scenario: Failing\n    Given I create log records with:\n        | category | level   | message |\n        | root     |  FATAL  | Hello Alice  |\n        | foo      |  ERROR  | Hello Bob    |\n        | foo.bar  |  WARN   | Hello Charly |\n        | bar      |  INFO   | Hello Dora   |\n        | baz      |  DEBUG  | Hello Emily  |\n    When another step fails"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Captured log is suppressed if scenario passes", 
+                "index": 64
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --logcapture features/example.log_and_pass.feature\"", 
+                        "clause": "when", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 67, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n2 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 72, 
+                        "content": "Scenario: Passing\n  Given I create log records with ... passed\n    | category | level | message      |\n    | root     | FATAL | Hello Alice  |\n    | foo      | ERROR | Hello Bob    |\n    | foo.bar  | WARN  | Hello Charly |\n    | bar      | INFO  | Hello Dora   |\n    | baz      | DEBUG | Hello Emily  |\n  When another step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 83
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 84, 
+                        "content": "Captured logging:"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain the following log records:", 
+                        "clause": "then", 
+                        "index": 87
+                    }, 
+                    "table": [
+                        {
+                            "index": 88, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 89, 
+                            "columns": [
+                                "root", 
+                                "FATAL", 
+                                "Hello Alice"
+                            ]
+                        }, 
+                        {
+                            "index": 90, 
+                            "columns": [
+                                "foo", 
+                                "ERROR", 
+                                "Hello Bob"
+                            ]
+                        }, 
+                        {
+                            "index": 91, 
+                            "columns": [
+                                "foo.bar", 
+                                "WARN", 
+                                "Hello Charly"
+                            ]
+                        }, 
+                        {
+                            "index": 92, 
+                            "columns": [
+                                "bar", 
+                                "INFO", 
+                                "Hello Dora"
+                            ]
+                        }, 
+                        {
+                            "index": 93, 
+                            "columns": [
+                                "baz", 
+                                "DEBUG", 
+                                "Hello Emily"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Captured log is shown up to first failure if scenario fails", 
+                "index": 96
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --logcapture features/example.log_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 97
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 98
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 99, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 103
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 104, 
+                        "content": "Feature:\n  Scenario: Failing\n    Given I create log records with ... passed\n      | category | level | message      |\n      | root     | FATAL | Hello Alice  |\n      | foo      | ERROR | Hello Bob    |\n      | foo.bar  | WARN  | Hello Charly |\n      | bar      | INFO  | Hello Dora   |\n      | baz      | DEBUG | Hello Emily  |\n    When another step fails ... failed\nAssertion Failed: EXPECT: Failing step\nCaptured logging:\nCRITICAL:root:Hello Alice\nERROR:foo:Hello Bob\nWARNING:foo.bar:Hello Charly\nINFO:bar:Hello Dora"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain the following log records:", 
+                        "clause": "then", 
+                        "index": 122
+                    }, 
+                    "table": [
+                        {
+                            "index": 123, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 124, 
+                            "columns": [
+                                "root", 
+                                "FATAL", 
+                                "Hello Alice"
+                            ]
+                        }, 
+                        {
+                            "index": 125, 
+                            "columns": [
+                                "foo", 
+                                "ERROR", 
+                                "Hello Bob"
+                            ]
+                        }, 
+                        {
+                            "index": 126, 
+                            "columns": [
+                                "foo.bar", 
+                                "WARN", 
+                                "Hello Charly"
+                            ]
+                        }, 
+                        {
+                            "index": 127, 
+                            "columns": [
+                                "bar", 
+                                "INFO", 
+                                "Hello Dora"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain the following log records:", 
+                        "clause": "then", 
+                        "index": 128
+                    }, 
+                    "table": [
+                        {
+                            "index": 129, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 130, 
+                            "columns": [
+                                "baz", 
+                                "DEBUG", 
+                                "Hello Emily", 
+                                "Log-level too low: filtered-out"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Captured log is shown up to first failure if log_record.level is not too low", 
+                "index": 133
+            }, 
+            "description": {
+                "index": 135, 
+                "content": "Ensure that only log-records are shown that exceed the logging-level."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --logcapture --logging-level=ERROR features/example.log_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 137
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 138
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain the following log records:", 
+                        "clause": "then", 
+                        "index": 139
+                    }, 
+                    "table": [
+                        {
+                            "index": 140, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 141, 
+                            "columns": [
+                                "root", 
+                                "FATAL", 
+                                "Hello Alice"
+                            ]
+                        }, 
+                        {
+                            "index": 142, 
+                            "columns": [
+                                "foo", 
+                                "ERROR", 
+                                "Hello Bob"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain the following log records:", 
+                        "clause": "then", 
+                        "index": 143
+                    }, 
+                    "table": [
+                        {
+                            "index": 144, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 145, 
+                            "columns": [
+                                "foo.bar", 
+                                "WARN", 
+                                "Hello Charly"
+                            ]
+                        }, 
+                        {
+                            "index": 146, 
+                            "columns": [
+                                "bar", 
+                                "INFO", 
+                                "Hello Dora"
+                            ]
+                        }, 
+                        {
+                            "index": 147, 
+                            "columns": [
+                                "baz", 
+                                "DEBUG", 
+                                "Hello Emily"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Logcapture mode is enabled per default", 
+                "index": 150
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.log_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 151
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 152
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain \"Captured logging:\"", 
+                        "clause": "then", 
+                        "index": 153
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Logcapture mode can be enabled on command-line", 
+                "index": 156
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --logcapture features/example.log_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 157
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 158
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain \"Captured logging:\"", 
+                        "clause": "then", 
+                        "index": 159
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Logcapture mode can be disabled on command-line", 
+                "index": 162
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-logcapture features/example.log_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 163
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 164
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain \"Captured logging:\"", 
+                        "clause": "then", 
+                        "index": 165
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Logcapture mode can be enabled in configfile", 
+                "index": 168
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 169
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 170, 
+                        "content": "[behave]\nlog_capture = true"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.log_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 174
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 175
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain \"Captured logging:\"", 
+                        "clause": "then", 
+                        "index": 176
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Logcapture mode can be disabled in configfile", 
+                "index": 179
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 180
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 181, 
+                        "content": "[behave]\nlog_capture = false"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.log_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 185
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 186
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain \"Captured logging:\"", 
+                        "clause": "then", 
+                        "index": 187
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

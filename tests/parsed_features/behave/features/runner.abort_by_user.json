@@ -1,0 +1,608 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Test run can be aborted by the user", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a tester\nI want sometimes to abort a test run (because it is anyway failing, etc.)\nSo that I am more productive.\n\n. NOTES:\n.  * The test runner should fail gracefully (most of the times)\n.  * At least some cleanup hooks should be called (in general)"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 11, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 12
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/aborting_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 15, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass\n\n@step('the user aborts the test run')\ndef step_user_aborts_testrun(context):\n    raise KeyboardInterrupt()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/scenarios_pass3.feature\" with:", 
+                        "clause": "given", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 27, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When another step passes\n\n  Scenario:\n    Given first step passes\n    When second step passes\n    Then third step passes\n\n  Scenario:\n    Then last step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Abort test run in step definition", 
+                "index": 43
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/aborting_in_step.feature\" with:", 
+                        "clause": "given", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 45, 
+                        "content": "Feature: User aborts test run in a step definition\n  Scenario:\n    Given a step passes\n    When another step passes\n\n  Scenario: User aborts here\n    Given first step passes\n    When the user aborts the test run\n    Then third step passes\n\n  Scenario:\n    Then last step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"features/environment.py\"", 
+                        "clause": "given", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/aborting_in_step.feature\"", 
+                        "clause": "when", 
+                        "index": 60
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 61
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 62, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n1 scenario passed, 1 failed, 0 skipped, 1 untested\n3 steps passed, 1 failed, 1 skipped, 0 undefined, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 67
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 68, 
+                        "content": "Feature: User aborts test run in a step definition\n\nScenario:\n  Given a step passes ... passed\n  When another step passes ... passed\n\nScenario: User aborts here\n  Given first step passes ... passed\n  When the user aborts the test run ... failed\nABORTED: By user (KeyboardInterrupt).\n\nABORTED: By user.\n\nFailing scenarios:\n  features/aborting_in_step.feature:6  User aborts here"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the last scenario is untested (not-run) due to the user abort\"", 
+                        "clause": "then", 
+                        "index": 85
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Abort test run in before_scenario hook", 
+                "index": 88
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/aborting_in_before_scenario_hook.feature\" with:", 
+                        "clause": "given", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 90, 
+                        "content": "Feature: User aborts test run in before_scenario hook\n  Scenario:\n    Given a step passes\n    When another step passes\n\n  @user.aborts.before_scenario\n  Scenario: User aborts here\n    Given first step passes\n    When second step passes\n    Then third step passes\n\n  Scenario:\n    Then last step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 106, 
+                        "content": "def before_scenario(context, scenario):\n    if \"user.aborts.before_scenario\" in scenario.tags:\n        raise KeyboardInterrupt()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/aborting_in_before_scenario_hook.feature\"", 
+                        "clause": "when", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 112
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 113, 
+                        "content": "ABORTED: By user.\n0 features passed, 1 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped, 2 untested\n2 steps passed, 0 failed, 0 skipped, 0 undefined, 4 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 119
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 120, 
+                        "content": "Feature: User aborts test run in before_scenario hook\n\n  Scenario:\n    Given a step passes ... passed\n    When another step passes ... passed\n\n    Scenario: User aborts here"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 129
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 130, 
+                        "content": "  Given first step passes ... passed\n  When second step passes ... passed\n  Then third step passes ... passed\n\nScenario:\n  Then last step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the second snd third/last scenario is not run\"", 
+                        "clause": "then", 
+                        "index": 138
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Abort test run in after_scenario hook", 
+                "index": 141
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/aborting_in_after_scenario_hook.feature\" with:", 
+                        "clause": "given", 
+                        "index": 142
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 143, 
+                        "content": "Feature: User aborts test run in after_scenario hook\n  Scenario:\n    Given a step passes\n    When another step passes\n\n  @user.aborts.after_scenario\n  Scenario: User aborts here\n    Given first step passes\n    When second step passes\n    Then third step passes\n\n  Scenario:\n    Then last step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 158
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 159, 
+                        "content": "def after_scenario(context, scenario):\n    if \"user.aborts.after_scenario\" in scenario.tags:\n        raise KeyboardInterrupt()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/aborting_in_after_scenario_hook.feature\"", 
+                        "clause": "when", 
+                        "index": 164
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 165
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 166, 
+                        "content": "ABORTED: By user.\n0 features passed, 1 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped, 1 untested\n5 steps passed, 0 failed, 0 skipped, 0 undefined, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 172
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 173, 
+                        "content": "Feature: User aborts test run in after_scenario hook\n\n  Scenario:\n    Given a step passes ... passed\n    When another step passes ... passed\n\n  Scenario: User aborts here\n    Given first step passes ... passed\n    When second step passes ... passed\n    Then third step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 185
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 186, 
+                        "content": "Scenario:\n  Then last step passes ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the last scenario is not run\"", 
+                        "clause": "then", 
+                        "index": 190
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Abort test run in before_feature hook", 
+                "index": 193
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/aborting_in_before_feature_hook.feature\" with:", 
+                        "clause": "given", 
+                        "index": 194
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 195, 
+                        "content": "@user.aborts.before_feature\nFeature: User aborts test HERE\n  Scenario:\n    Given a step passes\n    When another step passes\n\n  Scenario:\n    Given first step passes\n    When second step passes\n    Then third step passes\n\n  Scenario:\n    Then last step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 210
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 211, 
+                        "content": "def before_feature(context, feature):\n    if \"user.aborts.before_feature\" in feature.tags:\n        raise KeyboardInterrupt()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/aborting_in_before_feature_hook.feature\"", 
+                        "clause": "when", 
+                        "index": 216
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 217
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 218, 
+                        "content": "Feature: User aborts test HERE\n\nABORTED: By user.\n0 features passed, 0 failed, 0 skipped, 1 untested\n0 scenarios passed, 0 failed, 0 skipped, 3 untested\n0 steps passed, 0 failed, 0 skipped, 0 undefined, 6 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the feature is not run\"", 
+                        "clause": "then", 
+                        "index": 226
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Abort test run in after_feature hook", 
+                "index": 229
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/aborting_in_after_feature_hook.feature\" with:", 
+                        "clause": "given", 
+                        "index": 230
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 231, 
+                        "content": "@user.aborts.after_feature\nFeature: User aborts test after HERE\n  Scenario:\n    Given a step passes\n    When another step passes\n\n  Scenario:\n    Given first step passes\n    When second step passes\n    Then third step passes\n\n  Scenario:\n    Then last step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 246
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 247, 
+                        "content": "def after_feature(context, feature):\n    if \"user.aborts.after_feature\" in feature.tags:\n        raise KeyboardInterrupt()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/aborting_in_after_feature_hook.feature\"", 
+                        "clause": "when", 
+                        "index": 252
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 253
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 254, 
+                        "content": "ABORTED: By user.\n1 feature passed, 0 failed, 0 skipped\n3 scenarios passed, 0 failed, 0 skipped\n6 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the behave command fails, but all features/scenarios passed\"", 
+                        "clause": "then", 
+                        "index": 260
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Abort test run in before_all hook", 
+                "index": 263
+            }, 
+            "description": {
+                "index": 265, 
+                "content": "Note that this situation is not handled very gracefully (yet)."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/scenarios_pass3.feature\" exists", 
+                        "clause": "given", 
+                        "index": 267
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 268
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 269, 
+                        "content": "def before_all(context):\n    raise KeyboardInterrupt()   #< ABORT-HERE"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/scenarios_pass3.feature\"", 
+                        "clause": "when", 
+                        "index": 273
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 274
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 275, 
+                        "content": "Traceback (most recent call last):"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 278
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 279, 
+                        "content": "File \"features/environment.py\", line 2, in before_all\n  raise KeyboardInterrupt()   #< ABORT-HERE"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"no feature is not run\"", 
+                        "clause": "then", 
+                        "index": 283
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Abort test run in after_all hook", 
+                "index": 286
+            }, 
+            "description": {
+                "index": 288, 
+                "content": "Note that this situation is not handled very gracefully (yet)."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/scenarios_pass3.feature\" exists", 
+                        "clause": "given", 
+                        "index": 290
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 291
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 292, 
+                        "content": "def after_all(context):\n    raise KeyboardInterrupt()   #< ABORT-HERE"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/scenarios_pass3.feature\"", 
+                        "clause": "when", 
+                        "index": 296
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 297
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 298, 
+                        "content": "Traceback (most recent call last):"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 301
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 302, 
+                        "content": "File \"features/environment.py\", line 2, in after_all\n  raise KeyboardInterrupt()   #< ABORT-HERE"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"all features are run\"", 
+                        "clause": "then", 
+                        "index": 306
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

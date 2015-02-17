@@ -1,0 +1,380 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #73: the current_matcher is not predictable", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". behave provides 2 matchers: ParseMatcher (parse) and RegexpMatcher (re).\n. The ParseMatcher is used per default when the test runner starts.\n.\n. A step definition file may change the matcher several times\n. by calling `use_step_matcher(\"re\")` or `use_step_matcher(\"parse\")`.\n. In order to make the writing of step definitions more predictable,\n. the matcher should be reset to the default matcher\n. before loading each step definition.\n.\n. A project can define its own default matcher by calling the\n. `use_step_matcher(...)` in the \"environment.py\" hook.\n. This matcher will be used as default before a step definition is loaded."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Verify that ParseMatcher is the default matcher", 
+                "index": 17
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/parse_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 20, 
+                        "content": "from behave import step\n\n@step(u'a step {outcome:w}')\ndef step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/passing.feature\" with:", 
+                        "clause": "given", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 28, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When  a step passes\n    Then  a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/passing.feature\"", 
+                        "clause": "when", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with", 
+                        "clause": "then", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 37, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use only RegexMatcher in Step Definitions", 
+                "index": 43
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 46, 
+                        "content": "from behave import use_step_matcher\nuse_step_matcher(\"re\")"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/regexp_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 51, 
+                        "content": "from behave import step\n\n@step(u'a step (?P<outcome>passes|fails)')\ndef step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/passing.feature\" with:", 
+                        "clause": "given", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When  a step passes\n    Then  a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/passing.feature\"", 
+                        "clause": "when", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with", 
+                        "clause": "then", 
+                        "index": 67
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 68, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use ParseMatcher and RegexMatcher in Step Definitions (default=re)", 
+                "index": 74
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 77, 
+                        "content": "from behave import use_step_matcher\nuse_step_matcher(\"re\")"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/eparse_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 82, 
+                        "content": "from behave import step, use_step_matcher\nuse_step_matcher(\"parse\")\n\n@step(u'an extraordinary step {outcome:w}')\ndef step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/regexp_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 90
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 91, 
+                        "content": "from behave import step\n\n@step(u'a step (?P<outcome>passes|fails)')\ndef step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/xparse_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 98
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 99, 
+                        "content": "from behave import step, use_step_matcher\nuse_step_matcher(\"parse\")\n\n@step(u'another step {outcome:w}')\ndef step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/passing3.feature\" with:", 
+                        "clause": "given", 
+                        "index": 107
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 108, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When  another step passes\n    Then  an extraordinary step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/passing3.feature\"", 
+                        "clause": "when", 
+                        "index": 115
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with", 
+                        "clause": "then", 
+                        "index": 116
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 117, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Mix ParseMatcher and RegexMatcher in Step Definitions (default=re)", 
+                "index": 123
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 124
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 125
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 126, 
+                        "content": "from behave import use_step_matcher\nuse_step_matcher(\"re\")"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/given_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 130
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 131, 
+                        "content": "from behave import step, use_step_matcher\n\nuse_step_matcher(\"parse\")\n@given(u'a step {outcome:w}')\ndef given_step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)\n\nuse_step_matcher(\"re\")\n@given(u'another step (?P<outcome>passes|fails)')\ndef given_another_step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)\n\nuse_step_matcher(\"parse\")\n@given(u'an extraordinary step {outcome:w}')\ndef given_extraordinary_step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/when_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 149
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 150, 
+                        "content": "from behave import step, use_step_matcher\n\n@when(u'a step (?P<outcome>passes|fails)')\ndef when_step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)\n\nuse_step_matcher(\"parse\")\n@when(u'another step {outcome:w}')\ndef when_another_step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)\n\nuse_step_matcher(\"re\")\n@when(u'an extraordinary step (?P<outcome>passes|fails)')\ndef when_extraordinary_step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/then_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 167
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 168, 
+                        "content": "from behave import step, use_step_matcher\n\nuse_step_matcher(\"parse\")\n@then(u'a step {outcome:w}')\ndef then_step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)\n\nuse_step_matcher(\"re\")\n@then(u'another step (?P<outcome>passes|fails)')\ndef then_another_step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)\n\nuse_step_matcher(\"parse\")\n@then(u'an extraordinary step {outcome:w}')\ndef then_extraordinary_step_passes(context, outcome):\n    assert outcome == \"passes\", \"FAIL: outcome={0}\".format(outcome)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/passing3.feature\" with:", 
+                        "clause": "given", 
+                        "index": 186
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 187, 
+                        "content": "Feature:\n  Scenario: 1\n    Given a step passes\n    When  another step passes\n    Then  an extraordinary step passes\n\n  Scenario: 2\n    Given another step passes\n    When  an extraordinary step passes\n    Then  a step passes\n\n  Scenario: 3\n    Given an extraordinary step passes\n    When  a step passes\n    Then  another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f pretty --no-timings features/passing3.feature\"", 
+                        "clause": "when", 
+                        "index": 204
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 205
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 206, 
+                        "content": "3 scenarios passed, 0 failed, 0 skipped\n9 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 210
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 211, 
+                        "content": "Feature:  # features/passing3.feature:1\n  Scenario: 1                         # features/passing3.feature:2\n    Given a step passes               # features/steps/given_steps.py:4\n    When another step passes          # features/steps/when_steps.py:8\n    Then an extraordinary step passes # features/steps/then_steps.py:14\n\n  Scenario: 2                         # features/passing3.feature:7\n    Given another step passes         # features/steps/given_steps.py:9\n    When an extraordinary step passes # features/steps/when_steps.py:13\n    Then a step passes                # features/steps/then_steps.py:4\n\n  Scenario: 3                          # features/passing3.feature:12\n    Given an extraordinary step passes # features/steps/given_steps.py:14\n    When a step passes                 # features/steps/when_steps.py:3\n    Then another step passes           # features/steps/then_steps.py:9"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

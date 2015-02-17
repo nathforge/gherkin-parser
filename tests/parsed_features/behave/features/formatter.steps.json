@@ -1,0 +1,270 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Steps Formatter (Step Definitions Formatter)", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As a test writer\nI want to get a quick overview which step definitions exist\nTo simplify the writing of feature tests.\n\n. SOLUTION: Use StepsFormatter in dry-run mode, like:\n.\n.       behave --dry-run -f steps features/\n.\n. NOTE: This formatter is similar to the \"stepdefs\" formatter in cucumber."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 14, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 15
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 18, 
+                        "content": "from behave import step\n\n@step('a step passes')\ndef step_passes(context):\n    pass\n\n@step('a step fails')\ndef step_fails(context):\n    assert False, \"XFAIL-STEP\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/alice_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 30, 
+                        "content": "from behave import given, when, then\n\n@given('{person} lives in {city}')\ndef step_given_person_lives_in_city(context, person, city):\n    pass\n\n@when('I visit {person}')\ndef step_when_visit_person(context, person):\n    pass\n\n@then('I meet {person} in {city}')\ndef step_then_meet_person_in_city(context, person, city):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/bob_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 46, 
+                        "content": "from behave import given, when, then\n\n@given('{person} works for {company}')\ndef step_given_person_works_for_company(context, person, company):\n    pass\n\n@when('I plan a meeting with {person}')\ndef step_when_plan_meeting_with_person(context, person):\n    pass\n\n@then('I meet him at the {company} office')\ndef step_then_meet_him_at_company_office(context, company):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"features/none.feature\"", 
+                        "clause": "given", 
+                        "index": 61
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 64, 
+                "content": [
+                    "usecase.primary"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Show available step definitions in dry-run mode", 
+                "index": 65
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run -f steps features/\"", 
+                        "clause": "when", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 67
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 68, 
+                        "content": "GIVEN STEP DEFINITIONS[4]:\n  Given {person} lives in {city}            # features/steps/alice_steps.py:3\n  Given {person} works for {company}        # features/steps/bob_steps.py:3\n  Given a step passes                       # features/steps/passing_steps.py:3\n  Given a step fails                        # features/steps/passing_steps.py:7\n\nWHEN STEP DEFINITIONS[4]:\n  When I visit {person}                     # features/steps/alice_steps.py:7\n  When I plan a meeting with {person}       # features/steps/bob_steps.py:7\n  When a step passes                        # features/steps/passing_steps.py:3\n  When a step fails                         # features/steps/passing_steps.py:7\n\nTHEN STEP DEFINITIONS[4]:\n  Then I meet {person} in {city}            # features/steps/alice_steps.py:11\n  Then I meet him at the {company} office   # features/steps/bob_steps.py:11\n  Then a step passes                        # features/steps/passing_steps.py:3\n  Then a step fails                         # features/steps/passing_steps.py:7\n\nGENERIC STEP DEFINITIONS[2]:\n  * a step passes                           # features/steps/passing_steps.py:3\n  * a step fails                            # features/steps/passing_steps.py:7"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the GENERIC STEP DEFINITIONS can be used as given/when/then steps\"", 
+                        "clause": "then", 
+                        "index": 91
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 94, 
+                "content": [
+                    "usecase.secondary"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Show available step definitions in normal mode", 
+                "index": 95
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f steps features/\"", 
+                        "clause": "when", 
+                        "index": 96
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 97
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 98, 
+                        "content": "GIVEN STEP DEFINITIONS[4]:\n  Given {person} lives in {city}            # features/steps/alice_steps.py:3\n  Given {person} works for {company}        # features/steps/bob_steps.py:3\n  Given a step passes                       # features/steps/passing_steps.py:3\n  Given a step fails                        # features/steps/passing_steps.py:7\n\nWHEN STEP DEFINITIONS[4]:\n  When I visit {person}                     # features/steps/alice_steps.py:7\n  When I plan a meeting with {person}       # features/steps/bob_steps.py:7\n  When a step passes                        # features/steps/passing_steps.py:3\n  When a step fails                         # features/steps/passing_steps.py:7\n\nTHEN STEP DEFINITIONS[4]:\n  Then I meet {person} in {city}            # features/steps/alice_steps.py:11\n  Then I meet him at the {company} office   # features/steps/bob_steps.py:11\n  Then a step passes                        # features/steps/passing_steps.py:3\n  Then a step fails                         # features/steps/passing_steps.py:7\n\nGENERIC STEP DEFINITIONS[2]:\n  * a step passes                           # features/steps/passing_steps.py:3\n  * a step fails                            # features/steps/passing_steps.py:7"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 123, 
+                "content": [
+                    "language"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Show available step definitions for language=de (German)", 
+                "index": 124
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run -f steps --lang=de features/\"", 
+                        "clause": "when", 
+                        "index": 125
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 126
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 127, 
+                        "content": "GIVEN STEP DEFINITIONS[4]:\n  Angenommen {person} lives in {city}       # features/steps/alice_steps.py:3\n  Angenommen {person} works for {company}   # features/steps/bob_steps.py:3\n  Angenommen a step passes                  # features/steps/passing_steps.py:3\n  Angenommen a step fails                   # features/steps/passing_steps.py:7\n\nWHEN STEP DEFINITIONS[4]:\n  Wenn I visit {person}                     # features/steps/alice_steps.py:7\n  Wenn I plan a meeting with {person}       # features/steps/bob_steps.py:7\n  Wenn a step passes                        # features/steps/passing_steps.py:3\n  Wenn a step fails                         # features/steps/passing_steps.py:7\n\nTHEN STEP DEFINITIONS[4]:\n  Dann I meet {person} in {city}            # features/steps/alice_steps.py:11\n  Dann I meet him at the {company} office   # features/steps/bob_steps.py:11\n  Dann a step passes                        # features/steps/passing_steps.py:3\n  Dann a step fails                         # features/steps/passing_steps.py:7\n\nGENERIC STEP DEFINITIONS[2]:\n  * a step passes                           # features/steps/passing_steps.py:3\n  * a step fails                            # features/steps/passing_steps.py:7"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"this may fail depending on the language you use with your features\"", 
+                        "clause": "then", 
+                        "index": 150
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 153, 
+                "content": [
+                    "language"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Show available step definitions for language=fr (French)", 
+                "index": 154
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --dry-run -f steps --lang=fr features/\"", 
+                        "clause": "when", 
+                        "index": 155
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 156
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 157, 
+                        "content": "GIVEN STEP DEFINITIONS[4]:\n  Soit {person} lives in {city}             # features/steps/alice_steps.py:3\n  Soit {person} works for {company}         # features/steps/bob_steps.py:3\n  Soit a step passes                        # features/steps/passing_steps.py:3\n  Soit a step fails                         # features/steps/passing_steps.py:7\n\nWHEN STEP DEFINITIONS[4]:\n  Quand I visit {person}                    # features/steps/alice_steps.py:7\n  Quand I plan a meeting with {person}      # features/steps/bob_steps.py:7\n  Quand a step passes                       # features/steps/passing_steps.py:3\n  Quand a step fails                        # features/steps/passing_steps.py:7\n\nTHEN STEP DEFINITIONS[4]:\n  Alors I meet {person} in {city}           # features/steps/alice_steps.py:11\n  Alors I meet him at the {company} office  # features/steps/bob_steps.py:11\n  Alors a step passes                       # features/steps/passing_steps.py:3\n  Alors a step fails                        # features/steps/passing_steps.py:7\n\nGENERIC STEP DEFINITIONS[2]:\n  * a step passes                           # features/steps/passing_steps.py:3\n  * a step fails                            # features/steps/passing_steps.py:7"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"this may fail depending on the language you use with your features\"", 
+                        "clause": "then", 
+                        "index": 180
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

@@ -1,0 +1,95 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #72: Using 'GHERKIN_COLORS' fails with Exception", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "> Trying: GHERKIN_COLORS=executing=white behave\n> It fails:\n>\n>    Traceback (most recent call last):\n>      ...\n>      File \"/.../behave/formatter/ansi_escapes.py\", line 38, in <module>\n>        escapes[alias] = ''.join([colors[c] for c in aliases[alias].split(',')])\n>    TypeError: list indices must be integers, not str\n>\n> The reason is that the global variable colors is defined twice in this module.\n> The second variable overrides/modifies the first (without intention)."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Using GHERKIN_COLORS in new working dir", 
+                "index": 16
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I set the environment variable \"GHERKIN_COLORS\" to \"executing=white\"", 
+                        "clause": "given", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave\"", 
+                        "clause": "when", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 20
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 21, 
+                        "content": "No steps directory in \"{__WORKDIR__}/features\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 25, 
+                        "content": "Traceback (most recent call last):"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 29, 
+                        "content": "TypeError: list indices must be integers, not str"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

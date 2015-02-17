@@ -1,0 +1,266 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "logging", 
+            "capture"
+        ]
+    }, 
+    "title": {
+        "content": "Use --logging-clear-handlers configuration option", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": "PRECONDITION: log_capture mode is enabled (config.log_capture = true).\n\nAs a tester\nIn log-capture mode\nI want sometimes to remove any logging handler before capture starts\nSo that I have the log-records output under control."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 12, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 13
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/use_behave4cmd_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 16, 
+                        "content": "import behave4cmd0.log.steps\nimport behave4cmd0.failing_steps\nimport behave4cmd0.passing_steps"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 22, 
+                        "content": "def before_all(context):\n    # -- SAME-AS: context.config.setup_logging()\n    import logging\n    logging.basicConfig(level=context.config.logging_level)\n\n    # -- ADDITIONAL LOG-HANDLER: Which will be cleared.\n    format = \"LOG-HANDLER2: %(name)s %(levelname)s: %(message)s;\"\n    handler = logging.StreamHandler()\n    handler.setFormatter(logging.Formatter(format))\n    root_logger = logging.getLogger()\n    root_logger.addHandler(handler)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example.log_with_failure.feature\" with:", 
+                        "clause": "given", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "Feature:\n  Scenario: Failing\n    Given I create log records with:\n        | category | level   | message |\n        | root     |  ERROR  | Hello Alice  |\n        | root     |  WARN   | Hello Bob    |\n    When a step fails"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use logcapture mode without clearing existing log handlers", 
+                "index": 47
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 49, 
+                        "content": "[behave]\nlog_capture = true\nlogging_level = WARN"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.log_with_failure.feature\"", 
+                        "clause": "when", 
+                        "index": 54
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 56, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 60
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 61, 
+                        "content": "Captured logging:\nERROR:root:Hello Alice\nWARNING:root:Hello Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 67, 
+                        "content": "LOG-HANDLER2: root ERROR: Hello Alice;\nLOG-HANDLER2: root WARNING: Hello Bob;"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use logcapture mode with clearing additional log handlers (case: command-line)", 
+                "index": 73
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 75, 
+                        "content": "[behave]\nlog_capture = true\nlogging_level = WARN"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --logging-clear-handlers features/example.log_with_failure.feature\"", 
+                        "clause": "when", 
+                        "index": 80
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 82, 
+                        "content": "Captured logging:\nERROR:root:Hello Alice\nWARNING:root:Hello Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 87
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 88, 
+                        "content": "LOG-HANDLER2: root ERROR: Hello Alice;\nLOG-HANDLER2: root WARNING: Hello Bob;"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use Logcapture mode with clearing additional log handlers (case: configfile)", 
+                "index": 94
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 96, 
+                        "content": "[behave]\nlog_capture = true\nlogging_level = WARN\nlogging_clear_handlers = true"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.log_with_failure.feature\"", 
+                        "clause": "when", 
+                        "index": 102
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 103
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 104, 
+                        "content": "Captured logging:\nERROR:root:Hello Alice\nWARNING:root:Hello Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 109
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 110, 
+                        "content": "LOG-HANDLER2: root ERROR: Hello Alice;\nLOG-HANDLER2: root WARNING: Hello Bob;"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

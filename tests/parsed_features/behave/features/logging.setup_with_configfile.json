@@ -1,0 +1,468 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Setup logging subsystem by using a logging configfile", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a tester\nI want to setup the logging subsystem by using a configfile\nTo be more flexible even in complex situations"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 6, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature setup", 
+                "index": 7
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 8
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/use_behave4cmd_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 10, 
+                        "content": "import behave4cmd0.log.steps\nimport behave4cmd0.failing_steps\nimport behave4cmd0.passing_steps"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example.log_and_pass.feature\" with:", 
+                        "clause": "given", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 16, 
+                        "content": "Feature:\n  Scenario: Passing\n    Given I create log records with:\n      | category | level | message |\n      | root     | FATAL | Hello Alice  |\n      | foo      | ERROR | Hello Bob    |\n      | foo.bar  | WARN  | Hello Charly |\n      | bar      | INFO  | Hello Dora   |\n      | baz      | DEBUG | Hello Emily  |\n    And another step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example.log_and_fail.feature\" with:", 
+                        "clause": "given", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 29, 
+                        "content": "Feature:\n  Scenario: Failing\n    Given I create log records with:\n      | category | level | message |\n      | root     | FATAL | Hello Alice  |\n      | foo      | ERROR | Hello Bob    |\n      | foo.bar  | WARN  | Hello Charly |\n      | bar      | INFO  | Hello Dora   |\n      | baz      | DEBUG | Hello Emily  |\n    And another step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "[behave]\nlog_capture = false\nlogging_level = DEBUG\nlogging_format = LOG.%(levelname)-8s  %(name)-10s: %(message)s"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave_logging.ini\" with:", 
+                        "clause": "given", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 49, 
+                        "content": "[loggers]\nkeys=root\n\n[handlers]\nkeys=Console,File\n\n[formatters]\nkeys=Brief\n\n[logger_root]\nlevel = NOTSET\nhandlers = File\n# handlers = Console,File\n\n[handler_File]\nclass=FileHandler\nargs=(\"behave.log\", 'w')\nlevel=NOTSET\nformatter=Brief\n\n[handler_Console]\nclass=StreamHandler\nargs=(sys.stderr,)\nlevel=NOTSET\nformatter=Brief\n\n[formatter_Brief]\nformat= LOG.%(levelname)-8s  %(name)-10s: %(message)s\ndatefmt="
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Setup logging subsystem via environment (case: logging mode)", 
+                "index": 81
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 83, 
+                        "content": "def before_all(context):\n    context.config.setup_logging(configfile=\"behave_logging.ini\")"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I use the log record configuration:", 
+                        "clause": "given", 
+                        "index": 87
+                    }, 
+                    "table": [
+                        {
+                            "index": 88, 
+                            "columns": [
+                                "property", 
+                                "value"
+                            ]
+                        }, 
+                        {
+                            "index": 89, 
+                            "columns": [
+                                "format", 
+                                "LOG.%(levelname)-8s  %(name)-10s: %(message)s"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example.log_and_pass.feature\"", 
+                        "clause": "when", 
+                        "index": 90
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 91
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"behave.log\" should contain the log records:", 
+                        "clause": "then", 
+                        "index": 92
+                    }, 
+                    "table": [
+                        {
+                            "index": 93, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 94, 
+                            "columns": [
+                                "root", 
+                                "FATAL", 
+                                "Hello Alice"
+                            ]
+                        }, 
+                        {
+                            "index": 95, 
+                            "columns": [
+                                "foo", 
+                                "ERROR", 
+                                "Hello Bob"
+                            ]
+                        }, 
+                        {
+                            "index": 96, 
+                            "columns": [
+                                "foo.bar", 
+                                "WARN", 
+                                "Hello Charly"
+                            ]
+                        }, 
+                        {
+                            "index": 97, 
+                            "columns": [
+                                "bar", 
+                                "INFO", 
+                                "Hello Dora"
+                            ]
+                        }, 
+                        {
+                            "index": 98, 
+                            "columns": [
+                                "baz", 
+                                "DEBUG", 
+                                "Hello Emily"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain the following log records:", 
+                        "clause": "then", 
+                        "index": 99
+                    }, 
+                    "table": [
+                        {
+                            "index": 100, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 101, 
+                            "columns": [
+                                "root", 
+                                "FATAL", 
+                                "Hello Alice"
+                            ]
+                        }, 
+                        {
+                            "index": 102, 
+                            "columns": [
+                                "foo", 
+                                "ERROR", 
+                                "Hello Bob"
+                            ]
+                        }, 
+                        {
+                            "index": 103, 
+                            "columns": [
+                                "foo.bar", 
+                                "WARN", 
+                                "Hello Charly"
+                            ]
+                        }, 
+                        {
+                            "index": 104, 
+                            "columns": [
+                                "bar", 
+                                "INFO", 
+                                "Hello Dora"
+                            ]
+                        }, 
+                        {
+                            "index": 105, 
+                            "columns": [
+                                "baz", 
+                                "DEBUG", 
+                                "Hello Emily"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Setup logging subsystem via environment (case: log-capture mode)", 
+                "index": 108
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 109
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 110, 
+                        "content": "def before_all(context):\n    context.config.setup_logging(configfile=\"behave_logging.ini\")"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I use the log record configuration:", 
+                        "clause": "given", 
+                        "index": 114
+                    }, 
+                    "table": [
+                        {
+                            "index": 115, 
+                            "columns": [
+                                "property", 
+                                "value"
+                            ]
+                        }, 
+                        {
+                            "index": 116, 
+                            "columns": [
+                                "format", 
+                                "LOG.%(levelname)-8s  %(name)-10s: %(message)s"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --logcapture features/example.log_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 118
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 119, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the file \"behave.log\" should contain the log records:", 
+                        "clause": "then", 
+                        "index": 123
+                    }, 
+                    "table": [
+                        {
+                            "index": 124, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 125, 
+                            "columns": [
+                                "root", 
+                                "FATAL", 
+                                "Hello Alice"
+                            ]
+                        }, 
+                        {
+                            "index": 126, 
+                            "columns": [
+                                "foo", 
+                                "ERROR", 
+                                "Hello Bob"
+                            ]
+                        }, 
+                        {
+                            "index": 127, 
+                            "columns": [
+                                "foo.bar", 
+                                "WARN", 
+                                "Hello Charly"
+                            ]
+                        }, 
+                        {
+                            "index": 128, 
+                            "columns": [
+                                "bar", 
+                                "INFO", 
+                                "Hello Dora"
+                            ]
+                        }, 
+                        {
+                            "index": 129, 
+                            "columns": [
+                                "baz", 
+                                "DEBUG", 
+                                "Hello Emily"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain the following log records:", 
+                        "clause": "then", 
+                        "index": 130
+                    }, 
+                    "table": [
+                        {
+                            "index": 131, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 132, 
+                            "columns": [
+                                "root", 
+                                "FATAL", 
+                                "Hello Alice"
+                            ]
+                        }, 
+                        {
+                            "index": 133, 
+                            "columns": [
+                                "foo", 
+                                "ERROR", 
+                                "Hello Bob"
+                            ]
+                        }, 
+                        {
+                            "index": 134, 
+                            "columns": [
+                                "foo.bar", 
+                                "WARN", 
+                                "Hello Charly"
+                            ]
+                        }, 
+                        {
+                            "index": 135, 
+                            "columns": [
+                                "bar", 
+                                "INFO", 
+                                "Hello Dora"
+                            ]
+                        }, 
+                        {
+                            "index": 136, 
+                            "columns": [
+                                "baz", 
+                                "DEBUG", 
+                                "Hello Emily"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

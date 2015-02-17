@@ -1,0 +1,247 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #159: output stream is wrapped twice in the codecs.StreamWriter", 
+        "index": 1
+    }, 
+    "description": null, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 3, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 4
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 5
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 6
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 7, 
+                        "content": "# -*- coding: utf-8 -*-\nfrom behave import step\n\n@step('firstname is \"{name}\"')\ndef step_impl(context, name):\n    pass\n\n@step(u'full name is Lo\u00efc \"{name}\"')\ndef step_impl(context, name):\n    pass"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Single feature, pass (a)", 
+                "index": 20
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue159_stream_writer.feature\" with:", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 22, 
+                        "content": "Feature:\n  Scenario:\n    When firstname is \"Lo\u00efc\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/\"", 
+                        "clause": "when", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Single feature, pass (b)", 
+                "index": 31
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue159_stream_writer.feature\" with:", 
+                        "clause": "given", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 33, 
+                        "content": "Feature:\n  Scenario:\n    When full name is Lo\u00efc \"Dupont\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/\"", 
+                        "clause": "when", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Two features, FAIL (a)", 
+                "index": 42
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue159_stream_writer.feature\" with:", 
+                        "clause": "given", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 44, 
+                        "content": "Feature:\n  Scenario:\n    When full name is Lo\u00efc \"Dupont\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/issue159_stream_writer_again.feature\" with:", 
+                        "clause": "given", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 50, 
+                        "content": "Feature:\n  Scenario:\n    When full name is Lo\u00efc \"Dupond\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/\"", 
+                        "clause": "when", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 56
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Two features, FAIL (b)", 
+                "index": 59
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue159_stream_writer.feature\" with:", 
+                        "clause": "given", 
+                        "index": 60
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 61, 
+                        "content": "Feature:\n  Scenario:\n    When firstname is \"Lo\u00efc\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/issue159_stream_writer_again.feature\" with:", 
+                        "clause": "given", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 67, 
+                        "content": "Feature:\n  Scenario:\n    When firstname is \"Lo\u00efc\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/\"", 
+                        "clause": "when", 
+                        "index": 72
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 73
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

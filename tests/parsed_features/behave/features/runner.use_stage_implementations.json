@@ -1,0 +1,314 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Use Alternate Step Implementations for Each Test Stage", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As I tester and test writer\nI want to run the same feature with other step implementations during different testing stages\nSo I can run quick checks in a development environment and detailed checks in a testlab.\n\n. CONCEPT: TEST STAGE\n.   A test stage allows you to use different step/environment implementations\n.   compared to other test stage or the default, unnamed test stage.\n.\n.   Examples for test stages are:\n.     * develop (using the development environment with more diagnostics)\n.     * product (using the product database, ...)\n.     * systemtest\n.     * systemint (system integration)\n.     * ...\n.\n.   NOTE:\n.   Test stages can be used to adapt to different test environments\n.   while using these test stages.\n.\n.\n. EXAMPLE DIRECTORY LAYOUT (with default stage and stage=testlab):\n.\n.   features/\n.       +-- steps/\n.       |   +-- foo_steps.py\n.       +-- testlab_steps/\n.       |   +-- foo_steps.py\n.       +-- *.feature\n.       +-- environment.py\n.       +-- testlab_environment.py"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 34, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 35
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 37
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 38, 
+                        "content": "Feature:\n  Scenario:\n    Given I do something in a test stage"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 44, 
+                        "content": "def before_all(context):\n    context.use_develop_environment = False"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/foo_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 49, 
+                        "content": "from behave import step\n\n@step('I do something in a test stage')\ndef step_do_something(context):\n    assert not context.config.stage\n    assert not context.use_develop_environment"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I remove the environment variable \"BEHAVE_STAGE\"", 
+                        "clause": "given", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use stage=develop", 
+                "index": 59
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/develop_environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 60
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 61, 
+                        "content": "def before_all(context):\n    context.use_develop_environment = True"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/develop_steps/foo_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 66, 
+                        "content": "from behave import step\n\n@step('I do something in a test stage')\ndef step_do_something(context):\n    assert context.config.stage == \"develop\"\n    assert context.use_develop_environment"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c --stage=develop features/example1.feature\"", 
+                        "clause": "when", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 76, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 82, 
+                        "content": "Scenario:                              # features/example1.feature:2\n  Given I do something in a test stage # features/develop_steps/foo_steps.py:3"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use default stage", 
+                "index": 87
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I remove the environment variable \"BEHAVE_STAGE\"", 
+                        "clause": "given", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/example1.feature\"", 
+                        "clause": "when", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 90
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 91, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 96
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 97, 
+                        "content": "Scenario:                              # features/example1.feature:2\n  Given I do something in a test stage # features/steps/foo_steps.py:3"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use the BEHAVE_STAGE environment variable to define the test stage", 
+                "index": 102
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I set the environment variable \"BEHAVE_STAGE\" to \"develop\"", 
+                        "clause": "given", 
+                        "index": 103
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c features/example1.feature\"", 
+                        "clause": "when", 
+                        "index": 104
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 106, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 112, 
+                        "content": "Scenario:                              # features/example1.feature:2\n  Given I do something in a test stage # features/develop_steps/foo_steps.py:3"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"I should better remove it again (TEARDOWN PHASE)\"", 
+                        "clause": "then", 
+                        "index": 116
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I remove the environment variable \"BEHAVE_STAGE\"", 
+                        "clause": "then", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Using an unknown stage", 
+                "index": 120
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -c --stage=unknown features/example1.feature\"", 
+                        "clause": "when", 
+                        "index": 121
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 122
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 123, 
+                        "content": "ConfigError: No unknown_steps directory"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

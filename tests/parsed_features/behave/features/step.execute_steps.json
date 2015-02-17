@@ -1,0 +1,113 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Execute Steps within a Step Function (Nested Steps)", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a tester\nI want to reuse existing steps and call several ones within another step\nSo that I can comply with the the DRY principle."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Execute a number of simple steps (GOOD CASE)", 
+                "index": 6
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 7
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 8
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 9, 
+                        "content": "from behave import given, when, then\n\n@given(u'I go to the supermarket')\ndef step_given_I_go_to_the_supermarket(context):\n    context.shopping_cart = {}\n\n@when(u'I buy {amount:n} {item:w}')\ndef step_when_I_buy(context, amount, item):\n    assert amount >= 0\n    if not item in context.shopping_cart:\n        context.shopping_cart[item] = 0\n    context.shopping_cart[item] += amount\n\n# -- HERE: Is the interesting functionality.\n@when(u'I buy the usual things')\ndef step_when_I_buy_the_usual_things(context):\n    context.execute_steps(u'''\n        When I buy 2 apples\n        And  I buy 3 bananas\n    ''')\n\n@then(u'I have {amount:n} {item:w}')\ndef step_then_I_have(context, amount, item):\n    actual = context.shopping_cart.get(item, 0)\n    assert amount == actual"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/use_nested_steps.feature\" with:", 
+                        "clause": "given", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 37, 
+                        "content": "Feature:\n  Scenario:\n    Given I go to the supermarket\n    When  I buy the usual things\n    Then  I have 2 apples\n    And   I have 3 bananas"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/use_nested_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 46
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 47, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n4 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 53, 
+                "content": [
+                    "not_implemented"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "A Nested Step Fails with Assert", 
+                "index": 54
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 56, 
+                "content": [
+                    "not_implemented"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "A Nested Step Fails with Exception", 
+                "index": 57
+            }, 
+            "description": null, 
+            "steps": [], 
+            "examples": null
+        }
+    ]
+}

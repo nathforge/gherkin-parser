@@ -1,0 +1,287 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Pending Step (Exists with NotImplementedError Marker)", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": ". TERMINOLOGY:\n.  * An undefined step is a step without matching step implementation.\n.  * A pending step exists,\n.    but contains only the undefined step snippet as implementation,\n.    that marks it as NotImplemented.\n.\n. RELATED TO:\n.  * step.undefined_steps.feature"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 12, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 13
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 16, 
+                        "content": "[behave]\nshow_skipped = false\nshow_timings = false"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 22, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass\n\n@step('{word:w} step fails')\ndef step_fails(context, word):\n    assert False, \"XFAIL\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/pending_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 34, 
+                        "content": "from behave import given, when, then\n\n@given('a pending step is used')\ndef step_pending_given(context):\n    raise NotImplementedError('STEP: Given a pending step is used')\n\n@when('a pending step is used')\ndef step_pending_when(context):\n    raise NotImplementedError('STEP: When a pending step is used')\n\n@then('a pending step is used')\ndef step_pending_then(context):\n    raise NotImplementedError('STEP: Then a pending step is used')"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/use_pending_steps.feature\" with:", 
+                        "clause": "given", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 50, 
+                        "content": "Feature:\n  Scenario: 1\n    Given a step passes\n    And a pending step is used\n    When another step passes\n\n  Scenario: 2\n    Given a step passes\n    When a pending step is used\n    Then some step passes\n\n  Scenario: 3\n    Given a step passes\n    When another step passes\n    Then a pending step is used"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Pending given step (not implemented)", 
+                "index": 68
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/use_pending_steps.feature:2\"", 
+                        "clause": "when", 
+                        "index": 69
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 70
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 72, 
+                        "content": "Feature:\n   Scenario: 1\n     Given a step passes ... passed\n       And a pending step is used ... failed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 78
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 79, 
+                        "content": "NotImplementedError: STEP: Given a pending step is used"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 83, 
+                        "content": "File \"features/steps/pending_steps.py\", line 5, in step_pending_given\n  raise NotImplementedError('STEP: Given a pending step is used')"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Pending when step (not implemented)", 
+                "index": 88
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/use_pending_steps.feature:7\"", 
+                        "clause": "when", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 90
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 91
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 92, 
+                        "content": "Feature:\n   Scenario: 2\n     Given a step passes ... passed\n      When a pending step is used ... failed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 98
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 99, 
+                        "content": "NotImplementedError: STEP: When a pending step is used"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 102
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 103, 
+                        "content": "File \"features/steps/pending_steps.py\", line 9, in step_pending_when\n  raise NotImplementedError('STEP: When a pending step is used')"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Pending then step (not implemented)", 
+                "index": 108
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/use_pending_steps.feature:12\"", 
+                        "clause": "when", 
+                        "index": 109
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 110
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 112, 
+                        "content": "Feature:\n  Scenario: 3\n    Given a step passes ... passed\n    When another step passes ... passed\n    Then a pending step is used ... failed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 119
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 120, 
+                        "content": "NotImplementedError: STEP: Then a pending step is used"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 123
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 124, 
+                        "content": "File \"features/steps/pending_steps.py\", line 13, in step_pending_then\n  raise NotImplementedError('STEP: Then a pending step is used')"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

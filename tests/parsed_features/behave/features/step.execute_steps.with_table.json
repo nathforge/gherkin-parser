@@ -1,0 +1,78 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Execute nested steps that use a table", 
+        "index": 0
+    }, 
+    "description": null, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 2
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 3
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 4
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 5, 
+                        "content": "from behave import given, when, then, step\nimport six\n@given('the following nested steps')\ndef step_given_following_nested_steps(context):\n    assert context.text, \"ENSURE: multi-line text is provided.\"\n    context.nested_steps = six.text_type(context.text)\n\n@step('I execute the nested steps {comment}')\ndef step_execute_nested_steps_with_table(context, comment):\n    assert context.nested_steps, \"ENSURE: nested steps are provided.\"\n    context.execute_steps(context.nested_steps)\n\n@then('the step \"{expected_step}\" was called')\ndef then_step_was_called(context, expected_step):\n    assert context.steps_called, \"ENSURE: steps_called is provided.\"\n    assert expected_step in context.steps_called\n\n@then('the table should be equal to')\ndef then_table_should_be_equal_to(context):\n    assert context.table, \"ENSURE: table is provided.\"\n    expected_table = context.table\n    actual_table   = context.the_table\n    assert actual_table == expected_table\n\n# -- SPECIAL-STEP:\n@step('I setup an address book with')\ndef step_setup_address_book_with_friends(context):\n    assert context.table, \"ENSURE: table is provided.\"\n    if not hasattr(context, \"steps_called\"):\n        context.steps_called = []\n    context.steps_called.append(\"I setup an address book with\")\n    context.the_table = context.table"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/execute_nested_steps_with_table.feature\" with:", 
+                        "clause": "given", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 40, 
+                        "content": "Feature:\n  Scenario:\n    Given the following nested steps:\n      \"\"\"\n      When I setup an address book with:\n        | Name  | Telephone Number |\n        | Alice | 555 1111         |\n        | Bob   | 555 2222         |\n      \"\"\"\n    When I execute the nested steps with a table\n    Then the step \"I setup an address book with\" was called\n    And  the table should be equal to:\n        | Name  | Telephone Number |\n        | Alice | 555 1111         |\n        | Bob   | 555 2222         |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/execute_nested_steps_with_table.feature\"", 
+                        "clause": "when", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n4 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

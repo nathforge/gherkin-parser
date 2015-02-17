@@ -1,0 +1,256 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #41 Missing Steps are duplicated in a Scenario Outline", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As I user\nI want that missing steps are reported only once."
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 6
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 7
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 8
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 9, 
+                    "content": "from behave import given, when, then\n\n@given(u'I enter a \"{name}\"')\ndef step(context, name):\n    context.name = name\n\n@when(u'I enter a \"{name}\"')\ndef step(context, name):\n    context.name = name\n\n@then(u'the name is \"{name}\"')\ndef step(context, name):\n    assert context.name == name"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Missing Given Step", 
+                "index": 25
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue41_missing1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 27, 
+                        "content": "Feature: Missing Given-Step in a Scenario Outline\n  Scenario Outline:\n    Given an unknown step\n    When  I enter a \"<name>\"\n    Then  the name is \"<name>\"\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f plain features/issue41_missing1.feature\"", 
+                        "clause": "when", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 40
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 41, 
+                        "content": "0 steps passed, 0 failed, 4 skipped, 2 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 45, 
+                        "content": "You can implement step definitions for undefined steps with these snippets:\n@given(u'an unknown step')\ndef step_impl(context):\n    raise NotImplementedError(u'STEP: Given an unknown step')"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 51
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 52, 
+                        "content": "You can implement step definitions for undefined steps with these snippets:\n@given(u'an unknown step')\ndef step_impl(context):\n    raise NotImplementedError(u'STEP: Given an unknown step')\n@given(u'an unknown step')\ndef step_impl(context):\n    raise NotImplementedError(u'STEP: Given an unknown step')"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Missing When Step", 
+                "index": 62
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue41_missing2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 64, 
+                        "content": "Feature: Missing When-Step in a Scenario Outline\n  Scenario Outline:\n    Given I enter a \"<name>\"\n    When  I use an unknown step\n    Then  the name is \"<name>\"\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f plain features/issue41_missing2.feature\"", 
+                        "clause": "when", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 77
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 78, 
+                        "content": "2 steps passed, 0 failed, 2 skipped, 2 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 82, 
+                        "content": "You can implement step definitions for undefined steps with these snippets:\n@when(u'I use an unknown step')\ndef step_impl(context):\n    raise NotImplementedError(u'STEP: When I use an unknown step')"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 89, 
+                        "content": "You can implement step definitions for undefined steps with these snippets:\n@when(u'I use an unknown step')\ndef step_impl(context):\n    raise NotImplementedError(u'STEP: When I use an unknown step')\n@when(u'I use an unknown step')\ndef step_impl(context):\n    raise NotImplementedError(u'STEP: When I use an unknown step')"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Missing Then Step", 
+                "index": 99
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue41_missing3.feature\" with:", 
+                        "clause": "given", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 101, 
+                        "content": "Feature: Missing Then-Step in a Scenario Outline\n  Scenario Outline:\n    Given I enter a \"<name>\"\n    When  I enter a \"<name>\"\n    Then  I use an unknown step\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f plain features/issue41_missing3.feature\"", 
+                        "clause": "when", 
+                        "index": 113
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 114
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 115, 
+                        "content": "4 steps passed, 0 failed, 0 skipped, 2 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 118
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 119, 
+                        "content": "You can implement step definitions for undefined steps with these snippets:\n@then(u'I use an unknown step')\ndef step_impl(context):\n    raise NotImplementedError(u'STEP: Then I use an unknown step')"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 125
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 126, 
+                        "content": "You can implement step definitions for undefined steps with these snippets:\n@then(u'I use an unknown step')\ndef step_impl(context):\n    raise NotImplementedError(u'STEP: Then I use an unknown step')\n@then(u'I use an unknown step')\ndef step_impl(context):\n    raise NotImplementedError(u'STEP: Then I use an unknown step')"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

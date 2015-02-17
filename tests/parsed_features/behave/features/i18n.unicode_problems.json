@@ -1,0 +1,1283 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "unicode"
+        ]
+    }, 
+    "title": {
+        "content": "Internationalization (i18n) and Problems with Unicode Strings", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". POTENTIAL PROBLEM AREAS:\n.   * Feature, scenario, step names with problematic chars\n.   * Tags with problematic chars\n.   * step raises exception with problematic text (output capture)\n.   * step generates output with problematic and some step fails (stdout capture)\n.   * filenames with problematic chars: feature files, steps files\n.\n. CHECKED FORMATTERS and REPORTERS:\n.   * plain\n.   * pretty\n.   * junit   (used via \"behave.ini\" defaults)"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 16, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 17
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 20, 
+                        "content": "[behave]\nshow_timings = false\nshow_skipped = false\nshow_source  = true\njunit = true"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/passing_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 28, 
+                        "content": "from __future__ import unicode_literals\nfrom behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass\n\n@step('{word:w} step passes with \"{text}\"')\ndef step_passes_with_text(context, word, text):\n    pass\n\n@step('{word:w} step fails')\ndef step_fails(context, word):\n    assert False, \"XFAIL\"\n\n@step('{word:w} step fails with \"{text}\"')\ndef step_fails_with_text(context, word, text):\n    assert False, \"XFAIL: \"+ text"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/step_write_output.py\" with:", 
+                        "clause": "given", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 49, 
+                        "content": "from __future__ import print_function, unicode_literals\nfrom behave import step\nimport six\n\n@step('I write text \"{text}\" to stdout')\ndef step_write_text(context, text):\n    if six.PY2 and isinstance(text, six.text_type):\n        text = text.encode(\"utf-8\", \"replace\")\n    print(text)\n\n@step('I write bytes \"{data}\" to stdout')\ndef step_write_bytes(context, data):\n    if isinstance(data, six.text_type):\n        data = data.encode(\"unicode-escape\", \"replace\")\n    print(data)"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": true, 
+                "content": "Problematic scenario name: <scenario.name> (case: passed, <format>)", 
+                "index": 68
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/scenario_name_problematic_and_pass.feature\" with:", 
+                        "clause": "given", 
+                        "index": 69
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 70, 
+                        "content": "Feature:\n  Scenario: <scenario.name>\n    Given a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/scenario_name_problematic_and_pass.feature\"", 
+                        "clause": "when", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 77, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 81
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 82, 
+                        "content": "Scenario: <scenario.name>"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 86
+                }, 
+                "table": [
+                    {
+                        "index": 87, 
+                        "columns": [
+                            "format", 
+                            "scenario.name"
+                        ]
+                    }, 
+                    {
+                        "index": 88, 
+                        "columns": [
+                            "plain", 
+                            "Caf\u00e9"
+                        ]
+                    }, 
+                    {
+                        "index": 89, 
+                        "columns": [
+                            "pretty", 
+                            "\u00c4rgernis ist \u00fcberall"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": true, 
+                "content": "Problematic scenario name: <scenario.name> (case: failed, <format>)", 
+                "index": 92
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/scenario_name_problematic_and_fail.feature\" with:", 
+                        "clause": "given", 
+                        "index": 93
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 94, 
+                        "content": "Feature:\n  Scenario: <scenario.name>\n    Given a step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/scenario_name_problematic_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 99
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 101, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 106, 
+                        "content": "Scenario: <scenario.name>"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 110
+                }, 
+                "table": [
+                    {
+                        "index": 111, 
+                        "columns": [
+                            "format", 
+                            "scenario.name"
+                        ]
+                    }, 
+                    {
+                        "index": 112, 
+                        "columns": [
+                            "plain", 
+                            "Caf\u00e9"
+                        ]
+                    }, 
+                    {
+                        "index": 113, 
+                        "columns": [
+                            "pretty", 
+                            "\u00c4rgernis ist \u00fcberall"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": true, 
+                "content": "Problematic step: <step.text> (case: passed, <format>)", 
+                "index": 116
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/step_problematic_and_pass.feature\" with:", 
+                        "clause": "given", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 118, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes with \"<step.text>\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/step_problematic_and_pass.feature\"", 
+                        "clause": "when", 
+                        "index": 123
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 124
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 125, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 131
+                }, 
+                "table": [
+                    {
+                        "index": 132, 
+                        "columns": [
+                            "format", 
+                            "step.text"
+                        ]
+                    }, 
+                    {
+                        "index": 133, 
+                        "columns": [
+                            "plain", 
+                            "Caf\u00e9"
+                        ]
+                    }, 
+                    {
+                        "index": 134, 
+                        "columns": [
+                            "pretty", 
+                            "\u00c4rgernis ist \u00fcberall"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": true, 
+                "content": "Problematic step: <step.text> (case: fail, <format>)", 
+                "index": 137
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/step_problematic_and_fail.feature\" with:", 
+                        "clause": "given", 
+                        "index": 138
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 139, 
+                        "content": "Feature:\n  Scenario:\n    Given a step fails with \"<step.text>\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/step_problematic_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 144
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 145
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 146, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped\n0 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 152
+                }, 
+                "table": [
+                    {
+                        "index": 153, 
+                        "columns": [
+                            "format", 
+                            "step.text"
+                        ]
+                    }, 
+                    {
+                        "index": 154, 
+                        "columns": [
+                            "plain", 
+                            "Caf\u00e9"
+                        ]
+                    }, 
+                    {
+                        "index": 155, 
+                        "columns": [
+                            "pretty", 
+                            "\u00c4rgernis ist \u00fcberall"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 158, 
+                "content": [
+                    "problematic.feature_filename"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Problematic feature filename: <name> (case: pass, <format>)", 
+                "index": 159
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/<name>_and_pass.feature\" with:", 
+                        "clause": "given", 
+                        "index": 160
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 161, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/<name>_and_pass.feature\"", 
+                        "clause": "when", 
+                        "index": 166
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 167
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 168, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 173
+                }, 
+                "table": [
+                    {
+                        "index": 174, 
+                        "columns": [
+                            "format", 
+                            "name"
+                        ]
+                    }, 
+                    {
+                        "index": 175, 
+                        "columns": [
+                            "plain", 
+                            "Caf\u00e9"
+                        ]
+                    }, 
+                    {
+                        "index": 176, 
+                        "columns": [
+                            "pretty", 
+                            "\u00c4rgernis_ist_\u00fcberall"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 179, 
+                "content": [
+                    "problematic.feature_filename"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Problematic feature filename: <name> (case: fail, <format>)", 
+                "index": 180
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/<name>_and_fail.feature\" with:", 
+                        "clause": "given", 
+                        "index": 181
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 182, 
+                        "content": "Feature:\n  Scenario:\n    Given a step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/<name>_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 187
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 188
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 189, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 194
+                }, 
+                "table": [
+                    {
+                        "index": 195, 
+                        "columns": [
+                            "format", 
+                            "name"
+                        ]
+                    }, 
+                    {
+                        "index": 196, 
+                        "columns": [
+                            "plain", 
+                            "Caf\u00e9"
+                        ]
+                    }, 
+                    {
+                        "index": 197, 
+                        "columns": [
+                            "pretty", 
+                            "\u00c4rgernis_ist_\u00fcberall"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 200, 
+                "content": [
+                    "problematic.step_filename"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Problematic step filename: <name> (case: pass, <format>)", 
+                "index": 201
+            }, 
+            "description": {
+                "index": 203, 
+                "content": "TEST-CONSTRAINT: Only one step file is used (= 1 name only).\nOtherwise, duplicated steps occur (without cleanup in step directory)."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/problematic_stepfile_and_pass.feature\" with:", 
+                        "clause": "given", 
+                        "index": 206
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 207, 
+                        "content": "Feature:\n  Scenario:\n    Given I use a weird step and pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/step_pass_<name>.py\" with:", 
+                        "clause": "given", 
+                        "index": 212
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 213, 
+                        "content": "from behave import step\n\n@step(u'I use a weird step and pass')\ndef step_weird_pass(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/problematic_stepfile_and_pass.feature\"", 
+                        "clause": "when", 
+                        "index": 220
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 221
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 222, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"you should normally use only ASCII/latin-1 python filenames\"", 
+                        "clause": "then", 
+                        "index": 226
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 228
+                }, 
+                "table": [
+                    {
+                        "index": 229, 
+                        "columns": [
+                            "format", 
+                            "name"
+                        ]
+                    }, 
+                    {
+                        "index": 230, 
+                        "columns": [
+                            "plain", 
+                            "\u00c4rgernis_ist_\u00fcberall"
+                        ]
+                    }, 
+                    {
+                        "index": 231, 
+                        "columns": [
+                            "pretty", 
+                            "\u00c4rgernis_ist_\u00fcberall"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 234, 
+                "content": [
+                    "problematic.step_filename"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Problematic step filename: <name> (case: fail, <format>)", 
+                "index": 235
+            }, 
+            "description": {
+                "index": 237, 
+                "content": "TEST-CONSTRAINT: Only one step file is used (= 1 name only).\nOtherwise, duplicated steps occur (without cleanup in step directory)."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/problematic_stepfile_and_fail.feature\" with:", 
+                        "clause": "given", 
+                        "index": 240
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 241, 
+                        "content": "Feature:\n  Scenario:\n    Given I use a weird step and fail"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/step_fail_<name>.py\" with:", 
+                        "clause": "given", 
+                        "index": 246
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 247, 
+                        "content": "from behave import step\n\n@step(u'I use a weird step and fail')\ndef step_weird_fails(context):\n    assert False, \"XFAIL-WEIRD\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/problematic_stepfile_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 254
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 255
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 256, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"you should normally use only ASCII/latin-1 python filenames\"", 
+                        "clause": "then", 
+                        "index": 260
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 262
+                }, 
+                "table": [
+                    {
+                        "index": 263, 
+                        "columns": [
+                            "format", 
+                            "name"
+                        ]
+                    }, 
+                    {
+                        "index": 264, 
+                        "columns": [
+                            "plain", 
+                            "\u00c4rgernis_ist_\u00fcberall"
+                        ]
+                    }, 
+                    {
+                        "index": 265, 
+                        "columns": [
+                            "pretty", 
+                            "\u00c4rgernis_ist_\u00fcberall"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 268, 
+                "content": [
+                    "problematic.output"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Problematic output: <text> (case: pass, <format>)", 
+                "index": 269
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/problematic_output_and_pass.feature\" with:", 
+                        "clause": "given", 
+                        "index": 270
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 271, 
+                        "content": "Feature:\n  Scenario:\n    Given I write text \"<text>\" to stdout\n    Then I write bytes \"<text>\" to stdout\n    And a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> --no-capture features/problematic_output_and_pass.feature\"", 
+                        "clause": "when", 
+                        "index": 278
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 279
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 280, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 285
+                }, 
+                "table": [
+                    {
+                        "index": 286, 
+                        "columns": [
+                            "format", 
+                            "text"
+                        ]
+                    }, 
+                    {
+                        "index": 287, 
+                        "columns": [
+                            "plain", 
+                            "Caf\u00e9"
+                        ]
+                    }, 
+                    {
+                        "index": 288, 
+                        "columns": [
+                            "pretty", 
+                            "\u00c4rgernis ist \u00fcberall"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 291, 
+                "content": [
+                    "problematic.output"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Problematic output: <text> (case: fail, <format>)", 
+                "index": 292
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/problematic_output_and_fail.feature\" with:", 
+                        "clause": "given", 
+                        "index": 293
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 294, 
+                        "content": "Feature:\n  Scenario:\n    Given I write text \"<text>\" to stdout\n    Then I write bytes \"<text>\" to stdout\n    And a step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/problematic_output_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 301
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 302
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 303, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 307
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 308, 
+                        "content": "<text>"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 312
+                }, 
+                "table": [
+                    {
+                        "index": 313, 
+                        "columns": [
+                            "format", 
+                            "text"
+                        ]
+                    }, 
+                    {
+                        "index": 314, 
+                        "columns": [
+                            "plain", 
+                            "Caf\u00e9"
+                        ]
+                    }, 
+                    {
+                        "index": 315, 
+                        "columns": [
+                            "pretty", 
+                            "\u00c4rgernis ist \u00fcberall"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 318, 
+                "content": [
+                    "problematic.tags"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Problematic tag: <tag> (case: pass, <format>)", 
+                "index": 319
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/problematic_tag_and_pass.feature\" with:", 
+                        "clause": "given", 
+                        "index": 320
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 321, 
+                        "content": "Feature:\n  @<tag>\n  Scenario:\n    Given a step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/problematic_tag_and_pass.feature\"", 
+                        "clause": "when", 
+                        "index": 327
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 328
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 329, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 333
+                }, 
+                "table": [
+                    {
+                        "index": 334, 
+                        "columns": [
+                            "format", 
+                            "tag"
+                        ]
+                    }, 
+                    {
+                        "index": 335, 
+                        "columns": [
+                            "plain", 
+                            "tag.Caf\u00e9"
+                        ]
+                    }, 
+                    {
+                        "index": 336, 
+                        "columns": [
+                            "pretty", 
+                            "tag.\u00c4rgernis_ist_\u00fcberall"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 339, 
+                "content": [
+                    "problematic.tags"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Problematic tag: <tag> (case: fail, <format>)", 
+                "index": 340
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/problematic_tag_and_fail.feature\" with:", 
+                        "clause": "given", 
+                        "index": 341
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 342, 
+                        "content": "Feature:\n  @<tag>\n  Scenario:\n    Given a step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/problematic_tag_and_fail.feature\"", 
+                        "clause": "when", 
+                        "index": 348
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 349
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 350, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 354
+                }, 
+                "table": [
+                    {
+                        "index": 355, 
+                        "columns": [
+                            "format", 
+                            "tag"
+                        ]
+                    }, 
+                    {
+                        "index": 356, 
+                        "columns": [
+                            "plain", 
+                            "tag.Caf\u00e9"
+                        ]
+                    }, 
+                    {
+                        "index": 357, 
+                        "columns": [
+                            "pretty", 
+                            "tag.\u00c4rgernis_ist_\u00fcberall"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 360, 
+                "content": [
+                    "issue_0230"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Step assert fails with problematic chars (case: <format>)", 
+                "index": 361
+            }, 
+            "description": {
+                "index": 363, 
+                "content": "NOTE: Python2 fails silently without showing the failed step."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/problematic_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 365
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 366, 
+                        "content": "from behave import step\n\n@step(u'{word:w} step fails with assert and non-ASCII text')\ndef step_fails_with_assert_and_problematic_text(context, word):\n    assert False, \"XFAIL:\"+ chr(190) +\";\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/assert_with_ptext.feature\" with:", 
+                        "clause": "given", 
+                        "index": 373
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 374, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When a step fails with assert and non-ASCII text"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/assert_with_ptext.feature\"", 
+                        "clause": "when", 
+                        "index": 380
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 381
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 382, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 386
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 387, 
+                        "content": "Assertion Failed: XFAIL:\u00be;"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 391
+                }, 
+                "table": [
+                    {
+                        "index": 392, 
+                        "columns": [
+                            "format"
+                        ]
+                    }, 
+                    {
+                        "index": 393, 
+                        "columns": [
+                            "plain"
+                        ]
+                    }, 
+                    {
+                        "index": 394, 
+                        "columns": [
+                            "pretty"
+                        ]
+                    }
+                ]
+            }
+        }, 
+        {
+            "tags": {
+                "index": 396, 
+                "content": [
+                    "issue_0226"
+                ]
+            }, 
+            "title": {
+                "is_outline": true, 
+                "content": "Step raises exception with problematic chars (case: <format>)", 
+                "index": 397
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/problematic_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 399
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 400, 
+                        "content": "from behave import step\n\n@step(u'{word:w} step fails with exception and non-ASCII text')\ndef step_fails_with_exception_and_problematic_text(context, word):\n    raise RuntimeError(\"FAIL:\"+ chr(190) +\";\")"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/exception_with_ptext.feature\" with:", 
+                        "clause": "given", 
+                        "index": 407
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 408, 
+                        "content": "Feature:\n  Scenario:\n    Given a step passes\n    When a step fails with exception and non-ASCII text"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f <format> features/exception_with_ptext.feature\"", 
+                        "clause": "when", 
+                        "index": 414
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 415
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 416, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 420
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 421, 
+                        "content": "RuntimeError: FAIL:\u00be;"
+                    }
+                }
+            ], 
+            "examples": {
+                "title": {
+                    "content": "", 
+                    "index": 425
+                }, 
+                "table": [
+                    {
+                        "index": 426, 
+                        "columns": [
+                            "format"
+                        ]
+                    }, 
+                    {
+                        "index": 427, 
+                        "columns": [
+                            "plain"
+                        ]
+                    }, 
+                    {
+                        "index": 428, 
+                        "columns": [
+                            "pretty"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

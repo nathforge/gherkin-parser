@@ -1,0 +1,683 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Setup logging_level", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a tester\nI want to configure the logging_level for --logcapture mode\nSo that I see only the important log-records when a scenario fails.\n\nAs a tester\nI want to configure the logging_level for --nologcapture mode\nSo that I see only the important log-records up to this level.\n\n. SPECIFICATION:\n.  * logging_level can be defined on command-line\n.  * logging_level can be defined in behave configuration file\n.  * logging_level should be applied in before_all() hook in --nologcapture mode"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 16, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 17
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/use_behave4cmd_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 19
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 20, 
+                        "content": "import behave4cmd0.log.steps\nimport behave4cmd0.failing_steps\nimport behave4cmd0.passing_steps"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 25
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 26, 
+                        "content": "def before_all(context):\n    context.config.setup_logging()"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example.log_with_failure.feature\" with:", 
+                        "clause": "given", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 31, 
+                        "content": "Feature:\n  Scenario: S1\n    Given I create log records with:\n        | category | level   | message |\n        | root     |  ERROR  | Hello1 log-error-record |\n        | root     |  WARN   | Hello1 log-warn-record  |\n        | root     |  INFO   | Hello1 log-info-record  |\n        | root     |  DEBUG  | Hello1 log-debug-record |\n    When a step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example.log_with_pass.feature\" with:", 
+                        "clause": "given", 
+                        "index": 42
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 43, 
+                        "content": "Feature:\n  Scenario: S2\n    Given I create log records with:\n        | category | level   | message |\n        | root     |  ERROR  | Hello2 log-error-record |\n        | root     |  WARN   | Hello2 log-warn-record  |\n        | root     |  INFO   | Hello2 log-info-record  |\n        | root     |  DEBUG  | Hello2 log-debug-record |\n    When a step passes"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 55, 
+                "content": [
+                    "capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Logcapture mode: Use logging_level on command-line", 
+                "index": 56
+            }, 
+            "description": {
+                "index": 58, 
+                "content": "Also ensure that command-line option can override configuration file info."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 60
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 61, 
+                        "content": "[behave]\nlogging_level = INFO"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --logging-level=WARN features/\"", 
+                        "clause": "when", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 67, 
+                        "content": "1 scenario passed, 1 failed, 0 skipped\n3 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 72, 
+                        "content": "Captured logging:\nERROR:root:Hello1 log-error-record\nWARNING:root:Hello1 log-warn-record"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain the following log records:", 
+                        "clause": "then", 
+                        "index": 77
+                    }, 
+                    "table": [
+                        {
+                            "index": 78, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 79, 
+                            "columns": [
+                                "root", 
+                                "INFO", 
+                                "Hello1 log-info-record", 
+                                "Log-level too low"
+                            ]
+                        }, 
+                        {
+                            "index": 80, 
+                            "columns": [
+                                "root", 
+                                "DEBUG", 
+                                "Hello1 log-debug-record", 
+                                "Log-level too low"
+                            ]
+                        }, 
+                        {
+                            "index": 81, 
+                            "columns": [
+                                "root", 
+                                "ERROR", 
+                                "Hello2 log-error-record", 
+                                "Scenario passes, capture log is suppressed"
+                            ]
+                        }, 
+                        {
+                            "index": 82, 
+                            "columns": [
+                                "root", 
+                                "WARN", 
+                                "Hello2 log-warn-record", 
+                                "Scenario passes, capture log is suppressed"
+                            ]
+                        }, 
+                        {
+                            "index": 83, 
+                            "columns": [
+                                "root", 
+                                "INFO", 
+                                "Hello2 log-info-record", 
+                                "Scenario passes, capture log is suppressed"
+                            ]
+                        }, 
+                        {
+                            "index": 84, 
+                            "columns": [
+                                "root", 
+                                "DEBUG", 
+                                "Hello2 log-debug-record", 
+                                "Scenario passes, capture log is suppressed"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 87, 
+                "content": [
+                    "capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Logcapture mode: Use logging_level in configuration file", 
+                "index": 88
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 89
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 90, 
+                        "content": "[behave]\nlogging_level = ERROR"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/\"", 
+                        "clause": "when", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 96, 
+                        "content": "1 scenario passed, 1 failed, 0 skipped\n3 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 100
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 101, 
+                        "content": "Captured logging:\nERROR:root:Hello1 log-error-record"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain the following log records:", 
+                        "clause": "then", 
+                        "index": 105
+                    }, 
+                    "table": [
+                        {
+                            "index": 106, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 107, 
+                            "columns": [
+                                "root", 
+                                "WARN", 
+                                "Hello1 log-warn-record", 
+                                "Log-level too low"
+                            ]
+                        }, 
+                        {
+                            "index": 108, 
+                            "columns": [
+                                "root", 
+                                "INFO", 
+                                "Hello1 log-info-record", 
+                                "Log-level too low"
+                            ]
+                        }, 
+                        {
+                            "index": 109, 
+                            "columns": [
+                                "root", 
+                                "DEBUG", 
+                                "Hello1 log-debug-record", 
+                                "Log-level too low"
+                            ]
+                        }, 
+                        {
+                            "index": 110, 
+                            "columns": [
+                                "root", 
+                                "ERROR", 
+                                "Hello2 log-error-record", 
+                                "Scenario passes"
+                            ]
+                        }, 
+                        {
+                            "index": 111, 
+                            "columns": [
+                                "root", 
+                                "WARN", 
+                                "Hello2 log-warn-record", 
+                                "Scenario passes"
+                            ]
+                        }, 
+                        {
+                            "index": 112, 
+                            "columns": [
+                                "root", 
+                                "INFO", 
+                                "Hello2 log-info-record", 
+                                "Scenario passes"
+                            ]
+                        }, 
+                        {
+                            "index": 113, 
+                            "columns": [
+                                "root", 
+                                "DEBUG", 
+                                "Hello2 log-debug-record", 
+                                "Scenario passes"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 116, 
+                "content": [
+                    "no_capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Normal mode: Use logging_level on command-line", 
+                "index": 117
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 118
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 119, 
+                        "content": "[behave]\nlogging_level = INFO"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T --logging-level=WARN --no-logcapture features/\"", 
+                        "clause": "when", 
+                        "index": 123
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 124
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 125, 
+                        "content": "1 scenario passed, 1 failed, 0 skipped\n3 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain the following log records:", 
+                        "clause": "then", 
+                        "index": 129
+                    }, 
+                    "table": [
+                        {
+                            "index": 130, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 131, 
+                            "columns": [
+                                "root", 
+                                "ERROR", 
+                                "Hello1 log-error-record"
+                            ]
+                        }, 
+                        {
+                            "index": 132, 
+                            "columns": [
+                                "root", 
+                                "WARN", 
+                                "Hello1 log-warn-record"
+                            ]
+                        }, 
+                        {
+                            "index": 133, 
+                            "columns": [
+                                "root", 
+                                "ERROR", 
+                                "Hello2 log-error-record"
+                            ]
+                        }, 
+                        {
+                            "index": 134, 
+                            "columns": [
+                                "root", 
+                                "WARN", 
+                                "Hello2 log-warn-record"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain the following log records:", 
+                        "clause": "then", 
+                        "index": 135
+                    }, 
+                    "table": [
+                        {
+                            "index": 136, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 137, 
+                            "columns": [
+                                "root", 
+                                "INFO", 
+                                "Hello1 log-info-record", 
+                                "Log-level too low"
+                            ]
+                        }, 
+                        {
+                            "index": 138, 
+                            "columns": [
+                                "root", 
+                                "DEBUG", 
+                                "Hello1 log-debug-record", 
+                                "Same reason"
+                            ]
+                        }, 
+                        {
+                            "index": 139, 
+                            "columns": [
+                                "root", 
+                                "INFO", 
+                                "Hello2 log-info-record", 
+                                "Same reason"
+                            ]
+                        }, 
+                        {
+                            "index": 140, 
+                            "columns": [
+                                "root", 
+                                "DEBUG", 
+                                "Hello2 log-debug-record", 
+                                "Same reason"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 142, 
+                "content": [
+                    "no_capture"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Normal mode: Use logging_level in configuration file", 
+                "index": 143
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 144
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 145, 
+                        "content": "[behave]\nlog_capture = false\nlogging_level = ERROR"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain -T features/\"", 
+                        "clause": "when", 
+                        "index": 150
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 151
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 152, 
+                        "content": "1 scenario passed, 1 failed, 0 skipped\n3 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain the following log records:", 
+                        "clause": "then", 
+                        "index": 156
+                    }, 
+                    "table": [
+                        {
+                            "index": 157, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message"
+                            ]
+                        }, 
+                        {
+                            "index": 158, 
+                            "columns": [
+                                "root", 
+                                "ERROR", 
+                                "Hello1 log-error-record"
+                            ]
+                        }, 
+                        {
+                            "index": 159, 
+                            "columns": [
+                                "root", 
+                                "ERROR", 
+                                "Hello2 log-error-record"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain the following log records:", 
+                        "clause": "then", 
+                        "index": 160
+                    }, 
+                    "table": [
+                        {
+                            "index": 161, 
+                            "columns": [
+                                "category", 
+                                "level", 
+                                "message", 
+                                "Comment"
+                            ]
+                        }, 
+                        {
+                            "index": 162, 
+                            "columns": [
+                                "root", 
+                                "WARN", 
+                                "Hello1 log-warn-record", 
+                                "Log-level too low"
+                            ]
+                        }, 
+                        {
+                            "index": 163, 
+                            "columns": [
+                                "root", 
+                                "INFO", 
+                                "Hello1 log-info-record", 
+                                "Same reason"
+                            ]
+                        }, 
+                        {
+                            "index": 164, 
+                            "columns": [
+                                "root", 
+                                "DEBUG", 
+                                "Hello1 log-debug-record", 
+                                "Same reason"
+                            ]
+                        }, 
+                        {
+                            "index": 165, 
+                            "columns": [
+                                "root", 
+                                "WARN", 
+                                "Hello2 log-warn-record", 
+                                "Same reason"
+                            ]
+                        }, 
+                        {
+                            "index": 166, 
+                            "columns": [
+                                "root", 
+                                "INFO", 
+                                "Hello2 log-info-record", 
+                                "Same reason"
+                            ]
+                        }, 
+                        {
+                            "index": 167, 
+                            "columns": [
+                                "root", 
+                                "DEBUG", 
+                                "Hello2 log-debug-record", 
+                                "Same reason"
+                            ]
+                        }
+                    ], 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

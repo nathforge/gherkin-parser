@@ -1,0 +1,173 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue", 
+            "not_reproducible"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #231: Display the output of the last print command", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": ". The output of the last print command in a step is not displayed\n. in the behave output (at least with standard pretty formatter),\n. unless the string to print ends with newline ('\\n').\n.\n. ANALYSIS: NOT-REPRODUCIBLE\n.   Checked print function and stdout without newline.\n.   Both show the expected capture stdout output when the step fails."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 12, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 13
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/syndrome1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 15
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 16, 
+                        "content": "Feature:\n  Scenario: Alice\n     Given a step passes\n     When  a step passes\n     Then  I write \"ALICE was HERE\" without newline to stdout and fail"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/syndrome2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 24, 
+                        "content": "Feature:\n  Scenario: Bob\n     Given a step passes\n     Then  I print \"BOB was HERE\" without newline and fail"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 31, 
+                        "content": "from __future__ import print_function\nfrom behave import step\nimport sys\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass\n\n@step('I write \"{message}\" without newline to stdout and fail')\ndef step_write_without_newline_and_fail(context, message):\n    sys.stdout.write(message)\n    assert False, \"FAIL: \"+ message\n\n@step('I print \"{message}\" without newline and fail')\ndef step_print_without_newline_and_fail(context, message):\n    print(message, end=\"\")\n    assert False, \"FAIL: \"+ message"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Write to stdout without newline", 
+                "index": 52
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f pretty -c -T features/syndrome1.feature\"", 
+                        "clause": "when", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 54
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 55, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n2 steps passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 60, 
+                        "content": "Captured stdout:\nALICE was HERE"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use print function without newline", 
+                "index": 65
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave -f pretty -c -T features/syndrome2.feature\"", 
+                        "clause": "when", 
+                        "index": 66
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 67
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 68, 
+                        "content": "0 scenarios passed, 1 failed, 0 skipped\n1 step passed, 1 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 72
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 73, 
+                        "content": "Captured stdout:\nBOB was HERE"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

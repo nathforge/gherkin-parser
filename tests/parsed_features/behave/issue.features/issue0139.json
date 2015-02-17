@@ -1,0 +1,96 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue", 
+            "not_reproducible"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #139: Wrong steps seem to be executed when using --wip", 
+        "index": 2
+    }, 
+    "description": {
+        "index": 4, 
+        "content": ". RELATED-TO: issue\n. behave --format=plain --tags @one\" seems to execute right scenario w/ wrong steps\n.\n. If you have a feature file with two scenarios where the second is tagged\n. with @wip, running behave -w will output step names from the first scenario.\n. It does seem to run the correct code for the steps."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "", 
+                "index": 12
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 13
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 14
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 15, 
+                        "content": "from behave import given, when, then, step\n\n@step('a step passes')\ndef step_passes(context):\n    pass\n\n@step('a step fails')\ndef step_fails(context):\n    assert False, \"XFAIL\"\n\n@when('I run a test step')\ndef step_impl(context):\n    pass\n\n@when('I run some other test step')\ndef step_impl(context):\n    pass\n\n@then('I should not see a failure here')\ndef step_impl(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/issue0139_example.feature\" with:", 
+                        "clause": "given", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 39, 
+                        "content": "Feature: Bug in wip/behave -w\n\n    Scenario: This is strange\n        Given a step passes\n        When a step passes\n        Then a step fails\n\n    @wip\n    Scenario: Demonstrate bug\n        When I run a test step\n        And I run some other test step\n        Then I should not see a failure here"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -w -f plain -T features/issue0139_example.feature\"", 
+                        "clause": "when", 
+                        "index": 53
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 54
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 56, 
+                        "content": "Feature: Bug in wip/behave -w\n  Scenario: This is strange\n  Scenario: Demonstrate bug\n    When I run a test step ... passed\n    And I run some other test step ... passed\n    Then I should not see a failure here ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

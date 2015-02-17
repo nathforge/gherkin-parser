@@ -1,0 +1,195 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Ensure that a step module can import another step module", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a test writer\nI want to import step definitions from another module in a step module\nSo that I can reuse other steps and call them directly.\n\n. When a step module imports another step module\n. this should not cause AmbiguousStep errors\n. due to duplicated registration of the same step functions.\n.\n. NOTES:\n.   * In general you should avoid this case (provided as example here).\n.   * Use \"context.execute_steps(...)\" to avoid importing other step modules\n.   * Use step-libraries; this will in general use sane imports of other step modules"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Step module that imports another step module", 
+                "index": 16
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/alice1_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 19, 
+                        "content": "from behave import given\n\n@given(u'I call Alice')\ndef step_call_alice(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/bob1_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 27, 
+                        "content": "from behave import given\nfrom alice1_steps import step_call_alice\n\n@given(u'I call Bob')\ndef step_call_bob(context):\n    pass\n\n@given(u'I call Bob and Alice')\ndef step_call_bob_and_alice(context):\n    step_call_bob(context)\n    step_call_alice(context)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example.import_step_module.feature\" with:", 
+                        "clause": "given", 
+                        "index": 40
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 41, 
+                        "content": "Feature:\n  Scenario:\n    Given I call Bob and Alice"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/example.import_step_module.feature\"", 
+                        "clause": "when", 
+                        "index": 46
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 47
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 48, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n1 step passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 52
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 53, 
+                        "content": "Feature:\n    Scenario:\n      Given I call Bob and Alice ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Step module that imports another step module (cross-wise)", 
+                "index": 60
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 61
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/alice2_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 62
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 63, 
+                        "content": "from behave import given\nimport bob2_steps     # -- BAD: Import other step module, cross-wise.\n\n@given(u'I call Alice')\ndef step_call_alice(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/bob2_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 71
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 72, 
+                        "content": "from behave import given\nimport alice2_steps     # -- BAD: Import other step module, cross-wise.\n\n@given(u'I call Bob')\ndef step_call_bob(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/example.cross_imported_step_modules.feature\" with:", 
+                        "clause": "given", 
+                        "index": 80
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 81, 
+                        "content": "Feature:\n  Scenario:\n    Given I call Alice\n    And   I call Bob"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/example.cross_imported_step_modules.feature\"", 
+                        "clause": "when", 
+                        "index": 87
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 89, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n2 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 95, 
+                        "content": "Feature:\n    Scenario:\n      Given I call Alice ... passed\n      And I call Bob ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

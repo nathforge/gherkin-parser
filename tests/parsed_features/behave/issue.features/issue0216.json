@@ -1,0 +1,355 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #216: ANSI escape sequences are used while using --wip option", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". ENSURE THAT:\n.   * Coloring is disabled when --wip option is used.\n.   * In addition, no colouring is used when using --show-skipped option\n.   * Undefined step snippets are not \"colored\"."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 8, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 9
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 12, 
+                        "content": "[behave]\ndefault_format = pretty\nshow_skipped   = false\nshow_timings   = false"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/use_behave4cmd_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 19, 
+                        "content": "import behave4cmd0.passing_steps\nimport behave4cmd0.failing_steps\nimport behave4cmd0.note_steps"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/ansi_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 25, 
+                        "content": "from behave import step, then\nfrom behave4cmd0.command_steps import step_command_output_should_not_contain_text\n\n@then(u'the command output should not contain any ANSI escape sequences')\ndef step_command_ouput_should_not_contain_ansi_sequences(context):\n    CSI = u\"\\x1b[\"  #< ANSI CONTROL SEQUENCE INTRODUCER (CSI).\n    step_command_output_should_not_contain_text(context, CSI)"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/scenario_with_undefined_steps.feature\" with:", 
+                        "clause": "given", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 35, 
+                        "content": "Feature:\n\n  @wip\n  Scenario: Alice\n    Given a step passes\n    When a step is undefined\n    Then a step passes\n\n  @foo\n  Scenario: Bob\n    When another step is undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "When using --wip, coloring is disabled", 
+                "index": 50
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --wip features\"", 
+                        "clause": "when", 
+                        "index": 51
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 52
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 53, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped, 1 untested\n1 step passed, 0 failed, 1 skipped, 1 undefined, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 59, 
+                        "content": "Scenario: Alice\n  Given a step passes ... passed\n  When a step is undefined ... undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain any ANSI escape sequences", 
+                        "clause": "then", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the plain formatter is used as default formatter\"", 
+                        "clause": "then", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "When using --wip and --show-skipped, coloring is disabled", 
+                "index": 68
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --wip --show-skipped features\"", 
+                        "clause": "when", 
+                        "index": 69
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 70
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 71, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped, 1 untested\n1 step passed, 0 failed, 1 skipped, 1 undefined, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 77, 
+                        "content": "Scenario: Alice\n  Given a step passes ... passed\n  When a step is undefined ... undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain any ANSI escape sequences", 
+                        "clause": "then", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the plain formatter is used as default formatter\"", 
+                        "clause": "then", 
+                        "index": 83
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "When using --wip and --format, coloring is disabled", 
+                "index": 86
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --wip -f pretty features\"", 
+                        "clause": "when", 
+                        "index": 87
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 88
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 89, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped, 1 untested\n1 step passed, 0 failed, 1 skipped, 1 undefined, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 94
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 95, 
+                        "content": "Feature:  # features/scenario_with_undefined_steps.feature:1\n\n  @wip\n  Scenario: Alice            # features/scenario_with_undefined_steps.feature:4\n    Given a step passes      # ../behave4cmd0/passing_steps.py:23\n    When a step is undefined # None\n    Then a step passes       # None"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain any ANSI escape sequences", 
+                        "clause": "then", 
+                        "index": 104
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the plain formatter is overridden on command-line\"", 
+                        "clause": "then", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the coloring mode is disabled\"", 
+                        "clause": "then", 
+                        "index": 106
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "When using --wip and --color, coloring is disabled", 
+                "index": 109
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --wip -f pretty --color features\"", 
+                        "clause": "when", 
+                        "index": 110
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 112, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped, 1 untested\n1 step passed, 0 failed, 1 skipped, 1 undefined, 1 untested"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 117
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 118, 
+                        "content": "Feature:  # features/scenario_with_undefined_steps.feature:1\n\n  @wip\n  Scenario: Alice            # features/scenario_with_undefined_steps.feature:4\n    Given a step passes      # ../behave4cmd0/passing_steps.py:23\n    When a step is undefined # None\n    Then a step passes       # None"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain any ANSI escape sequences", 
+                        "clause": "then", 
+                        "index": 127
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the coloring mode is overridden by the wip mode\"", 
+                        "clause": "then", 
+                        "index": 128
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

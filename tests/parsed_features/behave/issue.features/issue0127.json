@@ -1,0 +1,157 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #127: Strip trailing colons", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". Trailing colon in a step is stripped by the Gherkin parser.\n. Undefined step snippets should not suggest the step with a trailing colon.\n.\n. GENERAL RULE (by looking at the parser):\n.   1. Colon in step in feature file is OK\n.      (parser strips this for step-with-table or step-with-multiline-text).\n.   2. Step definitions in Python files should not end with a colon\n.      (used in @given/@when/@then decorators)."
+    }, 
+    "background": {
+        "title": {
+            "content": "", 
+            "index": 13
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 14
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/example127.feature\" with:", 
+                    "clause": "given", 
+                    "index": 15
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 16, 
+                    "content": "Feature:\n  Scenario:\n    Given the following superusers exist:\n      | Name  | User Id |\n      | Alice | 101     |\n      | Bob   | 102     |"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Step Definition has no trailing colon (GOOD CASE)", 
+                "index": 25
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/good_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 26
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 27, 
+                        "content": "from behave import given\n\n@given(u'the following superusers exist')\ndef step_given_following_superusers_exist(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example127.feature\"", 
+                        "clause": "when", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 37, 
+                        "content": "You can implement step definitions for undefined steps with these snippets:\n\n@given(u'the following superusers exist:')\ndef step_impl(context):\n    raise NotImplementedError(u'STEP: Given the following superusers exist:')"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Step Definition has trailing colon (BAD CASE)", 
+                "index": 45
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/bad_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 46
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 47, 
+                        "content": "from behave import given\n\n@given(u'the following superusers exist:')\ndef step_given_following_superusers_exist(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/example127.feature\"", 
+                        "clause": "when", 
+                        "index": 54
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail", 
+                        "clause": "then", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 56
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 57, 
+                        "content": "You can implement step definitions for undefined steps with these snippets:\n\n@given(u'the following superusers exist')\ndef step_impl(context):\n    raise NotImplementedError(u'STEP: Given the following superusers exist')"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

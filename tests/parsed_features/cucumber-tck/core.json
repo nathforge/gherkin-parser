@@ -1,0 +1,609 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Core: Scenarios, Steps, Mappings", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "Cucumber is a tool for executing business-readable specifications\nwritten in Gherkin. The basic unit of both specification and\nexecution is the Scenario. A Scenario is a list of steps, each of\nwhich representing an action performed by a user (or user agent)\non the software product under development. When a Scenario is\nexecuted, its steps are applied to the software system in the order\nthey are contained in the Scenario.\n\nGherkin is not a programming language, so in order to execute steps\nwritten in it, Cucumber must first look up a mapping from the text of\neach step to a function. If such a mapping exists, the function is\nexecuted, and the result is communicated to the user."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "All steps passing means the scenario passes", 
+                "index": 15
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 16
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 17, 
+                        "content": "When I add 4 and 5\nThen the result is 9"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"I add 4 and 5\" has a passing mapping", 
+                        "clause": "given", 
+                        "index": 21
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"the result is 9\" has a passing mapping", 
+                        "clause": "given", 
+                        "index": 22
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes the scenario", 
+                        "clause": "when", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario passes", 
+                        "clause": "then", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Failing step means the scenario fails", 
+                "index": 26
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 27
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 28, 
+                        "content": "When I add 4 and 5\nThen the result is 9"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"I add 4 and 5\" has a failing mapping", 
+                        "clause": "given", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"the result is 9\" has a passing mapping", 
+                        "clause": "given", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes the scenario", 
+                        "clause": "when", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario fails", 
+                        "clause": "then", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"the result is 9\" is skipped", 
+                        "clause": "then", 
+                        "index": 36
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Pending step means the scenario is pending", 
+                "index": 38
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 39
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 40, 
+                        "content": "When I add 4 and 5\nThen the result is 9"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"I add 4 and 5\" has a pending mapping", 
+                        "clause": "given", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"the result is 9\" has a passing mapping", 
+                        "clause": "given", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes the scenario", 
+                        "clause": "when", 
+                        "index": 46
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario is pending", 
+                        "clause": "then", 
+                        "index": 47
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"the result is 9\" is skipped", 
+                        "clause": "then", 
+                        "index": 48
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Missing step mapping means the scenario is undefined", 
+                "index": 50
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 51
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 52, 
+                        "content": "When I add 4 and 5\nThen the result is 9"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"the result is 9\" has a passing mapping", 
+                        "clause": "given", 
+                        "index": 56
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber executes the scenario", 
+                        "clause": "when", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario is undefined", 
+                        "clause": "then", 
+                        "index": 58
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the step \"the result is 9\" is skipped", 
+                        "clause": "then", 
+                        "index": 59
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature headers", 
+                "index": 61
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "the following feature:", 
+                        "clause": "given", 
+                        "index": 62
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 63, 
+                        "content": "Feature: a feature\n  In order to get results\n  As a user\n  I want to do something"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the feature", 
+                        "clause": "when", 
+                        "index": 69
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the feature passes", 
+                        "clause": "then", 
+                        "index": 70
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Simple flat steps", 
+                "index": 72
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 73
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 74, 
+                        "content": "Given a calculator\nWhen the calculator computes PI\nThen the calculator returns PI"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the scenario with steps for a calculator", 
+                        "clause": "when", 
+                        "index": 79
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario passes", 
+                        "clause": "then", 
+                        "index": 80
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Given, When, Then, And and But steps", 
+                "index": 82
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 83
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 84, 
+                        "content": "Given a calculator\nWhen the calculator adds up 1 and 2\nAnd the calculator adds up 3 and 0.14159265\nThen the calculator returns PI\nBut the calculator does not return 3"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the scenario with steps for a calculator", 
+                        "clause": "when", 
+                        "index": 91
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario passes", 
+                        "clause": "then", 
+                        "index": 92
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Failing steps", 
+                "index": 94
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 96, 
+                        "content": "Given a calculator\nWhen the calculator adds up 3 and 0.14\nThen the calculator returns PI"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the scenario with steps for a calculator", 
+                        "clause": "when", 
+                        "index": 101
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario fails", 
+                        "clause": "then", 
+                        "index": 102
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Single-parameter step", 
+                "index": 104
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 106, 
+                        "content": "Given a calculator\nWhen the calculator computes PI\nThen the calculator returns \"3.14159265\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the scenario with steps for a calculator", 
+                        "clause": "when", 
+                        "index": 111
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario passes", 
+                        "clause": "then", 
+                        "index": 112
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Two-parameter step", 
+                "index": 114
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 115
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 116, 
+                        "content": "Given a calculator\nWhen the calculator adds up \"12\" and \"51\"\nThen the calculator returns \"63\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the scenario with steps for a calculator", 
+                        "clause": "when", 
+                        "index": 121
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario passes", 
+                        "clause": "then", 
+                        "index": 122
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Two-parameter step failing", 
+                "index": 124
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 125
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 126, 
+                        "content": "Given a calculator\nWhen the calculator adds up \"12\" and \"51\"\nThen the calculator returns \"65\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the scenario with steps for a calculator", 
+                        "clause": "when", 
+                        "index": 131
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario fails", 
+                        "clause": "then", 
+                        "index": 132
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Three-parameter step", 
+                "index": 134
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a scenario with:", 
+                        "clause": "given", 
+                        "index": 135
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 136, 
+                        "content": "Given a calculator\nWhen the calculator adds up \"3\", \"4\" and \"5\"\nThen the calculator returns \"12\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "Cucumber runs the scenario with steps for a calculator", 
+                        "clause": "when", 
+                        "index": 141
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the scenario passes", 
+                        "clause": "then", 
+                        "index": 142
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

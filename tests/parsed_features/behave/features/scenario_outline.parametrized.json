@@ -1,0 +1,764 @@
+{
+    "language": null, 
+    "tags": null, 
+    "title": {
+        "content": "Scenario Outline -- Parametrized Scenarios", 
+        "index": 0
+    }, 
+    "description": {
+        "index": 2, 
+        "content": "As a test writer\nI want to use the DRY principle when writing scenarios\nSo that I am more productive and my work is less error-prone.\n\n. COMMENT:\n.   A Scenario Outline is basically a parametrized Scenario template.\n.   It is instantiated for each examples row with the corresponding data.\n.\n. SCENARIO GENERICS BASICS: What can be parametrized?\n.   * Scenario name:  Based on Scenario Outline with placeholders\n.   * Scenario steps: Step name with placeholders (including: step.text, step.table)\n.   * Scenario tags:  Based on Scenario Outline tags with placeholders\n.\n. CONSTRAINTS:\n.   * placeholders (names) for tags should not contain any whitespace.\n.   * a row data placeholder may override/hide a special placeholder (see below).\n.\n. SPECIAL PLACEHOLDERS:\n.   | Placeholder     | Description |\n.   |  examples.name  |  Name of the examples group (or empty string). |\n.   |  examples.index |  Index of examples group (range: 1..N).        |\n.   |  row.index      |  Index of row in examples group (range: 1..R). |\n.   |  row.id         |  Same as: \"{example.index}.{row.index}\"        |"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 27, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Test Setup", 
+                "index": 28
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 29
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 30
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 31, 
+                        "content": "[behave]\nscenario_outline_annotation_schema = {name} -*- {examples.name}"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/param_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "from behave import step\n\n@step('a param {value:w}')\ndef step_with_param(context, value):\n    context.param = value\n\n@step('a param {name}={value}')\ndef step_with_param_value(context, name, value):\n    context.param_name = name\n    context.param_value = value\n\n@step('a step with text')\ndef step_with_param_value(context):\n    assert context.text is not None, \"REQUIRE: text\"\n\n@step('a step with table')\ndef step_with_param_value(context):\n    assert context.table is not None, \"REQUIRE: table\"\n\n@step('an unknown param {name}={value}')\ndef step_with_unknown_param_value(context, name, value):\n    pass"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 61, 
+                "content": [
+                    "parametrize.name"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Parametrized name in generated Scenarios (Case: Row Placeholders)", 
+                "index": 62
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/use_name_with_row_params.feature\" with:", 
+                        "clause": "given", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 64, 
+                        "content": "Feature: SOP1\n  Scenario Outline: Use placeholder <name>-<param1>\n    Given a param param1=<param1>\n    And a param name=<name>\n\n    Examples: E-<ID>\n      | ID  | name  | param1 |\n      | 001 | Alice |  100  |\n      | 002 | Bob   |  101  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress3 features/use_name_with_row_params.feature\"", 
+                        "clause": "when", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 77, 
+                        "content": "Use placeholder Alice-100 -*- E-001  ..\nUse placeholder Bob-101 -*- E-002  .."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 82, 
+                "content": [
+                    "parametrize.name"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Parametrized name in generated Scenarios (Case: Special Placeholders)", 
+                "index": 83
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/use_name_with_special_params.feature\" with:", 
+                        "clause": "given", 
+                        "index": 84
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 85, 
+                        "content": "Feature: SOP2\n  Scenario Outline: Use placeholder S<examples.index>-<row.index> <examples.name>\n    Given a param name=<name>\n    And a param row.id=<row.id>\n\n    Examples: E-<ID>/@<row.id>\n      | ID  | name  | param1 |\n      | 001 | Alice |  100  |\n      | 002 | Bob   |  101  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress3 features/use_name_with_special_params.feature\"", 
+                        "clause": "when", 
+                        "index": 96
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 97
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 98, 
+                        "content": "Use placeholder S1-1 E-001/@1.1 -*- E-001/@1.1  ..\nUse placeholder S1-2 E-002/@1.2 -*- E-002/@1.2  .."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 103, 
+                "content": [
+                    "parametrize.steps"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use placeholders in generated scenario steps", 
+                "index": 104
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/use_steps_with_params.feature\" with:", 
+                        "clause": "given", 
+                        "index": 105
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 106, 
+                        "content": "Feature:\n  Scenario Outline: Use row placeholders\n    Given a param ID=<ID>\n    And a param name=<name>\n    And a param param1=<param1>\n\n    Examples:\n      | ID  | name  | param1 |\n      | 001 | Alice |  101   |\n      | 002 | Bob   |  102   |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/use_steps_with_params.feature\"", 
+                        "clause": "when", 
+                        "index": 118
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 119
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 120, 
+                        "content": "Scenario Outline: Use row placeholders -*-\n  Given a param ID=001 ... passed\n  And a param name=Alice ... passed\n  And a param param1=101 ... passed\n\nScenario Outline: Use row placeholders -*-\n  Given a param ID=002 ... passed\n  And a param name=Bob ... passed\n  And a param param1=102 ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 132, 
+                "content": [
+                    "parametrize.steps"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use an unknown placeholder in generated scenario steps", 
+                "index": 133
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/use_steps_with_unknown_params.feature\" with:", 
+                        "clause": "given", 
+                        "index": 134
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 135, 
+                        "content": "Feature:\n  Scenario Outline: Use unknown placeholders\n    Given an unknown param unknown=<unknown>\n\n    Examples:\n      | ID  | name  | param1 |\n      | 001 | Alice |  100   |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/use_steps_with_unknown_params.feature\"", 
+                        "clause": "when", 
+                        "index": 144
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 145
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 146, 
+                        "content": "Scenario Outline: Use unknown placeholders -*-\n  Given an unknown param unknown=<unknown> ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"unknown placeholders are not replaced\"", 
+                        "clause": "then", 
+                        "index": 150
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 153, 
+                "content": [
+                    "parametrize.steps"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use placeholders in generated scenario step.text", 
+                "index": 154
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/use_steps_with_param_text.feature\" with:", 
+                        "clause": "given", 
+                        "index": 155
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 156, 
+                        "content": "Feature:\n  Scenario Outline: Use parametrized step with text\n    Given a step with text:\n      \"\"\"\n      <greeting> <name>;\n      Travel agency: <travel agency>\n      \"\"\"\n\n    Examples:\n      | ID  | name  | greeting | travel agency |\n      | 001 | Alice |  Hello   | Pony express  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/use_steps_with_param_text.feature\"", 
+                        "clause": "when", 
+                        "index": 169
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 170
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 171, 
+                        "content": "Scenario Outline: Use parametrized step with text -*-\n    Given a step with text ... passed\n      \"\"\"\n      Hello Alice;\n      Travel agency: Pony express\n      \"\"\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"placeholders in step.text are replaced with row data\"", 
+                        "clause": "then", 
+                        "index": 179
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 182, 
+                "content": [
+                    "parametrize.steps"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use placeholders in generated scenario step.table", 
+                "index": 183
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/use_steps_with_param_table.feature\" with:", 
+                        "clause": "given", 
+                        "index": 184
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 185, 
+                        "content": "Feature:\n  Scenario Outline: Use parametrized step with table\n    Given a step with table:\n      | Id   | Name   | Travel Agency   | row id   |\n      | <ID> | <name> | <travel agency> | <row.id> |\n\n    Examples:\n      | ID  | name  | greeting | travel agency |\n      | 001 | Alice |  Hello   | Pony express  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/use_steps_with_param_table.feature\"", 
+                        "clause": "when", 
+                        "index": 196
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 197
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 198, 
+                        "content": "Scenario Outline: Use parametrized step with table -*-\n  Given a step with table ... passed\n    | Id  | Name  | Travel Agency | row id   |\n    | 001 | Alice | Pony express  | <row.id> |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"placeholders in step.table cells are replaced with row data\"", 
+                        "clause": "then", 
+                        "index": 204
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"<row.id> is currently not supported in table cells (like other special placeholders)\"", 
+                        "clause": "then", 
+                        "index": 205
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 208, 
+                "content": [
+                    "parametrize.steps"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use special placeholders in generated scenario steps", 
+                "index": 209
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/use_steps_with_special_params.feature\" with:", 
+                        "clause": "given", 
+                        "index": 210
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 211, 
+                        "content": "Feature:\n  Scenario Outline: Use special placeholders @<row.id>\n    Given a param name=<name>\n    And a param examples.name=<examples.name>\n    And a param examples.index=<examples.index>\n    And a param row.index=<row.index>\n    And a param row.id=<row.id>\n\n    Examples: E-<ID>/@<row.id>\n      | ID  | name  | param1 |\n      | 001 | Alice |  100  |\n      | 002 | Bob   |  101  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/use_steps_with_special_params.feature\"", 
+                        "clause": "when", 
+                        "index": 225
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 226
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 227, 
+                        "content": "Scenario Outline: Use special placeholders @1.1 -*- E-001/@1.1\n    Given a param name=Alice ... passed\n    And a param examples.name=E-001/@1.1 ... passed\n    And a param examples.index=1 ... passed\n    And a param row.index=1 ... passed\n    And a param row.id=1.1 ... passed\n\nScenario Outline: Use special placeholders @1.2 -*- E-002/@1.2\n    Given a param name=Bob ... passed\n    And a param examples.name=E-002/@1.2 ... passed\n    And a param examples.index=1 ... passed\n    And a param row.index=2 ... passed\n    And a param row.id=1.2 ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 244, 
+                "content": [
+                    "parametrize.name", 
+                    "parametrize.steps"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "When special placeholder name is used for row data (Case: Override)", 
+                "index": 246
+            }, 
+            "description": {
+                "index": 248, 
+                "content": "Ensure that row data (placeholder) can override special placeholder (if needed).\nAFFECTED: scenario.name, examples.name, step.name"
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 251
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 252, 
+                        "content": "[behave]\nscenario_outline_annotation_schema = {name} -*- special:row.id=@{row.id} {examples.name}"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/use_name_with_overwritten_params.feature\" with:", 
+                        "clause": "given", 
+                        "index": 256
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 257, 
+                        "content": "Feature: SOP3\n  Scenario Outline: Use placeholder data:row.id=<row.id>\n    Given a param name=<name>\n    And a param row.id=<row.id>\n\n    Examples: E-<ID>/<row.id>\n      | ID  | name  | row.id |\n      | 001 | Alice |  100  |\n      | 002 | Bob   |  101  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress3 features/use_name_with_overwritten_params.feature\"", 
+                        "clause": "when", 
+                        "index": 268
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 269
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 270, 
+                        "content": "Use placeholder data:row.id=100 -*- special:row.id=@1.1 E-001/100  ..\nUse placeholder data:row.id=101 -*- special:row.id=@1.2 E-002/101  .."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/use_name_with_overwritten_params.feature\"", 
+                        "clause": "when", 
+                        "index": 274
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 275
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 276, 
+                        "content": "Scenario Outline: Use placeholder data:row.id=100 -*- special:row.id=@1.1 E-001/100\n    Given a param name=Alice ... passed\n    And a param row.id=100 ... passed\n\nScenario Outline: Use placeholder data:row.id=101 -*- special:row.id=@1.2 E-002/101\n    Given a param name=Bob ... passed\n    And a param row.id=101 ... passed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"a row data placeholder can override a special placeholder\"", 
+                        "clause": "then", 
+                        "index": 285
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"the name annotation {row.id} still allows to refer to the special one\"", 
+                        "clause": "then", 
+                        "index": 286
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 290, 
+                "content": [
+                    "parametrize.steps"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Placeholder value has placeholder syntax (Case: recursion-check)", 
+                "index": 291
+            }, 
+            "description": {
+                "index": 293, 
+                "content": "Ensure that weird placeholder value cases are handled correctly.\nEnsure that no recursion occurs."
+            }, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 296
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 297, 
+                        "content": "[behave]\nscenario_outline_annotation_schema = {name} -*- @{row.id} {examples.name}"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/use_value_with_placeholder_syntax.feature\" with:", 
+                        "clause": "given", 
+                        "index": 301
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 302, 
+                        "content": "Feature:\n  Scenario Outline: Use weird placeholder values\n    Given a param name=<name>\n\n    Examples:\n      | name      | Expected | ID  | Case: |\n      | <ID>      | 001      | 001 | Value refers to other, known placeholder.|\n      | <ID>      | 002      | 002 | Check if row specific value is used.     |\n      | <unknown> | <unkown> | 003 | Value refers to unknown placeholder.     |\n      | <name>    | <name>   | 004 | Value refers to itself (recursion?).     |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --no-timings features/use_value_with_placeholder_syntax.feature\"", 
+                        "clause": "when", 
+                        "index": 314
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 315
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 316, 
+                        "content": "Scenario Outline: Use weird placeholder values -*- @1.1\n  Given a param name=001 ... passed\n\nScenario Outline: Use weird placeholder values -*- @1.2\n  Given a param name=002 ... passed\n\nScenario Outline: Use weird placeholder values -*- @1.3\n  Given a param name=<unknown> ... passed\n\nScenario Outline: Use weird placeholder values -*- @1.4\n  Given a param name=<name> ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 330, 
+                "content": [
+                    "simple.case", 
+                    "parametrize.tags"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Parametrized tags in a Scenario Outline", 
+                "index": 332
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 333
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 334, 
+                        "content": "[behave]\nscenario_outline_annotation_schema = {name} -*- @{row.id} {examples.name}"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/parametrized_tags.feature\" with:", 
+                        "clause": "given", 
+                        "index": 338
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 339, 
+                        "content": "Feature:\n  @foo @outline.e<examples.index> @outline.row.<row.id> @outline.ID.<ID>\n  Scenario Outline: Use parametrized tags\n    Given a param name=<name>\n\n    Examples:\n      | ID  | name  |\n      | 001 | Alice |\n      | 002 | Bob   |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f pretty -c --no-timings features/parametrized_tags.feature\"", 
+                        "clause": "when", 
+                        "index": 350
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 351
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 352, 
+                        "content": "@foo @outline.e1 @outline.row.1.1 @outline.ID.001\nScenario Outline: Use parametrized tags -*- @1.1   # features/parametrized_tags.feature:8\n  Given a param name=Alice                         # features/steps/param_steps.py:7\n\n@foo @outline.e1 @outline.row.1.2 @outline.ID.002\nScenario Outline: Use parametrized tags -*- @1.2   # features/parametrized_tags.feature:9\n  Given a param name=Bob                           # features/steps/param_steps.py:7"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"special and row data placeholders can be used in tags\"", 
+                        "clause": "then", 
+                        "index": 361
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 364, 
+                "content": [
+                    "parametrize.tags"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Parametrized tags in a Scenario Outline (Case: Whitespace... in value)", 
+                "index": 365
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"behave.ini\" with:", 
+                        "clause": "given", 
+                        "index": 366
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 367, 
+                        "content": "[behave]\nscenario_outline_annotation_schema = {name} -*- @{row.id} {examples.name}"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/parametrized_tags2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 371
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 372, 
+                        "content": "Feature:\n  @outline.name.<name>\n  Scenario Outline: Use parametrized tags\n    Given a param name=<name>\n\n    Examples:\n      | ID  | name         | Case: |\n      | 001 | Alice Cooper | Placeholder value w/ whitespace |\n      | 002 | Bob\\tMarley  | Placeholder value w/ tab        |\n      | 003 | Joe\\nCocker  | Placeholder value w/ newline    |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f pretty -c --no-source features/parametrized_tags2.feature\"", 
+                        "clause": "when", 
+                        "index": 384
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 385
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 386, 
+                        "content": "@outline.name.Alice_Cooper\nScenario Outline: Use parametrized tags -*- @1.1\n  Given a param name=Alice Cooper\n\n@outline.name.Bob_Marley\nScenario Outline: Use parametrized tags -*- @1.2\n  Given a param name=Bob\\tMarley\n\n@outline.name.Joe_Cocker\nScenario Outline: Use parametrized tags -*- @1.3\n  Given a param name=Joe\\nCocker"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "note that \"placeholder values with special chars (whitespace, ...) are transformed\"", 
+                        "clause": "then", 
+                        "index": 399
+                    }, 
+                    "table": null, 
+                    "text": null
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

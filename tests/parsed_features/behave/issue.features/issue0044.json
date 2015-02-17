@@ -1,0 +1,115 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #44 Shell-like comments are removed in Multiline Args", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "As I user\nI want that multiline arguments (docstrings) contents are preserved."
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 6
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 7
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 8
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 9, 
+                    "content": "from behave import given, when, then\nfrom hamcrest import assert_that, equal_to\n\n@given(u'a multiline text argument with')\ndef step(context):\n    context.expected_text = context.text\n\n@then(u'the multiline text argument should be')\ndef step(context):\n    assert_that(context.text, equal_to(context.expected_text))"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Ensure shell comment lines are not filtered out in multiline text", 
+                "index": 22
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue44_test.feature\" with:", 
+                        "clause": "given", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 24, 
+                        "content": "Feature: Multiline text with shell comment lines\n  Scenario:\n    Given a multiline text argument with:\n      \"\"\"\n      Lorem ipsum.\n      # THIS IS A SHELL COMMENT.\n      Ipsum lorem.\n      \"\"\"\n    Then the multiline text argument should be:\n      \"\"\"\n      Lorem ipsum.\n      # THIS IS A SHELL COMMENT.\n      Ipsum lorem.\n      \"\"\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f pretty features/issue44_test.feature\"", 
+                        "clause": "when", 
+                        "index": 40
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass", 
+                        "clause": "then", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 42
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 43, 
+                        "content": "# THIS IS A SHELL COMMENT."
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 46
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 47, 
+                        "content": "Lorem ipsum.\nIpsum lorem."
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

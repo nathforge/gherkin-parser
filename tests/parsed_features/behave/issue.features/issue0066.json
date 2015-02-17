@@ -1,0 +1,139 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #66: context.text and context.table are not cleared", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "I noticed that context.table and context.text survive after the step is finished."
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 6
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 7
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 8
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 9, 
+                    "content": "from behave import given, when, then\nfrom hamcrest import assert_that, equal_to, is_not, is_, none\nimport six\n\n@given(u'a step with multiline text')\ndef step(context):\n    assert context.text is not None\n    assert context.text, \"Ensure non-empty\"\n    assert isinstance(context.text, six.string_types)\n\n@given(u'a step with a table')\ndef step(context):\n    assert context.table is not None\n\n@when(u'I check the \"context.{name}\" attribute')\ndef step(context, name):\n    context.name  = name\n    context.value = getattr(context, name, None)\n\n@then(u'its value is None')\ndef step(context):\n    assert_that(context.value, is_(none()))\n\n@then(u'its value is \"{value}\"')\ndef step(context, value):\n    assert_that(context.value, equal_to(value))\n\n@then(u'its value is not \"{value}\"')\ndef step(context, value):\n    assert_that(value, is_not(equal_to(context.value)))"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Ensure multiline text data is cleared for next step", 
+                "index": 42
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue66_case1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 43
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 44, 
+                        "content": "Feature:\n  Scenario:\n    Given a step with multiline text:\n      '''\n      Alice, Bob and Charly\n      '''\n    When I check the \"context.text\" attribute\n    Then its value is not \"Alice, Bob and Charly\"\n    But  its value is None"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/issue66_case1.feature\"", 
+                        "clause": "when", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 56
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 57, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n4 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Ensure table data is cleared for next step", 
+                "index": 62
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue66_case2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 64, 
+                        "content": "Feature:\n  Scenario:\n    Given a step with a table:\n      | name  | gender |\n      | Alice | female |\n      | Bob   | male   |\n    When I check the \"context.table\" attribute\n    Then its value is None"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain features/issue66_case2.feature\"", 
+                        "clause": "when", 
+                        "index": 74
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 75
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 76, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

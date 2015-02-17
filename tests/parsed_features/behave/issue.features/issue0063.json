@@ -1,0 +1,199 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #63: 'ScenarioOutline' object has no attribute 'stdout'", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "The problem occurs when \"behave --junit ...\" is used\nAnd a feature contains one or more ScenarioOutline(s)."
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 6
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 7
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 8
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 9, 
+                    "content": "# -- OMIT: from __future__ import print_function\nfrom behave import given\nimport sys\n\ndef generate_output(step, outcome, name):\n    # -- OMIT: print(\"{0}0 {1}: {2};\".format(step, outcome, name))\n    sys.stdout.write(\"{0}1 {1}: {2};\\n\".format(step, outcome, name))\n    sys.stderr.write(\"{0}2 {1}: {2};\\n\".format(step, outcome, name))\n\n@given(u'a {outcome} step with \"{name}\"')\ndef step(context, outcome, name):\n    context.name = name\n    generate_output(\"Given\", outcome, name)\n    assert outcome == \"passing\"\n\n@when(u'a {outcome} step with \"{name}\" occurs')\ndef step(context, outcome, name):\n    generate_output(\"When\", outcome, name)\n    assert outcome == \"passing\"\n\n@then(u'a {outcome} step with \"{name}\" is reached')\ndef step(context, outcome, name):\n    generate_output(\"Then\", outcome, name)\n    assert outcome == \"passing\"\n    assert context.name == name"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "ScenarioOutline with Passing Steps", 
+                "index": 37
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue63_case1.feature\" with:", 
+                        "clause": "given", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 39, 
+                        "content": "Feature: ScenarioOutline with Passing Steps\n  Scenario Outline:\n    Given a passing step with \"<name>\"\n    When  a passing step with \"<name>\" occurs\n    Then  a passing step with \"<name>\" is reached\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c --junit features/issue63_case1.feature\"", 
+                        "clause": "when", 
+                        "index": 51
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 52
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 53, 
+                        "content": "2 scenarios passed, 0 failed, 0 skipped\n6 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 57
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 58, 
+                        "content": "AttributeError: 'ScenarioOutline' object has no attribute 'stdout'"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "ScenarioOutline with Passing and Failing Steps", 
+                "index": 62
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/issue63_case2.feature\" with:", 
+                        "clause": "given", 
+                        "index": 63
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 64, 
+                        "content": "Feature: ScenarioOutline with Passing and Failing Steps\n  Scenario Outline:\n    Given a passing step with \"<name>\"\n    When  a failing step with \"<name>\" occurs\n    Then  a passing step with \"<name>\" is reached\n\n  Examples:\n      |name |\n      |Alice|\n      |Bob  |"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c --junit features/issue63_case2.feature\"", 
+                        "clause": "when", 
+                        "index": 76
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 77
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 78, 
+                        "content": "0 scenarios passed, 2 failed, 0 skipped\n2 steps passed, 2 failed, 2 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 82
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 83, 
+                        "content": "AttributeError: 'ScenarioOutline' object has no attribute 'stdout'"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should not contain:", 
+                        "clause": "then", 
+                        "index": 86
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 87, 
+                        "content": "AttributeError: 'Scenario' object has no attribute 'exception'"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 90
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 91, 
+                        "content": "Captured stdout:\nGiven1 passing: Alice;\nWhen1 failing: Alice;"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 96
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 97, 
+                        "content": "Captured stderr:\nGiven2 passing: Alice;\nWhen2 failing: Alice;"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

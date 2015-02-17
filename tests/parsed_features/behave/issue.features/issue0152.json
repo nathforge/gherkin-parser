@@ -1,0 +1,154 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #152: Fix encoding issues", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". I fixed two encoding issues in pretty formatter and in JUnit serialization.\n. Now it's possible to use accented letters in feature files and\n. create JUnit reports from the tests."
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Ensure JUnit reports can be created from a foreign language", 
+                "index": 8
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"features/steps/steps.py\"", 
+                        "clause": "given", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/eins.feature\" with:", 
+                        "clause": "given", 
+                        "index": 11
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 12, 
+                        "content": "# language: de\nFunktionalit\u00e4t: Die Welt ist sch\u00f6n\n    Szenario: Was w\u00e4re wenn die sch\u00f6ne, neue Welt untergeht"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --junit --no-timings features/eins.feature\"", 
+                        "clause": "when", 
+                        "index": 17
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 18
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 19, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped\n0 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 25, 
+                        "content": "Funktionalit\u00e4t: Die Welt ist sch\u00f6n\n   Szenario: Was w\u00e4re wenn die sch\u00f6ne, neue Welt untergeht"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": {
+                "index": 31, 
+                "content": [
+                    "reuse.colocated_test"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Ensure JUnit reports can be created from a foreign language", 
+                "index": 32
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I use the current directory as working directory", 
+                        "clause": "given", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f plain --junit --no-timings tools/test-features/french.feature\"", 
+                        "clause": "when", 
+                        "index": 34
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 35
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 36, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n2 scenarios passed, 0 failed, 0 skipped\n5 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 41
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 42, 
+                        "content": "Fonctionnalit\u00e9: testing stuff\n   Sc\u00e9nario: test stuff\n     Etant donn\u00e9 I am testing stuff ... passed\n     Quand I exercise it work ... passed\n     Alors it will work ... passed\n   Sc\u00e9nario: test more stuff\n      Etant donn\u00e9 I am testing stuff ... passed\n      Alors it will work ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

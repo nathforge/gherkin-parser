@@ -1,0 +1,469 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "sequential"
+        ]
+    }, 
+    "title": {
+        "content": "Progress3 Formatter", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "In order to effectively analyze output of many runs\nAs a tester\nI want that behave generates to present results for each scenario"
+    }, 
+    "background": null, 
+    "scenarios": [
+        {
+            "tags": {
+                "index": 7, 
+                "content": [
+                    "setup"
+                ]
+            }, 
+            "title": {
+                "is_outline": false, 
+                "content": "Feature Setup", 
+                "index": 8
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a new working directory", 
+                        "clause": "given", 
+                        "index": 9
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 10
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 11, 
+                        "content": "from behave import step\n\n@step('{word:w} step passes')\ndef step_passes(context, word):\n    pass\n\n@step('{word:w} step fails')\ndef step_fails(context, word):\n    assert False, \"XFAIL-STEP\"\n\n@step(u'a step raises an error \"{message}\"')\ndef step_raises_exception(context, message):\n    raise RuntimeError(message)"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use Progress3 formatter on simple feature", 
+                "index": 27
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/simple_feature_with_name.feature\" with:", 
+                        "clause": "given", 
+                        "index": 28
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 29, 
+                        "content": "Feature: Simple, empty Feature"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress3 features/simple_feature_with_name.feature\"", 
+                        "clause": "when", 
+                        "index": 32
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 33
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 34, 
+                        "content": "0 features passed, 0 failed, 1 skipped\n0 scenarios passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 38
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 39, 
+                        "content": "Simple, empty Feature    # features/simple_feature_with_name.feature"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use Progress3 formatter with feature and one scenario without steps", 
+                "index": 43
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/simple_scenario.feature\" with:", 
+                        "clause": "given", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 45, 
+                        "content": "Feature: Simple feature with one scenario\n  Scenario: Simple scenario without steps"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress3 features/simple_scenario.feature\"", 
+                        "clause": "when", 
+                        "index": 49
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 51, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 55
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 56, 
+                        "content": "Simple feature with one scenario    # features/simple_scenario.feature\n  Simple scenario without steps"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use Progress3 formatter with feature and one scenario with all passing steps", 
+                "index": 61
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/scenario_with_steps.feature\" with:", 
+                        "clause": "given", 
+                        "index": 62
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 63, 
+                        "content": "Feature: Feature with scenario\n  Scenario: Simple scenario with passing steps\n      Given a step passes\n      When another step passes\n      Then third step passes\n      And fourth step passes\n      But fifth step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress3 features/scenario_with_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 72
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 73
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 74, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 78
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 79, 
+                        "content": "Feature with scenario    # features/scenario_with_steps.feature\n  Simple scenario with passing steps  ....."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use Progress3 formatter with feature and one scenario with a failing step", 
+                "index": 84
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/scenario_with_steps.feature\" with:", 
+                        "clause": "given", 
+                        "index": 85
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 86, 
+                        "content": "Feature: Feature with scenario\n  Scenario: Simple scenario with last failing step\n      Given a step passes\n      When second step passes\n      Then third step passes\n      And another step passes\n      But last step fails"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress3 features/scenario_with_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 95
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 96
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 97, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 101
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 102, 
+                        "content": "Feature with scenario    # features/scenario_with_steps.feature\n    Simple scenario with last failing step  ....F\n--------------------------------------------------------------------------------\nFAILURE in step 'last step fails' (features/scenario_with_steps.feature:7):\nAssertion Failed: XFAIL-STEP\n--------------------------------------------------------------------------------"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use Progress3 formatter with feature and one scenario with an exception in the step", 
+                "index": 111
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/scenario_with_steps.feature\" with:", 
+                        "clause": "given", 
+                        "index": 112
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 113, 
+                        "content": "Feature: Feature with scenario\n  Scenario: Simple scenario with error in the step\n      Given a step passes\n      When second step passes\n      Then third step passes\n      And another step passes\n      But a step raises an error \"Error message here\""
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress3 features/scenario_with_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 122
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 123
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 124, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n0 scenarios passed, 1 failed, 0 skipped"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 128
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 129, 
+                        "content": "Feature with scenario    # features/scenario_with_steps.feature\n    Simple scenario with error in the step  ....E\n--------------------------------------------------------------------------------\nFAILURE in step 'a step raises an error \"Error message here\"' (features/scenario_with_steps.feature:7):"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 135
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 136, 
+                        "content": "RuntimeError: Error message here\n\n--------------------------------------------------------------------------------"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use Progress3 formatter with feature and three scenarios with all passing steps", 
+                "index": 142
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/scenario_with_steps.feature\" with:", 
+                        "clause": "given", 
+                        "index": 143
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 144, 
+                        "content": "Feature: Feature with three scenarios\n  Scenario: First scenario with passing steps\n      Given a step passes\n      When second step passes\n      Then third step passes\n      And another step passes\n      But last step passes\n\n  Scenario: Second scenario with passing steps\n      Given a step passes\n      When second step passes\n      Then third step passes\n      And another step passes\n      But last step passes\n\n  Scenario: Third scenario with passing steps\n      Given a step passes\n      When second step passes\n      Then third step passes\n      And another step passes\n      But last step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress3 features/scenario_with_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 167
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 168
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 169, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n3 scenarios passed, 0 failed, 0 skipped\n15 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 174
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 175, 
+                        "content": "Feature with three scenarios    # features/scenario_with_steps.feature\n    First scenario with passing steps  .....\n    Second scenario with passing steps  .....\n    Third scenario with passing steps  ....."
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use Progress3 formatter with feature and three scenarios with a failing step", 
+                "index": 182
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/scenario_with_steps.feature\" with:", 
+                        "clause": "given", 
+                        "index": 183
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 184, 
+                        "content": "Feature: Feature with various results in scenarios\n  Scenario: First scenario with passing steps\n      Given a step passes\n      When second step passes\n      Then third step passes\n      And another step passes\n      But last step passes\n\n  Scenario: Second scenario with second failing step\n      Given a step passes\n      When second step fails\n      Then third step passes\n      And another step passes\n      But last step passes\n\n  Scenario: Third scenario with fourth failing step\n      Given a step passes\n      When second step passes\n      Then third step passes\n      And fourth step fails\n      But last step passes"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -f progress3 features/scenario_with_steps.feature\"", 
+                        "clause": "when", 
+                        "index": 207
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should fail with:", 
+                        "clause": "then", 
+                        "index": 208
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 209, 
+                        "content": "0 features passed, 1 failed, 0 skipped\n1 scenario passed, 2 failed, 0 skipped\n9 steps passed, 2 failed, 4 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 214
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 215, 
+                        "content": "Feature with various results in scenarios    # features/scenario_with_steps.feature\n    First scenario with passing steps  .....\n    Second scenario with second failing step  .F\n--------------------------------------------------------------------------------\nFAILURE in step 'second step fails' (features/scenario_with_steps.feature:11):\nAssertion Failed: XFAIL-STEP\n--------------------------------------------------------------------------------\n\n    Third scenario with fourth failing step  ...F\n--------------------------------------------------------------------------------\nFAILURE in step 'fourth step fails' (features/scenario_with_steps.feature:20):\nAssertion Failed: XFAIL-STEP\n--------------------------------------------------------------------------------\n\n\nFailing scenarios:\n  features/scenario_with_steps.feature:9  Second scenario with second failing step\n  features/scenario_with_steps.feature:16  Third scenario with fourth failing step"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

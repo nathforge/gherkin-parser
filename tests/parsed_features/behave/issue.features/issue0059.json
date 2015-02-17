@@ -1,0 +1,94 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #59 Fatal error when using --format=json", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": "Using the JSON formatter caused a fatal error."
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 5
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 6
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/steps/steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 7
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 8, 
+                    "content": "from behave import given\n\n@given(u'passing')\ndef step(context):\n    pass"
+                }
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/issue59_test.feature\" with:", 
+                    "clause": "given", 
+                    "index": 15
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 16, 
+                    "content": "Feature: Passing tagged Scenario\n  Scenario: P1\n    Given passing"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Use the JSONFormatter", 
+                "index": 22
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "I run \"behave --format=json features/issue59_test.feature\"", 
+                        "clause": "when", 
+                        "index": 23
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 24
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 25, 
+                        "content": "1 feature passed, 0 failed, 0 skipped\n1 scenario passed, 0 failed, 0 skipped"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}

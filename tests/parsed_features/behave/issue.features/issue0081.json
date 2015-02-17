@@ -1,0 +1,319 @@
+{
+    "language": null, 
+    "tags": {
+        "index": 0, 
+        "content": [
+            "issue"
+        ]
+    }, 
+    "title": {
+        "content": "Issue #81: Allow defining steps in a separate library", 
+        "index": 1
+    }, 
+    "description": {
+        "index": 3, 
+        "content": ". The current design forces steps.py to be in a particular folder.\n. This does not allow to reuse a common library of BDD steps across\n. multiple software projects in a company.\n. It would be great if one could define a separate lib with common steps\n. (e.g. steps4mycompany.py)"
+    }, 
+    "background": {
+        "title": {
+            "content": "Test Setup", 
+            "index": 10
+        }, 
+        "description": null, 
+        "steps": [
+            {
+                "title": {
+                    "content": "a new working directory", 
+                    "clause": "given", 
+                    "index": 11
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "an empty file named \"step_library42/__init__.py\"", 
+                    "clause": "given", 
+                    "index": 12
+                }, 
+                "table": null, 
+                "text": null
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"step_library42/alice_steps.py\" with:", 
+                    "clause": "given", 
+                    "index": 13
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 14, 
+                    "content": "# -- ALICE-STEPS: Anonymous step names.\nfrom behave import given, when, then\n\n@given(u'I use the step library \"{library}\"')\ndef step(context, library):\n    pass\n\n@when(u'I use steps from this step library')\ndef step(context):\n    pass\n\n@then(u'these steps are executed')\ndef step(context):\n    pass"
+                }
+            }, 
+            {
+                "title": {
+                    "content": "a file named \"features/use_step_library.feature\" with:", 
+                    "clause": "given", 
+                    "index": 30
+                }, 
+                "table": null, 
+                "text": {
+                    "index": 31, 
+                    "content": "Feature:\n  Scenario:\n    Given I use the step library \"alice\"\n    When  I use steps from this step library\n    Then  these steps are executed"
+                }
+            }
+        ]
+    }, 
+    "scenarios": [
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Proof of Concept", 
+                "index": 39
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/use_step_libs.py\" with:", 
+                        "clause": "given", 
+                        "index": 40
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 41, 
+                        "content": "from step_library42.alice_steps import *"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave --no-timings -f plain features/use_step_library.feature\"", 
+                        "clause": "when", 
+                        "index": 44
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 45
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 46, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 50
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 51, 
+                        "content": "Feature:\n   Scenario:\n     Given I use the step library \"alice\" ... passed\n      When I use steps from this step library ... passed\n      Then these steps are executed ... passed"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "With --format=pretty", 
+                "index": 59
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/use_step_libs.py\" with:", 
+                        "clause": "given", 
+                        "index": 60
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 61, 
+                        "content": "from step_library42.alice_steps import *"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f pretty features/use_step_library.feature\"", 
+                        "clause": "when", 
+                        "index": 64
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 65
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 66, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 70
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 71, 
+                        "content": "Feature:  # features/use_step_library.feature:1\n  Scenario:                                 # features/use_step_library.feature:2\n    Given I use the step library \"alice\"    # step_library42/alice_steps.py:4\n    When I use steps from this step library # step_library42/alice_steps.py:8\n    Then these steps are executed           # step_library42/alice_steps.py:12"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Selective step import from step library", 
+                "index": 79
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"step_library42/bob_steps.py\" with:", 
+                        "clause": "given", 
+                        "index": 80
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 81, 
+                        "content": "# -- BOB-STEPS: Explicit step function names (otherwise same as alice).\nfrom behave import given, when, then\n\n@given(u'I use the step library \"{library}\"')\ndef given_I_use_the_step_library(context, library):\n    pass\n\n@when(u'I use steps from this step library')\ndef when_I_use_steps_from_this_step_library(context):\n    pass\n\n@then(u'these steps are executed')\ndef then_these_steps_are_executed(context):\n    pass"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "a file named \"features/steps/use_step_libs.py\" with:", 
+                        "clause": "given", 
+                        "index": 97
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 98, 
+                        "content": "from step_library42.bob_steps import given_I_use_the_step_library\nfrom step_library42.bob_steps import when_I_use_steps_from_this_step_library\nfrom step_library42.bob_steps import then_these_steps_are_executed"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f pretty features/use_step_library.feature\"", 
+                        "clause": "when", 
+                        "index": 103
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 104
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 105, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 109
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 110, 
+                        "content": "Feature:  # features/use_step_library.feature:1\n  Scenario:                                 # features/use_step_library.feature:2\n    Given I use the step library \"alice\"    # step_library42/bob_steps.py:4\n    When I use steps from this step library # step_library42/bob_steps.py:8\n    Then these steps are executed           # step_library42/bob_steps.py:12"
+                    }
+                }
+            ], 
+            "examples": null
+        }, 
+        {
+            "tags": null, 
+            "title": {
+                "is_outline": false, 
+                "content": "Import step library in \"environment.py\"", 
+                "index": 118
+            }, 
+            "description": null, 
+            "steps": [
+                {
+                    "title": {
+                        "content": "a file named \"features/environment.py\" with:", 
+                        "clause": "given", 
+                        "index": 119
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 120, 
+                        "content": "from step_library42.alice_steps import *"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "an empty file named \"features/steps/__init__.py\"", 
+                        "clause": "given", 
+                        "index": 123
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "I run \"behave -c -f pretty features/use_step_library.feature\"", 
+                        "clause": "when", 
+                        "index": 124
+                    }, 
+                    "table": null, 
+                    "text": null
+                }, 
+                {
+                    "title": {
+                        "content": "it should pass with:", 
+                        "clause": "then", 
+                        "index": 125
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 126, 
+                        "content": "1 scenario passed, 0 failed, 0 skipped\n3 steps passed, 0 failed, 0 skipped, 0 undefined"
+                    }
+                }, 
+                {
+                    "title": {
+                        "content": "the command output should contain:", 
+                        "clause": "then", 
+                        "index": 130
+                    }, 
+                    "table": null, 
+                    "text": {
+                        "index": 131, 
+                        "content": "Feature:  # features/use_step_library.feature:1\n  Scenario:                                 # features/use_step_library.feature:2\n    Given I use the step library \"alice\"    # step_library42/alice_steps.py:4\n    When I use steps from this step library # step_library42/alice_steps.py:8\n    Then these steps are executed           # step_library42/alice_steps.py:12"
+                    }
+                }
+            ], 
+            "examples": null
+        }
+    ]
+}
